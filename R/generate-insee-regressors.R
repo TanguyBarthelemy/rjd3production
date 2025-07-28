@@ -1,4 +1,5 @@
 
+#' @export
 create_french_calendar <- function() {
     cal <- rjd3toolkit::national_calendar(
         days = list(
@@ -19,6 +20,7 @@ create_french_calendar <- function() {
     return(cal)
 }
 
+#' @export
 create_insee_regressors <- function(
         start = c(1990L, 1L),
         frequency = 12L,
@@ -60,6 +62,7 @@ create_insee_regressors <- function(
     return(regs_cjo)
 }
 
+#' @export
 create_insee_regressors_sets <- function(
         start = c(1990L, 1L),
         frequency = 12L,
