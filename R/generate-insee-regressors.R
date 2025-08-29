@@ -1,44 +1,46 @@
-#' @title Régressions et contexte de modélisation INSEE
+#' @title INSEE Regressors and Modelling Context
 #'
 #' @description
-#' Ces fonctions permettent de construire les régressions et le contexte
-#' standard utilisés par l’INSEE pour la désaisonnalisation :
+#' These functions allow constructing the standard regressors and context
+#' used by INSEE for seasonal adjustment:
 #'
-#' - [create_french_calendar()] crée le calendrier national français.
-#' - [create_insee_regressors()] génère les régressions jours ouvrés et effet année bissextile.
-#' - [create_insee_regressors_sets()] organise ces régressions en ensembles standards (REG1, REG2, …, REG6, avec ou sans LY).
-#' - [create_insee_context()] combine les régressions et le calendrier dans un objet `modelling_context` utilisable directement avec `rjd3toolkit`.
+#' - [create_french_calendar()] creates the French national calendar.
+#' - [create_insee_regressors()] generates working day regressors and leap-year effect (LY).
+#' - [create_insee_regressors_sets()] organizes these regressors into standard sets (REG1, REG2, …, REG6, with or without LY).
+#' - [create_insee_context()] combines the regressors and calendar into a `modelling_context` object
+#'   that can be used directly with `rjd3toolkit`.
 #'
-#' @param start [\link[base]{integer} vector] Période de début au format `c(année, mois)` (par défaut `c(1990, 1)`).
-#' @param frequency [integer] Fréquence de la série (par défaut `12L`).
-#' @param length [integer] Longueur de la série (par défaut `492L`).
-#' @param s [\link[base]{numeric} or NULL] Argument optionnel pour ajustement (passé à `rjd3toolkit`).
+#' @param start [\link[base]{integer} vector] Start period in the format `c(year, month)` (default `c(1990, 1)`).
+#' @param frequency [integer] Series frequency (default `12L`).
+#' @param length [integer] Series length (default `492L`).
+#' @param s [\link[base]{numeric} or NULL] Optional argument for adjustment (passed to `rjd3toolkit`).
 #'
 #' @return
-#' - `create_french_calendar()` retourne un objet `national_calendar`.
-#' - `create_insee_regressors()` retourne une matrice de régressions (jours ouvrés + LY).
-#' - `create_insee_regressors_sets()` retourne une liste d’ensembles de régressions (`REG1`, `REG2`, …, `REG6`, avec ou sans LY).
-#' - `create_insee_context()` retourne un objet `modelling_context`.
+#' - `create_french_calendar()` returns a `national_calendar` object.
+#' - `create_insee_regressors()` returns a matrix of regressors (working days + LY).
+#' - `create_insee_regressors_sets()` returns a list of regressor sets (`REG1`, `REG2`, …, `REG6`, with or without LY).
+#' - `create_insee_context()` returns a `modelling_context` object.
 #'
 #' @examples
-#' # 1. Créer le calendrier français
+#' # 1. Create the French calendar
 #' cal <- create_french_calendar()
 #' cal
 #'
-#' # 2. Générer les régressions
+#' # 2. Generate regressors
 #' regs <- create_insee_regressors(start = c(2000, 1), frequency = 12, length = 240)
 #' head(regs)
 #'
-#' # 3. Organiser en ensembles standardisés
+#' # 3. Organize into standard sets
 #' sets <- create_insee_regressors_sets(start = c(2000, 1), frequency = 12, length = 240)
 #' names(sets)
 #'
-#' # 4. Construire un contexte complet pour rjd3toolkit
-#' ctx <- create_insee_context(start = c(2000, 1), frequency = 12, length = 240)
-#' ctx
+#' # 4. Build a complete context for rjd3toolkit
+#' context <- create_insee_context(start = c(2000, 1), frequency = 12, length = 240)
+#' context
 #'
 #' @name insee_modelling
 NULL
+
 
 #' @rdname insee_modelling
 #' @importFrom rjd3toolkit national_calendar
