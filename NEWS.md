@@ -8,9 +8,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.0] - 2025-08-29
+
 ### Added
 
 * New function to choose calendar regressors adapted to series
 * New function to create calendar regressors, french calendar, specification with regressors
 
-[Unreleased]: https://github.com/TanguyBarthelemy/rjd3production/releases/tag/v3.0.0
+[Unreleased]: https://github.com/TanguyBarthelemy/rjd3production/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/TanguyBarthelemy/rjd3production/releases/tag/v1.0.0
