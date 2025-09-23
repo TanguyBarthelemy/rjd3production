@@ -1,45 +1,87 @@
+#' @title Diagnostics and Regression Selection for X13 Models
+#'
+#' @description
+#' These functions provide tools to extract diagnostics from X13 models,
+#' evaluate sets of specifications, and select the most appropriate
+#' regression set (with or without leap-year effect).
+#'
+#' @details
+#' - `get_LY_info()` extracts coefficient and p-value of the leap-year (LY) effect.
+#' - `one_diagnostic()` applies one X13 specification to a series and computes diagnostics.
+#' - `all_diagnostics()` evaluates all specifications in a set and summarizes diagnostics.
+#' - `verif_LY()` checks whether the leap-year effect should be kept or removed.
+#' - `select_reg_one_series()` selects the best regression set for a single series.
+#'
+#' @param smod [list] Result of [summary()] applied to an X13 model.
+#' @param series [\link[stats]{ts} or numeric] Time series to analyze.
+#' @param spec [list] An X13 specification (from [rjd3x13::x13_spec()]).
+#' @param context [list] Modelling context with regressors and calendars
+#'   (from [rjd3toolkit::modelling_context()]).
+#' @param jeu [character] Name of the tested regression set.
+#' @param diags [data.frame] Diagnostics table produced by [all_diagnostics()].
+#' @param name [character] Name of the series (for messages).
+#' @param specs_set [\link[base]{list} or NULL] List of X13 specifications. If `NULL`,
+#'   generated via [create_specs_set()].
+#' @param ... Additional arguments passed to [create_specs_set()] controlling
+#'   the generation of X13 specifications. Possible arguments include:
+#'   \describe{
+#'     \item{outliers}{Optional list of outliers with elements `type` (vector of types, e.g., "AO", "LS", "TC") and `date` (vector of dates).}
+#'     \item{span_start}{Starting date of the estimation (character, format `"YYYY-MM-DD"`).}
+#'     \item{...}{Other arguments accepted by [create_specs_set()].}
+#'   }
+#'
+#' @return
+#' - `get_LY_info()` : A data.frame with `LY_coeff` and `LY_p_value`.
+#' - `one_diagnostic()` : A data.frame with diagnostics for one specification.
+#' - `all_diagnostics()` : A data.frame with diagnostics for all specifications.
+#' - `verif_LY()` : Name of the chosen regression set (possibly without LY).
+#' - `select_reg_one_series()` : Name of the selected regression set.
+#'
+#' @examples
+#' # Create a modelling context
+#' my_context <- create_insee_context(s = AirPassengers)
+#'
+#' # Generate specification sets
+#' my_set <- create_specs_set(context = my_context)
+#'
+#' # Extract LY info
+#' mod <- rjd3x13::x13(AirPassengers, spec = "RSA3")
+#' rjd3production:::get_LY_info(summary(mod))
+#'
+#' # Compute diagnostics for one spec
+#' spec <- my_set[[8L]]
+#' rjd3production:::one_diagnostic(series = AirPassengers, spec, context = my_context)
+#'
+#' # Compute diagnostics for all specs
+#' rjd3production:::all_diagnostics(series = AirPassengers, specs_set = my_set, context = my_context)
+#'
+#' # Check whether LY should be removed
+#' diags <- rjd3production:::all_diagnostics(
+#'     series = AirPassengers,
+#'     specs_set = my_set,
+#'     context = my_context
+#' )
+#' rjd3production:::verif_LY("REG6_LY", diags)
+#'
+#' # Select regressions for one series
+#' rjd3production:::select_reg_one_series(series = AirPassengers, context = my_context)
+#'
+#' @name diagnostics_selection
+#' @keywords internal
+NULL
 
-## Fonctions utiles ------------------------------------------------------------
-
-create_specs_set <- function(span_start = "2012-01-01", context, outliers = NULL) {
-    all_vars <- context$variables
-    named_vars <- lapply(seq_along(all_vars), \(k) paste0(names(all_vars)[k], ".", names(all_vars[[k]])))
-    names(named_vars) <- names(all_vars)
-
-    spec_0 <- rjd3x13::x13_spec(name = "RSA3") |>
-        rjd3toolkit::set_estimate(type = "From", d0 = span_start)
-
-    if (!is.null(outliers)) {
-        spec_0 <- rjd3toolkit::add_outlier(
-            x = spec_0,
-            type = outliers$type,
-            date = outliers$date |> as.character()
-        )
-    }
-
-    specs_set <- c(
-        list(Pas_CJO = spec_0),
-        lapply(
-            X = named_vars,
-            FUN = rjd3toolkit::set_tradingdays,
-            x = spec_0,
-            option = "UserDefined",
-            test = "None",
-            calendar.name = NA
-        )
-    )
-
-    return(specs_set)
-}
-
-get_LY_info <- function(smod) {
+#' @rdname diagnostics_selection
+get_LY_info <- function(smod, verbose = TRUE) {
 
     reg_table <- smod$preprocessing$xregs
     idx <- which(grepl(pattern = ".LY", x = rownames(reg_table), fixed = TRUE))
-    if (length(idx) == 0L) {
+    idx2 <- which(grepl(pattern = "usertd", x = rownames(reg_table), fixed = TRUE))
+    if (length(idx) == 0L & length(idx2) == 0L) {
         return(data.frame(LY_coeff = NA, LY_p_value = NA))
     } else if (length(idx) > 1L) {
         stop("Plusieurs variables portent le nom LY.")
+    } else if (length(idx) == 0L & length(idx2) == 1L) {
+        idx <- idx2
     }
     LY_coeff <- reg_table[idx, "Estimate"]
     LY_p_value <- reg_table[idx, "Pr(>|t|)"]
@@ -47,6 +89,8 @@ get_LY_info <- function(smod) {
     return(data.frame(LY_coeff = LY_coeff, LY_p_value = LY_p_value))
 }
 
+#' @importFrom rjd3x13 x13
+#' @rdname diagnostics_selection
 one_diagnostic <- function(series, spec, context) {
 
     mod <- rjd3x13::x13(ts = series, spec = spec, context = context,
@@ -72,7 +116,7 @@ one_diagnostic <- function(series, spec, context) {
     return(diag)
 }
 
-
+#' @rdname diagnostics_selection
 all_diagnostics <- function(series,
                             specs_set,
                             context) {
@@ -94,7 +138,7 @@ all_diagnostics <- function(series,
     return(diags)
 }
 
-# Ici jeu contient LY
+#' @rdname diagnostics_selection
 verif_LY <- function(jeu, diags) {
     if (!grepl(pattern = "LY", x = jeu)) {
         return(jeu)
@@ -138,65 +182,77 @@ verif_LY <- function(jeu, diags) {
     return(jeu_final)
 }
 
+#' @rdname diagnostics_selection
 #' @importFrom stats time
 #' @importFrom utils tail
 select_reg_one_series <- function(series,
                                   name = "",
                                   specs_set = NULL,
-                                  context = create_context(),
-                                  outliers = NULL,
-                                  span_start = "2012-01-01") {
-    if (as.Date(span_start) > zoo::as.Date(tail(time(series), n = 1L))) {
-        stop("Span starts after the end of the series.")
+                                  context = NULL,
+                                  ...) {
+    if (is.null(context)) {
+        context <- create_insee_context(s = series)
     }
-
     if (is.null(specs_set)) {
-        specs_set <- create_specs_set(span_start = span_start, context = context, outliers = outliers)
+        specs_set <- create_specs_set(context = context, ...)
     }
 
     diags <- all_diagnostics(series, specs_set = specs_set, context = context)
-    diags_wo_na <- diags |> subset(!is.na(note) & !is.na(aicc))
+    diags_wo_na <- diags |>
+        subset(!is.na(diags$note) & !is.na(diags$aicc))
 
     if (nrow(diags_wo_na) == 0) {
         stop(
             "Erreur lors du calcul de l'aicc et des p-value.
-             Aucun jeu de regresseur n'a pu être sélectionné. ",
-            ifelse(name == "", "", paste0("(Série ", name, ")"))
+             Aucun jeu de regresseur n'a pu \u00eatre s\u00e9lectionn\u00e9. ",
+            ifelse(name == "", "", paste0("(S\u00e9rie ", name, ")"))
         )
     } else if (all(diags_wo_na$note == 0)) {
         warning(
             "Aucun jeu de regresseur n'est significatif. ",
-            ifelse(name == "", "", paste0("(Série ", name, ")"))
+            ifelse(name == "", "", paste0("(S\u00e9rie ", name, ")"))
         )
     }
 
     best_regs <- diags_wo_na |>
-        subset(note == min(note, na.rm = TRUE)) |>
-        subset(aicc == min(aicc, na.rm = TRUE))
+        subset(diags_wo_na$note == min(diags_wo_na$note, na.rm = TRUE)) |>
+        subset(diags_wo_na$aicc == min(diags_wo_na$aicc, na.rm = TRUE))
 
     return(verif_LY(jeu = best_regs[1, "regs"], diags = diags))
 }
 
+#' @title Select Regressors for One or Multiple Series
+#'
+#' @description
+#' Applies the X13 regression selection procedure to one or more time series.
+#' If multiple series are provided as columns of a matrix or data.frame, each series
+#' is processed separately. The function returns the selected set of regressors for each series.
+#'
+#' @param series [\link[stats]{ts} or mts or matrix or \link[base]{data.frame}] A univariate time series (`ts`) or a
+#'   multivariate series (columns as separate series).
+#' @inheritParams diagnostics_selection
+#'
+#' @return A data.frame with two columns:
+#' \describe{
+#'   \item{series}{Name of the series (column name if `series` is multivariate).}
+#'   \item{reg_selected}{Name of the selected regressor set.}
+#' }
+#'
+#' @examples
+#' # Single series
+#' select_regs(AirPassengers)
+#'
+#' # Multiple series
+#' select_regs(Seatbelts[, -8])
+#'
+#' @export
+select_regs <- function(series, ...) {
 
-select_regs <- function(series,
-                        with_outliers = FALSE,
-                        path_ws_xml = NULL,
-                        span_start = "2012-01-01",
-                        cjo_sets = create_insee_regressors_sets()) {
-
-    context <- rjd3toolkit::modelling_context(variables = cjo_sets)
-
-    specs_set <- create_specs_set(span_start = span_start, context = context)
-
-    # if (with_outliers) {
-    #     ws_ref <- RJDemetra::load_workspace(path_ws_xml)
-    #     RJDemetra::compute(workspace = ws_ref)
-    #     sap_ref <- RJDemetra::get_object(ws_ref)
-    #     series_name_ref <- RJDemetra::get_all_names(sap_ref)
-    # }
+    context <- create_insee_context(s = series)
+    specs_set <- create_specs_set(context = context, ...)
 
     if (is.null(ncol(series))) {
-        return(select_reg_one_series(series, span_start = span_start, specs_set = specs_set, context = context))
+        return(select_reg_one_series(series, specs_set = specs_set, context = context))
     }
 
     output <- sapply(X = seq_len(ncol(series)), FUN = function(k) {
@@ -227,14 +283,13 @@ select_regs <- function(series,
         #     }
         # }
 
-        cat(paste0("\nSérie ", series_name, " en cours... ", k, "/", ncol(series)), "\n")
+        cat(paste0("\nS\u00e9rie ", series_name, " en cours... ", k, "/", ncol(series)), "\n")
         return(select_reg_one_series(
             series = series[, k],
             name = series_name,
-            context = context,
-            span_start = span_start,
             specs_set = specs_set,
-            outliers = outliers
+            context = context,
+            ...
         ))
     })
 
