@@ -72,10 +72,13 @@ NULL
 
 #' @rdname diagnostics_selection
 get_LY_info <- function(smod, verbose = TRUE) {
-
     reg_table <- smod$preprocessing$xregs
     idx <- which(grepl(pattern = ".LY", x = rownames(reg_table), fixed = TRUE))
-    idx2 <- which(grepl(pattern = "usertd", x = rownames(reg_table), fixed = TRUE))
+    idx2 <- which(grepl(
+        pattern = "usertd",
+        x = rownames(reg_table),
+        fixed = TRUE
+    ))
     if (length(idx) == 0L & length(idx2) == 0L) {
         return(data.frame(LY_coeff = NA, LY_p_value = NA))
     } else if (length(idx) > 1L) {
@@ -92,9 +95,12 @@ get_LY_info <- function(smod, verbose = TRUE) {
 #' @importFrom rjd3x13 x13
 #' @rdname diagnostics_selection
 one_diagnostic <- function(series, spec, context) {
-
-    mod <- rjd3x13::x13(ts = series, spec = spec, context = context,
-                        userdefined = c("diagnostics.td-sa-all", "diagnostics.td-i-all"))
+    mod <- rjd3x13::x13(
+        ts = series,
+        spec = spec,
+        context = context,
+        userdefined = c("diagnostics.td-sa-all", "diagnostics.td-i-all")
+    )
 
     res_td <- sapply(
         X = mod$user_defined,
@@ -104,7 +110,9 @@ one_diagnostic <- function(series, spec, context) {
 
     note <- sum((res_td < 0.05) * 2L:1L)
     aicc <- mod$result$preprocessing$estimation$likelihood$aicc
-    mode <- c("Additive", "Multiplicative")[mod$result$preprocessing$description$log + 1L]
+    mode <- c("Additive", "Multiplicative")[
+        mod$result$preprocessing$description$log + 1L
+    ]
 
     LY_info <- get_LY_info(summary(mod))
 
@@ -117,9 +125,7 @@ one_diagnostic <- function(series, spec, context) {
 }
 
 #' @rdname diagnostics_selection
-all_diagnostics <- function(series,
-                            specs_set,
-                            context) {
+all_diagnostics <- function(series, specs_set, context) {
     diags <- lapply(X = seq_along(specs_set), FUN = function(k) {
         spec <- specs_set[[k]]
         cat("Computing spec", names(specs_set)[k], "...")
@@ -149,7 +155,7 @@ verif_LY <- function(jeu, diags) {
     LY_p_value <- diags[id_jeu, "LY_p_value"]
     mode <- diags[id_jeu, "mode"]
 
-    if (jeu == "LY"){
+    if (jeu == "LY") {
         jeu_sans_LY <- "Pas_CJO"
     } else {
         jeu_sans_LY <- gsub(pattern = "_LY", replacement = "", x = jeu)
@@ -159,11 +165,11 @@ verif_LY <- function(jeu, diags) {
     # On reprend le choix avec et sans LY
     diags_jeu <- diags[c(id_jeu, id_jeu_sans_LY), ]
 
-    if (diags_jeu$note[1] != diags_jeu$note[2]){
+    if (diags_jeu$note[1] != diags_jeu$note[2]) {
         return(rownames(diags_jeu)[which.min(diags_jeu$note)])
     }
 
-    if (mode == "Multiplicatif"){
+    if (mode == "Multiplicatif") {
         LY_coeff <- 100 * LY_coeff
     }
     LY_coeff <- round(LY_coeff)
@@ -185,11 +191,13 @@ verif_LY <- function(jeu, diags) {
 #' @rdname diagnostics_selection
 #' @importFrom stats time
 #' @importFrom utils tail
-select_reg_one_series <- function(series,
-                                  name = "",
-                                  specs_set = NULL,
-                                  context = NULL,
-                                  ...) {
+select_reg_one_series <- function(
+    series,
+    name = "",
+    specs_set = NULL,
+    context = NULL,
+    ...
+) {
     if (is.null(context)) {
         context <- create_insee_context(s = series)
     }
@@ -247,12 +255,15 @@ select_reg_one_series <- function(series,
 #'
 #' @export
 select_regs <- function(series, ...) {
-
     context <- create_insee_context(s = series)
     specs_set <- create_specs_set(context = context, ...)
 
     if (is.null(ncol(series))) {
-        return(select_reg_one_series(series, specs_set = specs_set, context = context))
+        return(select_reg_one_series(
+            series,
+            specs_set = specs_set,
+            context = context
+        ))
     }
 
     output <- sapply(X = seq_len(ncol(series)), FUN = function(k) {
@@ -283,7 +294,17 @@ select_regs <- function(series, ...) {
         #     }
         # }
 
-        cat(paste0("\nS\u00e9rie ", series_name, " en cours... ", k, "/", ncol(series)), "\n")
+        cat(
+            paste0(
+                "\nS\u00e9rie ",
+                series_name,
+                " en cours... ",
+                k,
+                "/",
+                ncol(series)
+            ),
+            "\n"
+        )
         return(select_reg_one_series(
             series = series[, k],
             name = series_name,

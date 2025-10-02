@@ -1,4 +1,41 @@
-
+#' @title Remove non-significant outliers from a Demetra+ workspace
+#'
+#' @description
+#' This function scans a Demetra+ workspace (`.xml`) and removes
+#' regression outliers whose p-values are above a given threshold.
+#' Both the estimation specification and the domain specification are
+#' updated accordingly, and the workspace file is saved in place.
+#'
+#' Typical use case: after automatic model estimation, outliers with
+#' weak statistical significance (e.g. `p > 0.3`) are dropped to
+#' simplify the regression specification.
+#'
+#' @param ws_path [\link[base]{character}] Path to a Demetra+ workspace file
+#' (usually with extension `.xml`).
+#' @param threshold [\link[base]{numeric}] Maximum p-value for keeping
+#' an outlier. Outliers with `Pr(>|t|) > threshold` are removed.
+#' Default is `0.3`.
+#'
+#' @details
+#' The function:
+#' - iterates over all seasonal adjustment models (SAI) in the workspace,
+#' - identifies regression outliers in the `regarima` specification,
+#' - checks their p-values in the pre-processing regression summary,
+#' - removes those with p-values above the threshold from both
+#'   `estimationSpec` and, if present, `domainSpec`,
+#' - re-saves the workspace file.
+#'
+#' @return
+#' The function invisibly returns `NULL`, but it **modifies the workspace file
+#' in place** (saved at the same location as `ws_path`).
+#'
+#' @examples
+#' \dontrun{
+#' # Remove non-significant outliers (p > 0.3) from a workspace
+#' remove_non_significative_outliers("workspace.xml", threshold = 0.3)
+#' }
+#'
+#' @export
 remove_non_significative_outliers <- function(ws_path, threshold = 0.3) {
     ws_name <- basename(ws_path) |> tools::file_path_sans_ext()
     cat("\n🏷️ WS ", ws_name, "\n")
@@ -32,9 +69,12 @@ remove_non_significative_outliers <- function(ws_path, threshold = 0.3) {
             outlier <- outliers[[id_out]]
             outlier_name <- paste0(outlier$code, " (", outlier$pos, ")")
 
-            if (outlier_name %in% rownames(xregs)
-                && !is.na(xregs[outlier_name, "Pr(>|t|)"])
-                && xregs[outlier_name, "Pr(>|t|)"] > threshold) {
+            if (
+                outlier_name %in%
+                    rownames(xregs) &&
+                    !is.na(xregs[outlier_name, "Pr(>|t|)"]) &&
+                    xregs[outlier_name, "Pr(>|t|)"] > threshold
+            ) {
                 cat("❌ Suppression de l'outlier :", outlier_name, "\n")
 
                 new_estimationSpec <- new_estimationSpec |>

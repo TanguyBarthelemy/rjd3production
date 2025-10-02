@@ -51,7 +51,11 @@ create_french_calendar <- function() {
     cal <- rjd3toolkit::national_calendar(
         days = list(
             Bastille_day = rjd3toolkit::fixed_day(7, 14), # Bastille Day
-            Victory_day = rjd3toolkit::fixed_day(5, 8, validity = list(start = "1982-05-08")), # Victoire 2nd guerre mondiale
+            Victory_day = rjd3toolkit::fixed_day(
+                5,
+                8,
+                validity = list(start = "1982-05-08")
+            ), # Victoire 2nd guerre mondiale
             NEWYEAR = rjd3toolkit::special_day("NEWYEAR"), # Nouvelle année
             CHRISTMAS = rjd3toolkit::special_day("CHRISTMAS"), # Noël
             MAYDAY = rjd3toolkit::special_day("MAYDAY"), # 1er mai
@@ -72,19 +76,20 @@ create_french_calendar <- function() {
 #' @rdname insee_modelling
 #' @export
 create_insee_regressors <- function(
-        start = c(1990L, 1L),
-        frequency = 12L,
-        length = 492L,
-        s = NULL
+    start = c(1990L, 1L),
+    frequency = 12L,
+    length = 492L,
+    s = NULL
 ) {
-
     cal_FR <- create_french_calendar()
 
-    groups <- list(REG1 = c(1L, 1L, 1L, 1L, 1L, 0L, 0L),
-                   REG2 = c(1L, 1L, 1L, 1L, 1L, 2L, 0L),
-                   REG3 = c(1L, 2L, 2L, 2L, 2L, 3L, 0L),
-                   REG5 = c(1L, 2L, 3L, 4L, 5L, 0L, 0L),
-                   REG6 = c(1L, 2L, 3L, 4L, 5L, 6L, 0L))
+    groups <- list(
+        REG1 = c(1L, 1L, 1L, 1L, 1L, 0L, 0L),
+        REG2 = c(1L, 1L, 1L, 1L, 1L, 2L, 0L),
+        REG3 = c(1L, 2L, 2L, 2L, 2L, 3L, 0L),
+        REG5 = c(1L, 2L, 3L, 4L, 5L, 0L, 0L),
+        REG6 = c(1L, 2L, 3L, 4L, 5L, 6L, 0L)
+    )
 
     regs_cjo <- lapply(
         X = groups,
@@ -96,7 +101,8 @@ create_insee_regressors <- function(
         s = s
     ) |>
         do.call(what = cbind)
-    cols <- colnames(regs_cjo) |> gsub(pattern = ".", replacement = "_", fixed = TRUE)
+    cols <- colnames(regs_cjo) |>
+        gsub(pattern = ".", replacement = "_", fixed = TRUE)
     regs_cjo <- cbind(
         LY = rjd3toolkit::lp_variable(
             frequency = frequency,
@@ -115,11 +121,11 @@ create_insee_regressors <- function(
 #' @rdname insee_modelling
 #' @export
 create_insee_regressors_sets <- function(
-        start = c(1990L, 1L),
-        frequency = 12L,
-        length = 492L,
-        s = NULL) {
-
+    start = c(1990L, 1L),
+    frequency = 12L,
+    length = 492L,
+    s = NULL
+) {
     regs_cjo <- create_insee_regressors(
         frequency = frequency,
         start = start,
@@ -129,7 +135,7 @@ create_insee_regressors_sets <- function(
 
     n <- colnames(regs_cjo)
 
-    REG1 <-  regs_cjo[, startsWith(n, prefix = "REG1"), drop = FALSE]
+    REG1 <- regs_cjo[, startsWith(n, prefix = "REG1"), drop = FALSE]
     attr(REG1, "class") <- c("mts", "ts", "matrix", "array")
 
     LY <- regs_cjo[, startsWith(n, prefix = "LY"), drop = FALSE]
@@ -142,16 +148,26 @@ create_insee_regressors_sets <- function(
         REG5 = regs_cjo[, startsWith(n, prefix = "REG5")],
         REG6 = regs_cjo[, startsWith(n, prefix = "REG6")],
         LY = LY,
-        REG1_LY = regs_cjo[, startsWith(n, prefix = "REG1") |
-                               startsWith(n, prefix = "LY")],
-        REG2_LY = regs_cjo[, startsWith(n, prefix = "REG2") |
-                               startsWith(n, prefix = "LY")],
-        REG3_LY = regs_cjo[, startsWith(n, prefix = "REG3") |
-                                startsWith(n, prefix = "LY")],
-        REG5_LY = regs_cjo[, startsWith(n, prefix = "REG5") |
-                               startsWith(n, prefix = "LY")],
-        REG6_LY = regs_cjo[, startsWith(n, prefix = "REG6") |
-                               startsWith(n, prefix = "LY")]
+        REG1_LY = regs_cjo[,
+            startsWith(n, prefix = "REG1") |
+                startsWith(n, prefix = "LY")
+        ],
+        REG2_LY = regs_cjo[,
+            startsWith(n, prefix = "REG2") |
+                startsWith(n, prefix = "LY")
+        ],
+        REG3_LY = regs_cjo[,
+            startsWith(n, prefix = "REG3") |
+                startsWith(n, prefix = "LY")
+        ],
+        REG5_LY = regs_cjo[,
+            startsWith(n, prefix = "REG5") |
+                startsWith(n, prefix = "LY")
+        ],
+        REG6_LY = regs_cjo[,
+            startsWith(n, prefix = "REG6") |
+                startsWith(n, prefix = "LY")
+        ]
     )
 
     return(sets)
@@ -160,16 +176,19 @@ create_insee_regressors_sets <- function(
 #' @importFrom rjd3toolkit modelling_context
 #' @rdname insee_modelling
 #' @export
-create_insee_context <- function(start = c(1990L, 1L),
-                                 frequency = 12L,
-                                 length = 492L,
-                                 s = NULL) {
+create_insee_context <- function(
+    start = c(1990L, 1L),
+    frequency = 12L,
+    length = 492L,
+    s = NULL
+) {
     cal_fr <- create_french_calendar()
     variables_fr <- create_insee_regressors_sets(
         start = start,
         frequency = frequency,
         length = length,
-        s = s)
+        s = s
+    )
     context <- rjd3toolkit::modelling_context(
         variables = variables_fr,
         calendars = list(FR = cal_fr)
@@ -206,7 +225,9 @@ create_insee_context <- function(start = c(1990L, 1L),
 #' @export
 create_specs_set <- function(context, outliers = NULL, span_start = NULL) {
     all_vars <- context$variables
-    named_vars <- lapply(seq_along(all_vars), \(k) paste0(names(all_vars)[k], ".", names(all_vars[[k]])))
+    named_vars <- lapply(seq_along(all_vars), \(k) {
+        paste0(names(all_vars)[k], ".", names(all_vars[[k]]))
+    })
     names(named_vars) <- names(all_vars)
 
     spec_0 <- rjd3x13::x13_spec(name = "RSA3")
