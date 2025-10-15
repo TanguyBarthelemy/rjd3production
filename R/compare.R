@@ -123,6 +123,15 @@ get_jsai_by_name <- function(jws, series_name) {
 #'
 #' @export
 compare <- function(ws_paths, series_names) {
+    ws_paths <- normalizePath(ws_paths)
+
+    if (missing(series_names)) {
+        series_names <- ws_paths[1L] |>
+            rjd3workspace::jws_open() |>
+            rjd3workspace::jws_sap(idx = 1L) |>
+            rjd3workspace::sap_sai_names()
+    }
+
     output <- NULL
     for (ws_path in ws_paths) {
         jws <- jws_open(ws_path)

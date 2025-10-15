@@ -8,8 +8,8 @@ get_series(jsai)
 }
 \arguments{
 \item{jsai}{A Java Seasonal Adjustment Item object, typically obtained via
-\code{\link[rjd3workspace:jws_sap]{rjd3workspace::jsap_sai()}} after opening and computing a workspace with \code{\link[rjd3workspace:jws_open]{rjd3workspace::jws_open()}}
-and \code{\link[rjd3workspace:jws_compute]{rjd3workspace::jws_compute()}}.}
+\code{\link[=jsap_sai]{jsap_sai()}} after opening and computing a workspace with \code{\link[=jws_open]{jws_open()}}
+and \code{\link[=jws_compute]{jws_compute()}}.}
 }
 \value{
 A \code{data.frame} with columns:

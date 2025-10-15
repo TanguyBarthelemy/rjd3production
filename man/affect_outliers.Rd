@@ -33,7 +33,7 @@ For each series in the workspace:
 \item If outliers are specified, they are split into \strong{type} (\code{AO}, \code{LS}, \code{TC}, …)
 and \strong{date} (e.g. \code{"2020-03"}) using regex patterns.
 \item These outliers are then added into the \code{domainSpec} of the model using
-\code{\link[rjd3toolkit:add_outlier]{rjd3toolkit::add_outlier()}}.
+\code{\link[=add_outlier]{add_outlier()}}.
 }
 
 The modified workspace is saved \strong{in place} (argument \code{replace = TRUE}).
