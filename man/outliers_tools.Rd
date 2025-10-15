@@ -11,7 +11,7 @@ retrieve_outliers(ws_path)
 
 export_outliers(x, ws_name, path, verbose = TRUE)
 
-import_outliers(x, ws_name, path)
+import_outliers(x, ws_name, path, verbose)
 }
 \arguments{
 \item{ws_path}{[\link[base]{character}] Path to a Demetra+ workspace file

@@ -60,7 +60,7 @@ affect_cjo <- function(cjo, ws_path) {
         ))
 
         # CJO
-        jeu_regresseur <- specs[which(specs[["series"]] == series_name), "regs"]
+        jeu_regresseur <- cjo[which(cjo[["series"]] == series_name), "regs"]
         cjo_variables <- NULL
         if (any(grepl("REG1", jeu_regresseur, fixed = TRUE))) {
             cjo_variables <- "r.REG1_Semaine"
@@ -95,6 +95,7 @@ affect_cjo <- function(cjo, ws_path) {
         }
 
         # Création de la spec
+        sai <- read_sai(jsai)
         new_domainSpec <- domainSpec <- sai$domainSpec
 
         # Création de la spec

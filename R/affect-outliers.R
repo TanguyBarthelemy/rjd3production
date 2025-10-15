@@ -1,3 +1,6 @@
+date_pattern <- "\\d{4}-\\d{2}-\\d{2}"
+outliers_type_pattern <- "(AO|TC|LS|SO)"
+
 #' @title Assign outliers to a Demetra+ workspace
 #'
 #' @description
@@ -65,6 +68,7 @@ affect_outliers <- function(outliers, ws_path) {
         outliers_series <- outliers[[series_name]]
 
         # Création de la spec
+        sai <- read_sai(jsai)
         new_domainSpec <- domainSpec <- sai$domainSpec
 
         if (!is.null(outliers_series) && length(outliers_series) > 0L) {

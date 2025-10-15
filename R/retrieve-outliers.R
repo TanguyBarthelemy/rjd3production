@@ -50,7 +50,7 @@
 #' @export
 retrieve_outliers <- function(ws_path) {
     jws <- rjd3workspace::jws_open(file = ws_path)
-    ws <- read_workspace(jws, compute = FALSE)
+    ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
     ws_name <- ws_path |> basename() |> tools::file_path_sans_ext()
 
     sap <- ws[["processing"]][[1L]]
@@ -89,7 +89,7 @@ export_outliers <- function(x, ws_name, path, verbose = TRUE) {
 
 #' @rdname outliers_tools
 #' @export
-import_outliers <- function(x, ws_name, path) {
+import_outliers <- function(x, ws_name, path, verbose) {
     if (missing(path)) {
         file_name <- paste0("outliers_", ws_name, ".yaml")
         path <- file.path("model", file_name)
