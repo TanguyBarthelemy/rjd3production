@@ -16,6 +16,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' library("rjd3workspace")
 #' path <- file.path(tempdir(), "workspace_RSA3.xml")
 #' jws <- jws_open(path)
 #' jws_compute(jws)
@@ -28,7 +29,7 @@
 #'
 #' @export
 get_series <- function(jsai) {
-    res <- read_sai(jsai)$results
+    res <- rjd3workspace::read_sai(jsai)$results
     if (is.null(res)) {
         stop("Please compute your WS.")
         return(invisible(NULL))
@@ -48,7 +49,7 @@ get_series <- function(jsai) {
             )
         }
     }
-    return(cbind(SAI = sai_name(jsai), output))
+    return(cbind(SAI = rjd3workspace::sai_name(jsai), output))
 }
 
 #' @title Retrieve a SAI by its name
@@ -75,8 +76,8 @@ get_series <- function(jsai) {
 #'
 #' @export
 get_jsai_by_name <- function(jws, series_name) {
-    jsap <- jws_sap(jws, idx = 1L)
-    sai_names <- sap_sai_names(jsap)
+    jsap <- rjd3workspace::jws_sap(jws, idx = 1L)
+    sai_names <- rjd3workspace::sap_sai_names(jsap)
     id <- which(sai_names == series_name)
     if (length(id) == 0) {
         stop("No SAI are named after ", series_name)
@@ -84,7 +85,7 @@ get_jsai_by_name <- function(jws, series_name) {
     if (length(id) > 1) {
         stop("More than one SAI is named after ", series_name)
     }
-    return(jsap_sai(jsap, idx = id))
+    return(rjd3workspace::jsap_sai(jsap, idx = id))
 }
 
 #' @title Compare series across workspaces
@@ -134,9 +135,9 @@ compare <- function(ws_paths, series_names) {
 
     output <- NULL
     for (ws_path in ws_paths) {
-        jws <- jws_open(ws_path)
+        jws <- rjd3workspace::jws_open(ws_path)
         ws_name <- ws_path |> basename() |> tools::file_path_sans_ext()
-        jws_compute(jws)
+        rjd3workspace::jws_compute(jws)
         for (series_name in series_names) {
             series <- get_jsai_by_name(jws = jws, series_name = series_name) |>
                 get_series()

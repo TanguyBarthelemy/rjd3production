@@ -49,7 +49,7 @@
 #' @name outliers_tools
 #' @export
 retrieve_outliers <- function(ws_path) {
-    jws <- .jws_open(file = ws_path)
+    jws <- rjd3workspace::jws_open(file = ws_path)
     ws <- read_workspace(jws, compute = FALSE)
     ws_name <- ws_path |> basename() |> tools::file_path_sans_ext()
 

@@ -39,17 +39,17 @@
 remove_non_significative_outliers <- function(ws_path, threshold = 0.3) {
     ws_name <- basename(ws_path) |> tools::file_path_sans_ext()
     cat("\n🏷️ WS ", ws_name, "\n")
-    jws <- .jws_open(file = ws_path)
-    .jws_compute(jws)
-    jsap <- .jws_sap(jws, 1L)
+    jws <- rjd3workspace::jws_open(file = ws_path)
+    rjd3workspace::.jws_compute(jws)
+    jsap <- rjd3workspace::.jws_sap(jws, 1L)
 
-    nb_sai <- .jsap_sa_count(jsap)
+    nb_sai <- rjd3workspace::.jsap_sa_count(jsap)
 
     for (id_sai in seq_len(nb_sai)) {
         cat("📌 SAI n°", id_sai, "\n")
-        jsai <- .jsap_sai(jsap, id_sai)
-        sai <- .jsai_read(jsai)
-        series_name <- .jsa_name(jsai)
+        jsai <- rjd3workspace::.jsap_sai(jsap, id_sai)
+        sai <- rjd3workspace::.jsai_read(jsai)
+        series_name <- rjd3workspace::.jsa_name(jsai)
 
         new_estimationSpec <- estimationSpec <- sai$estimationSpec
         new_domainSpec <- domainSpec <- sai$domainSpec
@@ -88,13 +88,13 @@ remove_non_significative_outliers <- function(ws_path, threshold = 0.3) {
             }
         }
 
-        set_specification(jsap, id_sai, new_estimationSpec)
-        set_domain_specification(jsap, id_sai, new_domainSpec)
-        set_name(jsap, idx = id_sai, name = series_name)
+        rjd3workspace::set_specification(jsap, id_sai, new_estimationSpec)
+        rjd3workspace::set_domain_specification(jsap, id_sai, new_domainSpec)
+        rjd3workspace::set_name(jsap, idx = id_sai, name = series_name)
     }
 
     cat("💾 Saving WS file\n")
-    save_workspace(
+    rjd3workspace::save_workspace(
         jws = jws,
         file = ws_path,
         replace = TRUE

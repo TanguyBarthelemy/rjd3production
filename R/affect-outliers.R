@@ -44,20 +44,20 @@
 #'
 #' @export
 affect_outliers <- function(outliers, ws_path) {
-    jws <- .jws_open(file = ws_path)
+    jws <- rjd3workspace::jws_open(file = ws_path)
     ws_name <- ws_path |> basename() |> tools::file_path_sans_ext()
-    jsap <- jws_sap(jws, 1L)
+    jsap <- rjd3workspace::jws_sap(jws, 1L)
 
-    for (id_sai in seq_len(.jsap_sa_count(jsap))) {
-        jsai <- .jsap_sa(jsap, idx = id_sai)
-        series_name <- .jsa_name(jsai)
+    for (id_sai in seq_len(rjd3workspace::.jsap_sa_count(jsap))) {
+        jsai <- rjd3workspace::.jsap_sa(jsap, idx = id_sai)
+        series_name <- rjd3workspace::.jsa_name(jsai)
         cat(paste0(
             "Série ",
             series_name,
             ", ",
             id_sai,
             "/",
-            .jsap_sa_count(jsap),
+            rjd3workspace::.jsap_sa_count(jsap),
             "\n"
         ))
 
@@ -81,16 +81,16 @@ affect_outliers <- function(outliers, ws_path) {
                 )
         }
 
-        set_domain_specification(
+        rjd3workspace::set_domain_specification(
             jsap = jsap,
             idx = id_sai,
             spec = new_domainSpec
         )
-        set_name(jsap, idx = id_sai, name = series_name)
+        rjd3workspace::set_name(jsap, idx = id_sai, name = series_name)
     }
 
     # Save WS automatique
-    save_workspace(
+    rjd3workspace::save_workspace(
         jws = jws,
         file = ws_path,
         replace = TRUE

@@ -26,6 +26,7 @@ from a seasonal adjustment item (\code{jsai}) inside a Demetra+ workspace.
 }
 \examples{
 \dontrun{
+library("rjd3workspace")
 path <- file.path(tempdir(), "workspace_RSA3.xml")
 jws <- jws_open(path)
 jws_compute(jws)
