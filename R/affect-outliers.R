@@ -68,12 +68,24 @@ affect_outliers <- function(outliers, ws_path) {
         outliers_series <- outliers[[series_name]]
 
         # Création de la spec
-        sai <- read_sai(jsai)
+        sai <- rjd3workspace::read_sai(jsai)
+        new_estimationSpec <- estimationSpec <- sai$estimationSpec
         new_domainSpec <- domainSpec <- sai$domainSpec
 
         if (!is.null(outliers_series) && length(outliers_series) > 0L) {
             new_domainSpec <- domainSpec |>
-                add_outlier(
+                rjd3toolkit::add_outlier(
+                    type = outliers_type_pattern |>
+                        gregexpr(text = outliers_series) |>
+                        regmatches(x = outliers_series) |>
+                        do.call(what = c),
+                    date = date_pattern |>
+                        gregexpr(text = outliers_series) |>
+                        regmatches(x = outliers_series) |>
+                        do.call(what = c)
+                )
+            new_estimationSpec <- estimationSpec |>
+                rjd3toolkit::add_outlier(
                     type = outliers_type_pattern |>
                         gregexpr(text = outliers_series) |>
                         regmatches(x = outliers_series) |>
@@ -85,6 +97,11 @@ affect_outliers <- function(outliers, ws_path) {
                 )
         }
 
+        rjd3workspace::set_specification(
+            jsap = jsap,
+            idx = id_sai,
+            spec = new_estimationSpec
+        )
         rjd3workspace::set_domain_specification(
             jsap = jsap,
             idx = id_sai,

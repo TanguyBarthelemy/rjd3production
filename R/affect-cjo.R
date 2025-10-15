@@ -95,7 +95,8 @@ affect_cjo <- function(cjo, ws_path) {
         }
 
         # Création de la spec
-        sai <- read_sai(jsai)
+        sai <- rjd3workspace::read_sai(jsai)
+        new_estimationSpec <- estimationSpec <- sai$estimationSpec
         new_domainSpec <- domainSpec <- sai$domainSpec
 
         # Création de la spec
@@ -105,7 +106,18 @@ affect_cjo <- function(cjo, ws_path) {
                 uservariable = cjo_variables,
                 test = "None"
             )
+        new_estimationSpec <- estimationSpec |>
+            set_tradingdays(
+                option = "UserDefined",
+                uservariable = cjo_variables,
+                test = "None"
+            )
 
+        rjd3workspace::set_specification(
+            jsap = jsap,
+            idx = id_sai,
+            spec = new_estimationSpec
+        )
         rjd3workspace::set_domain_specification(
             jsap = jsap,
             idx = id_sai,

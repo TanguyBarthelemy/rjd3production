@@ -180,7 +180,7 @@ run_app <- function(data, ...) {
                                    choices = unique(data$series),
                                    selected = unique(data$series)[1]),
                 shiny::checkboxInput("filter_by_sai", "Filtrer par SAI", value = TRUE),
-                shiny::checkboxInput("filter_by_serie", "Filtrer par série", value = FALSE)
+                shiny::checkboxInput("filter_by_serie", "Filtrer par série", value = TRUE)
             ),
             shiny::mainPanel(
                 shiny::plotOutput("plot")
@@ -207,6 +207,60 @@ run_app <- function(data, ...) {
                     x = "Date", y = "Valeur"
                 ) +
                 ggplot2::theme_minimal()
+        })
+    }
+
+    shiny::shinyApp(ui, server, ...)
+}
+
+run_app2 <- function(data, ...) {
+    stopifnot(all(c("ws", "SAI", "series", "date", "value") %in% names(data)))
+
+    ui <- shiny::fluidPage(
+        shiny::titlePanel("Comparateur de séries"),
+        shiny::sidebarLayout(
+            shiny::sidebarPanel(
+                shiny::selectInput("sai", "Choisir un SAI :",
+                                   choices = unique(data$SAI),
+                                   selected = unique(data$SAI)[1]),
+                shiny::selectInput("serie", "Choisir une série :",
+                                   choices = unique(data$series),
+                                   selected = unique(data$series)[1]),
+                shiny::checkboxInput("filter_by_sai", "Filtrer par SAI", value = TRUE),
+                shiny::checkboxInput("filter_by_serie", "Filtrer par série", value = TRUE)
+            ),
+            shiny::mainPanel(
+                dygraphs::dygraphOutput("plot", height = "500px")
+            )
+        )
+    )
+
+    server <- function(input, output, session) {
+
+        filtered_data <- shiny::reactive({
+            d <- data
+            if (input$filter_by_sai) d <- d[d$SAI == input$sai, ]
+            if (input$filter_by_serie) d <- d[d$series == input$serie, ]
+            d
+        })
+
+        output$plot <- dygraphs::renderDygraph({
+            d <- filtered_data()
+
+            # Passer du format long au format large pour dygraphs
+            d_wide <- tidyr::pivot_wider(
+                d,
+                id_cols = "date",
+                names_from = "ws",
+                values_from = "value"
+            )
+            d_wide <- d_wide[order(d_wide$date), ]
+
+            # Conversion en xts (requis par dygraphs)
+            xts_data <- xts::xts(d_wide[ , -1], order.by = d_wide$date)
+
+            # Création du graphique dygraphs
+            dygraphs::dygraph(xts_data, main = paste("SAI:", input$sai, "| Série:", input$serie))
         })
     }
 
