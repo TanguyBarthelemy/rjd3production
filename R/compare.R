@@ -96,7 +96,7 @@ get_jsai_by_name <- function(jws, series_name) {
 #' This is particularly useful to compare results across different
 #' specifications (e.g. RSA3 vs RSA5).
 #'
-#' @param ws_paths [character] Vector of workspace file paths.
+#' @param ... [character] Workspace file paths.
 #' @param series_names [character] Vector of SAI names to compare.
 #'
 #' @return A `data.frame` with columns:
@@ -112,7 +112,7 @@ get_jsai_by_name <- function(jws, series_name) {
 #' path1 <- file.path(tempdir(), "workspace_RSA3.xml")
 #' path2 <- file.path(tempdir(), "workspace_RSA5.xml")
 #'
-#' df <- compare(c(path1, path2), series_names = "series_1")
+#' df <- compare(path1, path2, series_names = "series_1")
 #' head(df)
 #'
 #' # In a Shiny app, you can filter and plot:
@@ -123,11 +123,16 @@ get_jsai_by_name <- function(jws, series_name) {
 #' }
 #'
 #' @export
-compare <- function(ws_paths, series_names) {
-    ws_paths <- normalizePath(ws_paths)
+compare <- function(..., series_names) {
+    ws_paths <- list(...) |>
+        lapply(normalizePath)
+
+    if (length(ws_paths) == 0L) {
+        stop("There are no paths provided")
+    }
 
     if (missing(series_names)) {
-        series_names <- ws_paths[1L] |>
+        series_names <- ws_paths[[1L]] |>
             rjd3workspace::jws_open() |>
             rjd3workspace::jws_sap(idx = 1L) |>
             rjd3workspace::sap_sai_names()
@@ -180,15 +185,22 @@ run_app <- function(data, ...) {
                                    choices = unique(data$series),
                                    selected = unique(data$series)[1]),
                 shiny::checkboxInput("filter_by_sai", "Filtrer par SAI", value = TRUE),
-                shiny::checkboxInput("filter_by_serie", "Filtrer par série", value = TRUE)
+                shiny::checkboxInput("filter_by_serie", "Filtrer par série", value = TRUE),
+                shiny::br(),
+                shiny::downloadButton("export_csv", "Exporter le tableau en CSV")
             ),
             shiny::mainPanel(
-                shiny::plotOutput("plot")
+                dygraphs::dygraphOutput("plot", height = "400px"),
+                shiny::br(),
+                shiny::h4("Tableau des données affichées"),
+                shiny::uiOutput("table_ui")  # l’objet HTML qui contiendra le flextable
             )
         )
     )
 
     server <- function(input, output, session) {
+
+        # Données filtrées
         filtered_data <- shiny::reactive({
             d <- data
             if (input$filter_by_sai) d <- d[d$SAI == input$sai, ]
@@ -196,72 +208,45 @@ run_app <- function(data, ...) {
             d
         })
 
-        output$plot <- shiny::renderPlot({
-            ggplot2::ggplot(filtered_data(),
-                            ggplot2::aes(x = date, y = value, color = ws, linetype = series)) +
-                ggplot2::geom_line(size = 1) +
-                ggplot2::geom_point() +
-                ggplot2::labs(
-                    title = "Comparaison des séries",
-                    subtitle = paste("SAI:", input$sai, "| Série:", input$serie),
-                    x = "Date", y = "Valeur"
-                ) +
-                ggplot2::theme_minimal()
-        })
-    }
-
-    shiny::shinyApp(ui, server, ...)
-}
-
-run_app2 <- function(data, ...) {
-    stopifnot(all(c("ws", "SAI", "series", "date", "value") %in% names(data)))
-
-    ui <- shiny::fluidPage(
-        shiny::titlePanel("Comparateur de séries"),
-        shiny::sidebarLayout(
-            shiny::sidebarPanel(
-                shiny::selectInput("sai", "Choisir un SAI :",
-                                   choices = unique(data$SAI),
-                                   selected = unique(data$SAI)[1]),
-                shiny::selectInput("serie", "Choisir une série :",
-                                   choices = unique(data$series),
-                                   selected = unique(data$series)[1]),
-                shiny::checkboxInput("filter_by_sai", "Filtrer par SAI", value = TRUE),
-                shiny::checkboxInput("filter_by_serie", "Filtrer par série", value = TRUE)
-            ),
-            shiny::mainPanel(
-                dygraphs::dygraphOutput("plot", height = "500px")
-            )
-        )
-    )
-
-    server <- function(input, output, session) {
-
-        filtered_data <- shiny::reactive({
-            d <- data
-            if (input$filter_by_sai) d <- d[d$SAI == input$sai, ]
-            if (input$filter_by_serie) d <- d[d$series == input$serie, ]
-            d
-        })
-
-        output$plot <- dygraphs::renderDygraph({
+        # Données pivotées (communes au graphique et au tableau)
+        data_wide <- shiny::reactive({
             d <- filtered_data()
-
-            # Passer du format long au format large pour dygraphs
             d_wide <- tidyr::pivot_wider(
                 d,
                 id_cols = "date",
                 names_from = "ws",
                 values_from = "value"
             )
-            d_wide <- d_wide[order(d_wide$date), ]
-
-            # Conversion en xts (requis par dygraphs)
-            xts_data <- xts::xts(d_wide[ , -1], order.by = d_wide$date)
-
-            # Création du graphique dygraphs
-            dygraphs::dygraph(xts_data, main = paste("SAI:", input$sai, "| Série:", input$serie))
+            d_wide[order(d_wide$date), ]
         })
+
+        # Graphique dygraphs
+        output$plot <- dygraphs::renderDygraph({
+            dygraphs::dygraph(
+                data_wide(),
+                main = paste("SAI:", input$sai, "| Série:", input$serie)
+            )
+        })
+
+        # Tableau flextable
+        output$table_ui <- shiny::renderUI({
+            d_wide <- data_wide()
+            # Création du flextable
+            ft <- flextable::flextable(d_wide)
+            ft <- flextable::autofit(ft)
+            # Conversion en HTML pour affichage dans Shiny
+            flextable::htmltools_value(ft)
+        })
+
+        # Export CSV
+        output$export_csv <- shiny::downloadHandler(
+            filename = function() {
+                paste0("table_", input$sai, "_", input$serie, ".csv")
+            },
+            content = function(file) {
+                utils::write.csv(data_wide(), file, row.names = FALSE)
+            }
+        )
     }
 
     shiny::shinyApp(ui, server, ...)

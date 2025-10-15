@@ -8,6 +8,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+* Shiny app to compare WS with button to export table
+
+
 ## [1.0.0] - 2025-08-29
 
 ### Added
