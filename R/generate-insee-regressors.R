@@ -79,9 +79,12 @@ create_insee_regressors <- function(
     start = c(1990L, 1L),
     frequency = 12L,
     length = 492L,
-    s = NULL
+    s = NULL,
+    cal = NULL
 ) {
-    cal_FR <- create_french_calendar()
+    if (is.null(cal)) {
+        cal <- create_french_calendar()
+    }
 
     groups <- list(
         REG1 = c(1L, 1L, 1L, 1L, 1L, 0L, 0L),
@@ -94,7 +97,7 @@ create_insee_regressors <- function(
     regs_cjo <- lapply(
         X = groups,
         FUN = rjd3toolkit::calendar_td,
-        calendar = cal_FR,
+        calendar = cal,
         frequency = frequency,
         start = start,
         length = length,
@@ -124,13 +127,15 @@ create_insee_regressors_sets <- function(
     start = c(1990L, 1L),
     frequency = 12L,
     length = 492L,
-    s = NULL
+    s = NULL,
+    cal = NULL
 ) {
     regs_cjo <- create_insee_regressors(
         frequency = frequency,
         start = start,
         length = length,
-        s = s
+        s = s,
+        cal = cal
     )
 
     n <- colnames(regs_cjo)

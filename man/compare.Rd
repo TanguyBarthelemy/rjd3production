@@ -4,10 +4,10 @@
 \alias{compare}
 \title{Compare series across workspaces}
 \usage{
-compare(ws_paths, series_names)
+compare(..., series_names)
 }
 \arguments{
-\item{ws_paths}{\link{character} Vector of workspace file paths.}
+\item{...}{\link{character} Workspace file paths.}
 
 \item{series_names}{\link{character} Vector of SAI names to compare.}
 }
@@ -33,7 +33,7 @@ specifications (e.g. RSA3 vs RSA5).
 path1 <- file.path(tempdir(), "workspace_RSA3.xml")
 path2 <- file.path(tempdir(), "workspace_RSA5.xml")
 
-df <- compare(c(path1, path2), series_names = "series_1")
+df <- compare(path1, path2, series_names = "series_1")
 head(df)
 
 # In a Shiny app, you can filter and plot:

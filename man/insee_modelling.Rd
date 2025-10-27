@@ -14,14 +14,16 @@ create_insee_regressors(
   start = c(1990L, 1L),
   frequency = 12L,
   length = 492L,
-  s = NULL
+  s = NULL,
+  cal = NULL
 )
 
 create_insee_regressors_sets(
   start = c(1990L, 1L),
   frequency = 12L,
   length = 492L,
-  s = NULL
+  s = NULL,
+  cal = NULL
 )
 
 create_insee_context(

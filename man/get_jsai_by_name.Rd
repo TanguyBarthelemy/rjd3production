@@ -7,7 +7,7 @@
 get_jsai_by_name(jws, series_name)
 }
 \arguments{
-\item{jws}{A Java Workspace object, as returned by \code{\link[=jws_open]{jws_open()}}.}
+\item{jws}{A Java Workspace object, as returned by \code{\link[rjd3workspace:jws_open]{rjd3workspace::jws_open()}}.}
 
 \item{series_name}{\link{character} Name of the SAI to retrieve.}
 }
