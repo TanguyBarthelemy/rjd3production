@@ -78,10 +78,16 @@ remove_non_significative_outliers <- function(ws_path, threshold = 0.3) {
                 cat("❌ Suppression de l'outlier :", outlier_name, "\n")
 
                 new_estimationSpec <- new_estimationSpec |>
-                    rjd3toolkit::remove_outlier(type = outlier$code, date = outlier$pos)
+                    rjd3toolkit::remove_outlier(
+                        type = outlier$code,
+                        date = outlier$pos
+                    )
                 if (outlier_name %in% outliers_name_domain) {
                     new_domainSpec <- new_domainSpec |>
-                        rjd3toolkit::remove_outlier(type = outlier$code, date = outlier$pos)
+                        rjd3toolkit::remove_outlier(
+                            type = outlier$code,
+                            date = outlier$pos
+                        )
                     cat("L'outlier est dans la domainSpec.\n")
                 }
                 outliers_to_remove <- c(outlier_name, outliers_to_remove)
