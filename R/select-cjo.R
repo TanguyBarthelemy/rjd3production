@@ -206,8 +206,7 @@ select_reg_one_series <- function(
     }
 
     diags <- all_diagnostics(series, specs_set = specs_set, context = context)
-    diags_wo_na <- diags |>
-        subset(!is.na(diags$note) & !is.na(diags$aicc))
+    diags_wo_na <- diags[!is.na(diags$note) & !is.na(diags$aicc), ]
 
     if (nrow(diags_wo_na) == 0) {
         stop(
@@ -222,9 +221,7 @@ select_reg_one_series <- function(
         )
     }
 
-    best_regs <- diags_wo_na |>
-        subset(diags_wo_na$note == min(diags_wo_na$note, na.rm = TRUE)) |>
-        subset(diags_wo_na$aicc == min(diags_wo_na$aicc, na.rm = TRUE))
+    best_regs <- diags_wo_na[order(diags_wo_na$note, diags_wo_na$aicc), ]
 
     return(verif_LY(jeu = best_regs[1, "regs"], diags = diags))
 }
