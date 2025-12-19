@@ -27,6 +27,8 @@
 #' head(df)
 #' }
 #'
+#' @importFrom rjd3workspace read_sai sai_name
+#' @importFrom zoo as.Date
 #' @export
 get_series <- function(jsai) {
     res <- rjd3workspace::read_sai(jsai)$results
@@ -73,6 +75,7 @@ get_series <- function(jsai) {
 #' df <- get_series(jsai)
 #' head(df)
 #' }
+#' @importFrom rjd3workspace jws_sap sap_sai_names jsap_sai
 #'
 #' @export
 get_jsai_by_name <- function(jws, series_name) {
@@ -122,6 +125,8 @@ get_jsai_by_name <- function(jws, series_name) {
 #'   geom_point()
 #' }
 #'
+#' @importFrom rjd3workspace jws_open jws_sap sap_sai_names jws_compute
+#' @importFrom tools file_path_sans_ext
 #' @export
 compare <- function(..., series_names) {
     ws_paths <- list(...) |>
@@ -169,6 +174,12 @@ compare <- function(..., series_names) {
 #' df <- compare(c(path1, path2), series_names = "series_1")
 #' run_app(df)
 #' }
+#'
+#' @importFrom shiny fluidPage titlePanel sidebarLayout sidebarPanel selectInput checkboxInput br downloadButton h4 uiOutput reactive renderUI downloadHandler shinyApp
+#' @importFrom dygraphs dygraphOutput renderDygraph dygraph
+#' @importFrom tidyr pivot_wider
+#' @importFrom flextable flextable autofit htmltools_value
+#' @importFrom utils write.csv
 #'
 #' @export
 run_app <- function(data, ...) {

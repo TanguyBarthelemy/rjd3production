@@ -35,21 +35,24 @@
 #' remove_non_significative_outliers("workspace.xml", threshold = 0.3)
 #' }
 #'
+#' @importFrom rjd3workspace jws_open jws_compute jws_sap sap_sai_count jsap_sai read_sai sai_name set_specification set_domain_specification set_name save_workspace
+#' @importFrom rjd3toolkit remove_outlier
+#' @importFrom tools file_path_sans_ext
 #' @export
 remove_non_significative_outliers <- function(ws_path, threshold = 0.3) {
     ws_name <- basename(ws_path) |> tools::file_path_sans_ext()
     cat("\n🏷️ WS ", ws_name, "\n")
     jws <- rjd3workspace::jws_open(file = ws_path)
-    rjd3workspace::.jws_compute(jws)
-    jsap <- rjd3workspace::.jws_sap(jws, 1L)
+    rjd3workspace::jws_compute(jws)
+    jsap <- rjd3workspace::jws_sap(jws, 1L)
 
-    nb_sai <- rjd3workspace::.jsap_sa_count(jsap)
+    nb_sai <- rjd3workspace::sap_sai_count(jsap)
 
     for (id_sai in seq_len(nb_sai)) {
         cat("📌 SAI n°", id_sai, "\n")
-        jsai <- rjd3workspace::.jsap_sai(jsap, id_sai)
-        sai <- rjd3workspace::.jsai_read(jsai)
-        series_name <- rjd3workspace::.jsa_name(jsai)
+        jsai <- rjd3workspace::jsap_sai(jsap, idx = id_sai)
+        sai <- rjd3workspace::read_sai(jsai)
+        series_name <- rjd3workspace::sai_name(jsai)
 
         new_estimationSpec <- estimationSpec <- sai$estimationSpec
         new_domainSpec <- domainSpec <- sai$domainSpec

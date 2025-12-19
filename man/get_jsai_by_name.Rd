@@ -28,5 +28,4 @@ jsai <- get_jsai_by_name(jws, "series_1")
 df <- get_series(jsai)
 head(df)
 }
-
 }

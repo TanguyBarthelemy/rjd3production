@@ -40,22 +40,25 @@
 #' affect_cjo(cjo = cjo_table, ws_path = "workspace.xml")
 #' }
 #'
+#' @importFrom rjd3workspace jws_open jws_sap sap_sai_count jsap_sai sai_name sap_sai_count read_sai set_specification set_domain_specification set_name save_workspace
+#' @importFrom tools file_path_sans_ext
+#'
 #' @export
 affect_cjo <- function(cjo, ws_path) {
     jws <- rjd3workspace::jws_open(file = ws_path)
     ws_name <- ws_path |> basename() |> tools::file_path_sans_ext()
     jsap <- rjd3workspace::jws_sap(jws, 1L)
 
-    for (id_sai in seq_len(rjd3workspace::.jsap_sa_count(jsap))) {
-        jsai <- rjd3workspace::.jsap_sa(jsap, idx = id_sai)
-        series_name <- rjd3workspace::.jsa_name(jsai)
+    for (id_sai in seq_len(rjd3workspace::sap_sai_count(jsap))) {
+        jsai <- rjd3workspace::jsap_sai(jsap, idx = id_sai)
+        series_name <- rjd3workspace::sai_name(jsai)
         cat(paste0(
             "Série ",
             series_name,
             ", ",
             id_sai,
             "/",
-            rjd3workspace::.jsap_sa_count(jsap),
+            rjd3workspace::sap_sai_count(jsap),
             "\n"
         ))
 

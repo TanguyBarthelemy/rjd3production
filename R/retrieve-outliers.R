@@ -46,6 +46,8 @@
 #' imported <- import_outliers(x = NULL, ws_name = "workspace1")
 #' }
 #'
+#' @importFrom rjd3workspace jws_open read_workspace
+#' @importFrom tools file_path_sans_ext
 #' @name outliers_tools
 #' @export
 retrieve_outliers <- function(ws_path) {
@@ -70,6 +72,7 @@ retrieve_outliers <- function(ws_path) {
     return(ps_outliers)
 }
 
+#' @importFrom yaml write_yaml
 #' @rdname outliers_tools
 #' @export
 export_outliers <- function(x, ws_name, path, verbose = TRUE) {
@@ -87,6 +90,7 @@ export_outliers <- function(x, ws_name, path, verbose = TRUE) {
     return(invisible(path))
 }
 
+#' @importFrom yaml read_yaml
 #' @rdname outliers_tools
 #' @export
 import_outliers <- function(x, ws_name, path, verbose) {

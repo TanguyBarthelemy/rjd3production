@@ -43,9 +43,7 @@ NULL
 
 
 #' @rdname insee_modelling
-#' @importFrom rjd3toolkit national_calendar
-#' @importFrom rjd3toolkit fixed_day
-#' @importFrom rjd3toolkit special_day
+#' @importFrom rjd3toolkit national_calendar fixed_day special_day
 #' @export
 create_french_calendar <- function() {
     cal <- rjd3toolkit::national_calendar(
@@ -71,8 +69,7 @@ create_french_calendar <- function() {
     return(cal)
 }
 
-#' @importFrom rjd3toolkit calendar_td
-#' @importFrom rjd3toolkit lp_variable
+#' @importFrom rjd3toolkit calendar_td lp_variable
 #' @rdname insee_modelling
 #' @export
 create_insee_regressors <- function(
@@ -224,9 +221,7 @@ create_insee_context <- function(
 #' create_specs_set(context = my_context)
 #'
 #' @importFrom rjd3x13 x13_spec
-#' @importFrom rjd3toolkit set_estimate
-#' @importFrom rjd3toolkit add_outlier
-#' @importFrom rjd3toolkit set_tradingdays
+#' @importFrom rjd3toolkit set_estimate add_outlier set_tradingdays
 #' @export
 create_specs_set <- function(context, outliers = NULL, span_start = NULL) {
     all_vars <- context$variables

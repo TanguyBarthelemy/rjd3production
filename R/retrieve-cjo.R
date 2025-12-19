@@ -46,6 +46,8 @@
 #' imported <- import_cjo(x = NULL, ws_name = "workspace1")
 #' }
 #'
+#' @importFrom rjd3workspace jws_open read_workspace
+#' @importFrom tools file_path_sans_ext
 #' @name cjo_tools
 #' @export
 retrieve_cjo <- function(ws_path) {
@@ -95,6 +97,7 @@ retrieve_cjo <- function(ws_path) {
     return(cjo)
 }
 
+#' @importFrom yaml write_yaml
 #' @name cjo_tools
 #' @export
 export_cjo <- function(x, ws_name, path, verbose = TRUE) {
@@ -112,6 +115,7 @@ export_cjo <- function(x, ws_name, path, verbose = TRUE) {
     return(invisible(path))
 }
 
+#' @importFrom yaml read_yaml
 #' @name cjo_tools
 #' @export
 import_cjo <- function(x, ws_name, path, verbose = TRUE) {
