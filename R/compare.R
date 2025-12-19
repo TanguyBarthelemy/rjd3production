@@ -117,12 +117,6 @@ get_jsai_by_name <- function(jws, series_name) {
 #'
 #' df <- compare(path1, path2, series_names = "series_1")
 #' head(df)
-#'
-#' # In a Shiny app, you can filter and plot:
-#' library(ggplot2)
-#' ggplot(df, aes(x = date, y = value, color = ws, linetype = series)) +
-#'   geom_line() +
-#'   geom_point()
 #' }
 #'
 #' @importFrom rjd3workspace jws_open jws_sap sap_sai_names jws_compute
@@ -171,7 +165,7 @@ compare <- function(..., series_names) {
 #'
 #' @examples
 #' \dontrun{
-#' df <- compare(c(path1, path2), series_names = "series_1")
+#' df <- compare(path1, path2)
 #' run_app(df)
 #' }
 #'

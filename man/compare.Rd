@@ -35,12 +35,6 @@ path2 <- file.path(tempdir(), "workspace_RSA5.xml")
 
 df <- compare(path1, path2, series_names = "series_1")
 head(df)
-
-# In a Shiny app, you can filter and plot:
-library(ggplot2)
-ggplot(df, aes(x = date, y = value, color = ws, linetype = series)) +
-  geom_line() +
-  geom_point()
 }
 
 }
