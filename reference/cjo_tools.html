@@ -60,9 +60,9 @@ applied in seasonal adjustment workflows.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">export_cjo</span><span class="op">(</span><span class="va">x</span>, <span class="va">ws_name</span>, <span class="va">path</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">export_cjo</span><span class="op">(</span><span class="va">x</span>, <span class="va">ws_name</span>, path <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">import_cjo</span><span class="op">(</span><span class="va">x</span>, <span class="va">ws_name</span>, <span class="va">path</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">import_cjo</span><span class="op">(</span><span class="va">x</span>, <span class="va">ws_name</span>, path <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">retrieve_cjo</span><span class="op">(</span><span class="va">ws_path</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -84,7 +84,7 @@ used to build default YAML filenames.</p></dd>
 <dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
 <dd><p>[<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>] Path to a YAML file to write to
 or read from. If missing, defaults to
-<code>"model/cjo_&lt;ws_name&gt;.yaml"</code>.</p></dd>
+<code>"regression/cjo_&lt;ws_name&gt;.yaml"</code>.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
