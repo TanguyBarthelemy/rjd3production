@@ -59,7 +59,7 @@ assign_outliers <- function(outliers, ws_path) {
         jsai <- rjd3workspace::jsap_sai(jsap, idx = id_sai)
         series_name <- rjd3workspace::sai_name(jsai)
         cat(paste0(
-            "Série ",
+            "S\u00e9rie ",
             series_name,
             ", ",
             id_sai,
@@ -174,7 +174,7 @@ assign_cjo <- function(cjo, ws_path, context = NULL) {
         context <- create_insee_context()
     }
 
-    cjo <- as.data.frame(regs)
+    cjo <- as.data.frame(cjo)
 
     var_names <- get_named_variables()
 
@@ -186,7 +186,7 @@ assign_cjo <- function(cjo, ws_path, context = NULL) {
         jsai <- rjd3workspace::jsap_sai(jsap, idx = id_sai)
         series_name <- rjd3workspace::sai_name(jsai)
         cat(paste0(
-            "Série ",
+            "S\u00e9rie ",
             series_name,
             ", ",
             id_sai,

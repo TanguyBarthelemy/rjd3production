@@ -73,17 +73,17 @@ NULL
 #' @rdname diagnostics_selection
 get_LY_info <- function(smod, verbose = TRUE) {
     reg_table <- smod$preprocessing$xregs
-    idx <- which(grepl(pattern = ".LY", x = rownames(reg_table), fixed = TRUE))
-    idx2 <- which(grepl(
+    idx <- grep(pattern = ".LY", x = rownames(reg_table), fixed = TRUE)
+    idx2 <- grep(
         pattern = "usertd",
         x = rownames(reg_table),
         fixed = TRUE
-    ))
-    if (length(idx) == 0L & length(idx2) == 0L) {
+    )
+    if (length(idx) == 0L && length(idx2) == 0L) {
         return(data.frame(LY_coeff = NA, LY_p_value = NA))
     } else if (length(idx) > 1L) {
         stop("Plusieurs variables portent le nom LY.")
-    } else if (length(idx) == 0L & length(idx2) == 1L) {
+    } else if (length(idx) == 0L && length(idx2) == 1L) {
         idx <- idx2
     }
     LY_coeff <- reg_table[idx, "Estimate"]
@@ -146,7 +146,7 @@ all_diagnostics <- function(series, specs_set, context) {
 
 #' @rdname diagnostics_selection
 verif_LY <- function(jeu, diags) {
-    if (!grepl(pattern = "LY", x = jeu)) {
+    if (!grepl(pattern = "LY", x = jeu, ignore.case = TRUE)) {
         return(jeu)
     }
     id_jeu <- which(diags$regs == jeu)
@@ -158,7 +158,7 @@ verif_LY <- function(jeu, diags) {
     if (jeu == "LY") {
         jeu_sans_LY <- "Pas_CJO"
     } else {
-        jeu_sans_LY <- gsub(pattern = "_LY", replacement = "", x = jeu)
+        jeu_sans_LY <- gsub(pattern = "_LY", replacement = "", x = jeu, ignore.case = TRUE)
     }
     id_jeu_sans_LY <- which(diags$regs == jeu_sans_LY)
 
@@ -212,12 +212,12 @@ select_reg_one_series <- function(
         stop(
             "Erreur lors du calcul de l'aicc et des p-value.
              Aucun jeu de regresseur n'a pu \u00eatre s\u00e9lectionn\u00e9. ",
-            ifelse(name == "", "", paste0("(S\u00e9rie ", name, ")"))
+            ifelse(nzchar(name), paste0("(S\u00e9rie ", name, ")"), "")
         )
     } else if (all(diags_wo_na$note == 0)) {
         warning(
             "Aucun jeu de regresseur n'est significatif. ",
-            ifelse(name == "", "", paste0("(S\u00e9rie ", name, ")"))
+            ifelse(nzchar(name), paste0("(S\u00e9rie ", name, ")"), "")
         )
     }
 

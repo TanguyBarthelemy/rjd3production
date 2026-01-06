@@ -34,7 +34,6 @@ get_series <- function(jsai) {
     res <- rjd3workspace::read_sai(jsai)$results
     if (is.null(res)) {
         stop("Please compute your WS.")
-        return(invisible(NULL))
     }
     output <- NULL
     all_series <- c(res$preadjust, res$decomposition, res$final)
@@ -177,27 +176,27 @@ compare <- function(..., series_names) {
 #'
 #' @export
 run_app <- function(data, ...) {
-    stopifnot(all(c("ws", "SAI", "series", "date", "value") %in% names(data)))
+    stopifnot(c("ws", "SAI", "series", "date", "value") %in% names(data))
 
     ui <- shiny::fluidPage(
-        shiny::titlePanel("Comparateur de séries"),
+        shiny::titlePanel("Comparateur de s\u00e9ries"),
         shiny::sidebarLayout(
             shiny::sidebarPanel(
                 shiny::selectInput("sai", "Choisir un SAI :",
                                    choices = unique(data$SAI),
                                    selected = unique(data$SAI)[1]),
-                shiny::selectInput("serie", "Choisir une série :",
+                shiny::selectInput("serie", "Choisir une s\u00e9rie :",
                                    choices = unique(data$series),
                                    selected = unique(data$series)[1]),
                 shiny::checkboxInput("filter_by_sai", "Filtrer par SAI", value = TRUE),
-                shiny::checkboxInput("filter_by_serie", "Filtrer par série", value = TRUE),
+                shiny::checkboxInput("filter_by_serie", "Filtrer par s\u00e9rie", value = TRUE),
                 shiny::br(),
                 shiny::downloadButton("export_csv", "Exporter le tableau en CSV")
             ),
             shiny::mainPanel(
                 dygraphs::dygraphOutput("plot", height = "400px"),
                 shiny::br(),
-                shiny::h4("Tableau des données affichées"),
+                shiny::h4("Tableau des donn\u00e9es affich\u00e9es"),
                 shiny::uiOutput("table_ui")  # l’objet HTML qui contiendra le flextable
             )
         )
@@ -229,7 +228,7 @@ run_app <- function(data, ...) {
         output$plot <- dygraphs::renderDygraph({
             dygraphs::dygraph(
                 data_wide(),
-                main = paste("SAI:", input$sai, "| Série:", input$serie)
+                main = paste("SAI:", input$sai, "| S\u00e9rie:", input$serie)
             )
         })
 

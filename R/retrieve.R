@@ -72,7 +72,7 @@ retrieve_outliers <- function(ws_path) {
 
     for (id_sai in seq_along(sap)) {
         series_name <- names(sap)[id_sai]
-        cat(paste0("Série ", series_name, ", ", id_sai, "/", length(sap), "\n"))
+        cat(paste0("S\u00e9rie ", series_name, ", ", id_sai, "/", length(sap), "\n"))
 
         sai <- sap[[id_sai]]
         regression_section <- sai[["domainSpec"]][["regarima"]][["regression"]]
@@ -151,7 +151,7 @@ retrieve_cjo <- function(ws_path) {
 
     for (id_sai in seq_along(sap)) {
         series_name <- names(sap)[id_sai]
-        cat(paste0("Série ", series_name, ", ", id_sai, "/", length(sap), "\n"))
+        cat(paste0("S\u00e9rie ", series_name, ", ", id_sai, "/", length(sap), "\n"))
 
         sai <- sap[[id_sai]]
         regression_section <- sai[["domainSpec"]][["regarima"]][["regression"]]
