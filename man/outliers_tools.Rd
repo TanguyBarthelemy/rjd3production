@@ -7,9 +7,9 @@
 \alias{retrieve_outliers}
 \title{Manage outliers from JDemetra+ workspaces}
 \usage{
-export_outliers(x, ws_name, path, verbose = TRUE)
+export_outliers(x, ws_name, path = NULL, verbose = TRUE)
 
-import_outliers(x, ws_name, path, verbose)
+import_outliers(x, ws_name, path = NULL, verbose = TRUE)
 
 retrieve_outliers(ws_path)
 }
@@ -22,7 +22,7 @@ used to build default YAML filenames.}
 
 \item{path}{[\link[base]{character}] Path to a YAML file to write to
 or read from. If missing, defaults to
-\code{"model/outliers_<ws_name>.yaml"}.}
+\code{"regression/outliers_<ws_name>.yaml"}.}
 
 \item{verbose}{[\link[base]{logical}] Whether to print informative
 messages (default: \code{TRUE}).}

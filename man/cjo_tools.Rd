@@ -7,9 +7,9 @@
 \alias{retrieve_cjo}
 \title{Manage working-day regressors (CJO) from JDemetra+ workspaces}
 \usage{
-export_cjo(x, ws_name, path, verbose = TRUE)
+export_cjo(x, ws_name, path = NULL, verbose = TRUE)
 
-import_cjo(x, ws_name, path, verbose = TRUE)
+import_cjo(x, ws_name, path = NULL, verbose = TRUE)
 
 retrieve_cjo(ws_path)
 }
@@ -22,7 +22,7 @@ used to build default YAML filenames.}
 
 \item{path}{[\link[base]{character}] Path to a YAML file to write to
 or read from. If missing, defaults to
-\code{"model/cjo_<ws_name>.yaml"}.}
+\code{"regression/cjo_<ws_name>.yaml"}.}
 
 \item{verbose}{[\link[base]{logical}] Whether to print informative
 messages (default: \code{TRUE}).}

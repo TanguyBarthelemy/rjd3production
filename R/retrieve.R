@@ -31,7 +31,7 @@ get_named_variables <- function(context = NULL) {
 #' used to build default YAML filenames.
 #' @param path [\link[base]{character}] Path to a YAML file to write to
 #' or read from. If missing, defaults to
-#' `"model/outliers_<ws_name>.yaml"`.
+#' `"regression/outliers_<ws_name>.yaml"`.
 #' @param verbose [\link[base]{logical}] Whether to print informative
 #' messages (default: `TRUE`).
 #'
@@ -105,7 +105,7 @@ retrieve_outliers <- function(ws_path) {
 #' used to build default YAML filenames.
 #' @param path [\link[base]{character}] Path to a YAML file to write to
 #' or read from. If missing, defaults to
-#' `"model/cjo_<ws_name>.yaml"`.
+#' `"regression/cjo_<ws_name>.yaml"`.
 #' @param verbose [\link[base]{logical}] Whether to print informative
 #' messages (default: `TRUE`).
 #'
