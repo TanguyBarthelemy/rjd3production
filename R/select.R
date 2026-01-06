@@ -192,11 +192,11 @@ verif_LY <- function(jeu, diags) {
 #' @importFrom stats time
 #' @importFrom utils tail
 select_reg_one_series <- function(
-    series,
-    name = "",
-    specs_set = NULL,
-    context = NULL,
-    ...
+        series,
+        name = "",
+        specs_set = NULL,
+        context = NULL,
+        ...
 ) {
     if (is.null(context)) {
         context <- create_insee_context(s = series)

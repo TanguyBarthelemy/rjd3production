@@ -22,7 +22,7 @@ A \code{data.frame} with columns:
 }
 }
 \description{
-Reads multiple Demetra+ workspaces and extracts comparable series
+Reads multiple JDemetra+ workspaces and extracts comparable series
 (by SAI and series type), returning them in a tidy format.
 This is particularly useful to compare results across different
 specifications (e.g. RSA3 vs RSA5).

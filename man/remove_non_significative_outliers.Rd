@@ -2,12 +2,12 @@
 % Please edit documentation in R/remove-outliers.R
 \name{remove_non_significative_outliers}
 \alias{remove_non_significative_outliers}
-\title{Remove non-significant outliers from a Demetra+ workspace}
+\title{Remove non-significant outliers from a JDemetra+ workspace}
 \usage{
 remove_non_significative_outliers(ws_path, threshold = 0.3)
 }
 \arguments{
-\item{ws_path}{[\link[base]{character}] Path to a Demetra+ workspace file
+\item{ws_path}{[\link[base]{character}] Path to a JDemetra+ workspace file
 (usually with extension \code{.xml}).}
 
 \item{threshold}{[\link[base]{numeric}] Maximum p-value for keeping
@@ -19,7 +19,7 @@ The function invisibly returns \code{NULL}, but it \strong{modifies the workspac
 in place} (saved at the same location as \code{ws_path}).
 }
 \description{
-This function scans a Demetra+ workspace (\code{.xml}) and removes
+This function scans a JDemetra+ workspace (\code{.xml}) and removes
 regression outliers whose p-values are above a given threshold.
 Both the estimation specification and the domain specification are
 updated accordingly, and the workspace file is saved in place.

@@ -1,0 +1,184 @@
+get_named_variables <- function(context = NULL) {
+    if (is.null(context)) {
+        context <- create_insee_context()
+    }
+    all_vars <- context$variables
+    named_vars <- lapply(seq_along(all_vars), function(k) {
+        paste0(names(all_vars)[k], ".", names(all_vars[[k]]))
+    })
+    names(named_vars) <- names(all_vars)
+    return(named_vars)
+}
+
+#' @title Manage outliers from JDemetra+ workspaces
+#'
+#' @description
+#' These functions allow extracting, exporting and importing outliers
+#' detected in a JDemetra+ workspace:
+#'
+#' - [retrieve_outliers()] extracts outliers from a `.xml` workspace.
+#' - [export_outliers()] saves extracted outliers into a YAML file.
+#' - [import_outliers()] loads outliers back from a YAML file.
+#'
+#' They are useful for archiving and reusing regression outliers detected
+#' during seasonal adjustment workflows.
+#'
+#' @param ws_path [\link[base]{character}] Path to a JDemetra+ workspace file
+#' (usually with extension `.xml`).
+#' @param x [list] A list of outliers, as returned by
+#' [retrieve_outliers()].
+#' @param ws_name [\link[base]{character}] The name of the workspace,
+#' used to build default YAML filenames.
+#' @param path [\link[base]{character}] Path to a YAML file to write to
+#' or read from. If missing, defaults to
+#' `"model/outliers_<ws_name>.yaml"`.
+#' @param verbose [\link[base]{logical}] Whether to print informative
+#' messages (default: `TRUE`).
+#'
+#' @return
+#' - `retrieve_outliers()` returns a named list where each element
+#'   corresponds to a series in the workspace and contains the names
+#'   of detected outliers.
+#' - `export_outliers()` invisibly returns the path of the YAML file
+#'   written.
+#' - `import_outliers()` returns a list of outliers read from YAML.
+#'
+#' @examples
+#' \dontrun{
+#' # Example workflow:
+#' ws_file <- "path/to/workspace.xml"
+#'
+#' # 1. Retrieve outliers from a workspace
+#' outliers <- retrieve_outliers(ws_file)
+#'
+#' # 2. Export them to a YAML file
+#' export_outliers(outliers, ws_name = "workspace1")
+#'
+#' # 3. Import them back later
+#' imported <- import_outliers(x = NULL, ws_name = "workspace1")
+#' }
+#'
+#' @importFrom rjd3workspace jws_open read_workspace
+#' @importFrom tools file_path_sans_ext
+#' @name outliers_tools
+#' @export
+retrieve_outliers <- function(ws_path) {
+    jws <- rjd3workspace::jws_open(file = ws_path)
+    ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
+    ws_name <- ws_path |> basename() |> tools::file_path_sans_ext()
+
+    sap <- ws[["processing"]][[1L]]
+    ps_outliers <- list()
+
+    for (id_sai in seq_along(sap)) {
+        series_name <- names(sap)[id_sai]
+        cat(paste0("Série ", series_name, ", ", id_sai, "/", length(sap), "\n"))
+
+        sai <- sap[[id_sai]]
+        regression_section <- sai[["domainSpec"]][["regarima"]][["regression"]]
+
+        outliers <- regression_section[["outliers"]] |> unique()
+        ps_outliers[[series_name]] <- sapply(X = outliers, FUN = `[[`, "name")
+    }
+
+    return(ps_outliers)
+}
+
+#' @title Manage working-day regressors (CJO) from JDemetra+ workspaces
+#'
+#' @description
+#' These functions allow extracting, exporting, and importing the
+#' *calendrier jours ouvrés* (CJO) regressors used in JDemetra+ workspaces:
+#'
+#' - [retrieve_cjo()] extracts the CJO specification from a `.xml` workspace.
+#' - [export_cjo()] saves extracted CJO information into a YAML file.
+#' - [import_cjo()] loads CJO information back from a YAML file.
+#'
+#' They are useful for documenting and reusing the regression settings
+#' applied in seasonal adjustment workflows.
+#'
+#' @param ws_path [\link[base]{character}] Path to a JDemetra+ workspace
+#' file (usually with extension `.xml`).
+#' @param x [\link[base]{list} | \link[base]{data.frame}] An object containing
+#' the CJO information, typically the output of [retrieve_cjo()].
+#' @param ws_name [\link[base]{character}] The name of the workspace,
+#' used to build default YAML filenames.
+#' @param path [\link[base]{character}] Path to a YAML file to write to
+#' or read from. If missing, defaults to
+#' `"model/cjo_<ws_name>.yaml"`.
+#' @param verbose [\link[base]{logical}] Whether to print informative
+#' messages (default: `TRUE`).
+#'
+#' @return
+#' - `retrieve_cjo()` returns a [data.frame] with columns:
+#'   - `series`: series names,
+#'   - `regs`: CJO regressor specification (`REG1`, `REG2`, …, `REG6`,
+#'     with or without `_LY`),
+#'   - `series_span`: currently empty but reserved for series span.
+#' - `export_cjo()` invisibly returns the path of the YAML file written.
+#' - `import_cjo()` returns a list or data structure read from YAML.
+#'
+#' @examples
+#' \dontrun{
+#' ws_file <- "path/to/workspace.xml"
+#'
+#' # 1. Retrieve CJO specification
+#' cjo <- retrieve_cjo(ws_file)
+#'
+#' # 2. Export to YAML
+#' export_cjo(cjo, ws_name = "workspace1")
+#'
+#' # 3. Import back from YAML
+#' imported <- import_cjo(x = NULL, ws_name = "workspace1")
+#' }
+#'
+#' @importFrom rjd3workspace jws_open read_workspace
+#' @importFrom tools file_path_sans_ext
+#' @name cjo_tools
+#' @export
+retrieve_cjo <- function(ws_path) {
+    jws <- rjd3workspace::jws_open(file = ws_path)
+    ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
+    ws_name <- ws_path |> basename() |> tools::file_path_sans_ext()
+    sap <- ws[["processing"]][[1L]]
+
+    cjo <- data.frame(
+        series = names(sap),
+        regs = character(length(sap)),
+        series_span = character(length(sap)),
+        stringsAsFactors = FALSE
+    )
+
+    for (id_sai in seq_along(sap)) {
+        series_name <- names(sap)[id_sai]
+        cat(paste0("Série ", series_name, ", ", id_sai, "/", length(sap), "\n"))
+
+        sai <- sap[[id_sai]]
+        regression_section <- sai[["domainSpec"]][["regarima"]][["regression"]]
+        regressors <- regression_section[["td"]][["users"]]
+
+        regs_cjo <- "Pas_CJO"
+        if (any(grepl(pattern = "REG1", x = regressors, ignore.case = TRUE))) {
+            regs_cjo <- "REG1"
+        } else if (any(grepl(pattern = "REG5", x = regressors, ignore.case = TRUE))) {
+            regs_cjo <- "REG5"
+        } else if (any(grepl(pattern = "REG2", x = regressors, ignore.case = TRUE))) {
+            regs_cjo <- "REG2"
+        } else if (any(grepl(pattern = "REG3", x = regressors, ignore.case = TRUE))) {
+            regs_cjo <- "REG3"
+        } else if (any(grepl(pattern = "REG6", x = regressors, ignore.case = TRUE))) {
+            regs_cjo <- "REG6"
+        }
+        if (
+            any(
+                grepl(pattern = "LeapYear", x = regressors, ignore.case = TRUE) |
+                grepl(pattern = "LY", x = regressors, ignore.case = TRUE)
+            )
+        ) {
+            regs_cjo <- paste0(regs_cjo, "_LY")
+        }
+        cjo[id_sai, "regs"] <- regs_cjo
+    }
+
+    return(cjo)
+}

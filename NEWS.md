@@ -12,6 +12,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 * Shiny app to compare WS with button to export table
 
+### Changed
+
+* Rename `affect_XXX` functions in `assign_XXX` functions
+
 ### Fixed
 
 * Bug in select regressors solved

@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Extracts all available time series (pre-adjustment, decomposition, and final)
-#' from a seasonal adjustment item (`jsai`) inside a Demetra+ workspace.
+#' from a seasonal adjustment item (`jsai`) inside a JDemetra+ workspace.
 #'
 #' @param jsai A Java Seasonal Adjustment Item object, typically obtained via
 #'   [jsap_sai()] after opening and computing a workspace with [jws_open()]
@@ -94,7 +94,7 @@ get_jsai_by_name <- function(jws, series_name) {
 #' @title Compare series across workspaces
 #'
 #' @description
-#' Reads multiple Demetra+ workspaces and extracts comparable series
+#' Reads multiple JDemetra+ workspaces and extracts comparable series
 #' (by SAI and series type), returning them in a tidy format.
 #' This is particularly useful to compare results across different
 #' specifications (e.g. RSA3 vs RSA5).

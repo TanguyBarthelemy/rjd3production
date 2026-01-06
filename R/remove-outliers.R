@@ -1,7 +1,7 @@
-#' @title Remove non-significant outliers from a Demetra+ workspace
+#' @title Remove non-significant outliers from a JDemetra+ workspace
 #'
 #' @description
-#' This function scans a Demetra+ workspace (`.xml`) and removes
+#' This function scans a JDemetra+ workspace (`.xml`) and removes
 #' regression outliers whose p-values are above a given threshold.
 #' Both the estimation specification and the domain specification are
 #' updated accordingly, and the workspace file is saved in place.
@@ -10,7 +10,7 @@
 #' weak statistical significance (e.g. `p > 0.3`) are dropped to
 #' simplify the regression specification.
 #'
-#' @param ws_path [\link[base]{character}] Path to a Demetra+ workspace file
+#' @param ws_path [\link[base]{character}] Path to a JDemetra+ workspace file
 #' (usually with extension `.xml`).
 #' @param threshold [\link[base]{numeric}] Maximum p-value for keeping
 #' an outlier. Outliers with `Pr(>|t|) > threshold` are removed.
