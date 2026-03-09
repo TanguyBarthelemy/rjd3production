@@ -99,8 +99,8 @@ my_dir <- tempdir()
 outliers <- retrieve_outliers(jws, point = TRUE, domain = FALSE, estimation = FALSE)
 #> Error in .jcall(jws, "V", "computeAll"): java.lang.NoClassDefFoundError: Could not initialize class jdplus.sa.base.workspace.Ws
 export_outliers(outliers, ws_name = "workspace1", path = my_dir)
-#> The outliers will be written at  /tmp/Rtmpr6L53v/outliers_workspace1.yaml 
+#> The outliers will be written at  /tmp/Rtmpxg2Ac8/outliers_workspace1.yaml 
 #> Error: object 'outliers' not found
 imported <- import_outliers(ws_name = "workspace1", path = my_dir)
-#> Error in normalizePath(file.path(path, file_name), mustWork = TRUE): path[1]="/tmp/Rtmpr6L53v/outliers_workspace1.yaml": No such file or directory
+#> Error in normalizePath(file.path(path, file_name), mustWork = TRUE): path[1]="/tmp/Rtmpxg2Ac8/outliers_workspace1.yaml": No such file or directory
 ```
