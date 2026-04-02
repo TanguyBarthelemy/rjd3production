@@ -55,7 +55,7 @@ or without leap-year effect) to correct a given series.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_LY_info</span><span class="op">(</span><span class="va">smod</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_LY_info</span><span class="op">(</span><span class="va">mod</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">one_diagnostic</span><span class="op">(</span><span class="va">series</span>, <span class="va">spec</span>, <span class="va">context</span><span class="op">)</span></span>
 <span></span>
@@ -63,15 +63,15 @@ or without leap-year effect) to correct a given series.</p>
 <span></span>
 <span><span class="fu">verif_LY</span><span class="op">(</span><span class="va">jeu</span>, <span class="va">diags</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">select_reg_one_series</span><span class="op">(</span><span class="va">series</span>, name <span class="op">=</span> <span class="st">""</span>, specs_set <span class="op">=</span> <span class="cn">NULL</span>, context <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">select_td_one_series</span><span class="op">(</span><span class="va">series</span>, name <span class="op">=</span> <span class="st">""</span>, specs_set <span class="op">=</span> <span class="cn">NULL</span>, context <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-smod">smod<a class="anchor" aria-label="anchor" href="#arg-smod"></a></dt>
-<dd><p><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a> Result of <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> applied to an X13 model.</p></dd>
+<dl><dt id="arg-mod">mod<a class="anchor" aria-label="anchor" href="#arg-mod"></a></dt>
+<dd><p><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a> An X13 model.</p></dd>
 
 
 <dt id="arg-series">series<a class="anchor" aria-label="anchor" href="#arg-series"></a></dt>
@@ -128,7 +128,7 @@ of types, e.g., "AO", "LS", "TC") and <code>date</code> (vector of dates).</p></
 <li><p><code>one_diagnostic()</code> : A data.frame with diagnostics for one specification.</p></li>
 <li><p><code>all_diagnostics()</code> : A data.frame with diagnostics for all specifications.</p></li>
 <li><p><code>verif_LY()</code> : Name of the chosen regression set (possibly without LY).</p></li>
-<li><p><code>select_reg_one_series()</code> : Name of the selected regression set.</p></li>
+<li><p><code>select_td_one_series()</code> : Name of the selected regression set.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -140,7 +140,7 @@ diagnostics.</p></li>
 <li><p><code>all_diagnostics()</code> evaluates all specifications in a set and summarizes
 diagnostics.</p></li>
 <li><p><code>verif_LY()</code> checks whether the leap-year effect should be kept or removed.</p></li>
-<li><p><code>select_reg_one_series()</code> selects the best calendar regressors set for a
+<li><p><code>select_td_one_series()</code> selects the best calendar regressors set for a
 single series.</p></li>
 </ul></div>
 
@@ -148,27 +148,49 @@ single series.</p></li>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create a modelling context</span></span></span>
 <span class="r-in"><span><span class="va">my_context</span> <span class="op">&lt;-</span> <span class="fu"><a href="insee_modelling.html">create_insee_context</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">AirPassengers</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/api/timeseries/TsDomain;",     "of", as.integer(period), as.integer(startYear), as.integer(startPeriod),     as.integer(length)):</span> RcallMethod: cannot determine object class</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Generate specification sets</span></span></span>
 <span class="r-in"><span><span class="va">my_set</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_specs_set.html">create_specs_set</a></span><span class="op">(</span>context <span class="op">=</span> <span class="va">my_context</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'my_context' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Extract LY info</span></span></span>
 <span class="r-in"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu">rjd3x13</span><span class="fu">::</span><span class="fu"><a href="https://rjdverse.github.io/rjd3x13/reference/x13.html" class="external-link">x13</a></span><span class="op">(</span><span class="va">AirPassengers</span>, spec <span class="op">=</span> <span class="st">"RSA3"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/api/timeseries/TsData;",     "of", as.integer(freq), as.integer(start[1]), as.integer(start[2]),     as.double(s)):</span> java.lang.UnsupportedClassVersionError: jdplus/toolkit/base/r/timeseries/TsUtility has been compiled by a more recent version of the Java Runtime (class file version 65.0), this version of the Java Runtime only recognizes class file versions up to 61.0</span>
 <span class="r-in"><span><span class="fu">rjd3production</span><span class="fu">:::</span><span class="fu">get_LY_info</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'mod' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   LY_coeff LY_p_value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       NA         NA</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute diagnostics for one spec</span></span></span>
 <span class="r-in"><span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="va">my_set</span><span class="op">[[</span><span class="fl">8L</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'my_set' not found</span>
 <span class="r-in"><span><span class="fu">rjd3production</span><span class="fu">:::</span><span class="fu">one_diagnostic</span><span class="op">(</span>series <span class="op">=</span> <span class="va">AirPassengers</span>, <span class="va">spec</span>, context <span class="op">=</span> <span class="va">my_context</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/api/timeseries/TsData;",     "of", as.integer(freq), as.integer(start[1]), as.integer(start[2]),     as.double(s)):</span> RcallMethod: cannot determine object class</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   note     aicc           mode   LY_coeff  LY_p_value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    0 965.5798 Multiplicative 0.04282008 0.004105741</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute diagnostics for all specs</span></span></span>
 <span class="r-in"><span><span class="fu">rjd3production</span><span class="fu">:::</span><span class="fu">all_diagnostics</span><span class="op">(</span>series <span class="op">=</span> <span class="va">AirPassengers</span>, specs_set <span class="op">=</span> <span class="va">my_set</span>, context <span class="op">=</span> <span class="va">my_context</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'my_set' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec No_TD ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            regs note     aicc           mode   LY_coeff   LY_p_value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> No_TD     No_TD    3 987.3845 Multiplicative         NA           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG1       REG1    0 971.5899 Multiplicative         NA           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG2       REG2    0 973.7502 Multiplicative         NA           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG3       REG3    0 975.7970 Multiplicative         NA           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG5       REG5    0 951.3999 Multiplicative         NA           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG6       REG6    0 980.0282 Multiplicative         NA           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> LY           LY    3 984.0518 Multiplicative 0.03917411 0.0194139422</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG1_LY REG1_LY    0 965.5798 Multiplicative 0.04282008 0.0041057413</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG2_LY REG2_LY    0 952.8547 Multiplicative 0.04520626 0.0006698235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG3_LY REG3_LY    0 969.7974 Multiplicative 0.04299381 0.0042857999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG5_LY REG5_LY    0 971.7842 Multiplicative 0.04435949 0.0038095627</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> REG6_LY REG6_LY    0 974.0675 Multiplicative 0.04381732 0.0048193465</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check whether LY should be removed</span></span></span>
 <span class="r-in"><span><span class="va">diags</span> <span class="op">&lt;-</span> <span class="fu">rjd3production</span><span class="fu">:::</span><span class="fu">all_diagnostics</span><span class="op">(</span></span></span>
@@ -176,13 +198,36 @@ single series.</p></li>
 <span class="r-in"><span>    specs_set <span class="op">=</span> <span class="va">my_set</span>,</span></span>
 <span class="r-in"><span>    context <span class="op">=</span> <span class="va">my_context</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'my_set' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec No_TD ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6_LY ...Done !</span>
 <span class="r-in"><span><span class="fu">rjd3production</span><span class="fu">:::</span><span class="fu">verif_LY</span><span class="op">(</span><span class="st">"REG6_LY"</span>, <span class="va">diags</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'diags' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG6"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Select regressions for one series</span></span></span>
-<span class="r-in"><span><span class="fu">rjd3production</span><span class="fu">:::</span><span class="fu">select_reg_one_series</span><span class="op">(</span>series <span class="op">=</span> <span class="va">AirPassengers</span>, context <span class="op">=</span> <span class="va">my_context</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'my_context' not found</span>
+<span class="r-in"><span><span class="fu">rjd3production</span><span class="fu">:::</span><span class="fu">select_td_one_series</span><span class="op">(</span>series <span class="op">=</span> <span class="va">AirPassengers</span>, context <span class="op">=</span> <span class="va">my_context</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec No_TD ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG5"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

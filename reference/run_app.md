@@ -30,8 +30,38 @@ Runs a Shiny app in the R session (no return value).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-df <- compare(path1, path2)
-run_app(df)
-} # }
+# Create temporary Workspaces
+
+library("rjd3toolkit")
+library("rjd3x13")
+library("rjd3workspace")
+
+# Two demo workspaces (RSA3 and RSA5)
+jws_rsa3 <- create_ws_from_data(ABS, x13_spec("rsa3"))
+jws_rsa5 <- create_ws_from_data(ABS, x13_spec("rsa5"))
+
+path_rsa3 <- tempfile(pattern = "ws-rsa3", fileext = ".xml")
+path_rsa5 <- tempfile(pattern = "ws-rsa5", fileext = ".xml")
+
+save_workspace(jws_rsa3, file = path_rsa3)
+save_workspace(jws_rsa5, file = path_rsa5)
+
+
+# Compare the two workspace
+
+df <- compare(path_rsa3, path_rsa5, series_names = "X0.2.09.10.M")
+#> Error in .jcall(jsai, "Ljdplus/sa/base/api/SaDefinition;", "getDefinition"): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
+head(df)
+#>                                               
+#> 1 function (x, df1, df2, ncp, log = FALSE)    
+#> 2 {                                           
+#> 3     if (missing(ncp))                       
+#> 4         .Call(C_df, x, df1, df2, log)       
+#> 5     else .Call(C_dnf, x, df1, df2, ncp, log)
+#> 6 }                                           
+
+# Launch the shiny app
+if (interactive()) {
+    run_app(df)
+}
 ```

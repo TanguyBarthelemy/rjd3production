@@ -40,12 +40,38 @@ A `data.frame` with columns:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Two demo workspaces (RSA3 and RSA5)
-path1 <- file.path(tempdir(), "workspace_RSA3.xml")
-path2 <- file.path(tempdir(), "workspace_RSA5.xml")
+library("rjd3toolkit")
+#> 
+#> Attaching package: ‘rjd3toolkit’
+#> The following objects are masked from ‘package:stats’:
+#> 
+#>     aggregate, mad
+library("rjd3x13")
+#> 
+#> Attaching package: ‘rjd3x13’
+#> The following object is masked from ‘package:grDevices’:
+#> 
+#>     x11
+library("rjd3workspace")
 
-df <- compare(path1, path2, series_names = "series_1")
+# Two demo workspaces (RSA3 and RSA5)
+jws_rsa3 <- create_ws_from_data(ABS, x13_spec("rsa3"))
+jws_rsa5 <- create_ws_from_data(ABS, x13_spec("rsa5"))
+
+path_rsa3 <- tempfile(pattern = "ws-rsa3", fileext = ".xml")
+path_rsa5 <- tempfile(pattern = "ws-rsa5", fileext = ".xml")
+
+save_workspace(jws_rsa3, file = path_rsa3)
+save_workspace(jws_rsa5, file = path_rsa5)
+
+df <- compare(path_rsa3, path_rsa5, series_names = "X0.2.09.10.M")
+#> Error in .jcall(jsai, "Ljdplus/sa/base/api/SaDefinition;", "getDefinition"): java.lang.NullPointerException
 head(df)
-} # }
+#>                                               
+#> 1 function (x, df1, df2, ncp, log = FALSE)    
+#> 2 {                                           
+#> 3     if (missing(ncp))                       
+#> 4         .Call(C_df, x, df1, df2, log)       
+#> 5     else .Call(C_dnf, x, df1, df2, ncp, log)
+#> 6 }                                           
 ```

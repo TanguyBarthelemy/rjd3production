@@ -50,6 +50,8 @@ mermaid.initialize({ startOnLoad: true }); }); </script></head><body>
 <ul><li>New function to create a ws from datasets and a default specification</li>
 <li>New function to make a ws crunchable</li>
 <li>Shiny app to compare WS with button to export table</li>
+<li>New functions to reverse-engineer a specification</li>
+<li>New functions to create random specifications</li>
 <li>New WS example and code to generate it</li>
 </ul></div>
 <div class="section level4">
@@ -59,10 +61,16 @@ mermaid.initialize({ startOnLoad: true }); }); </script></head><body>
 <li>The <code>assign_XXX</code> and <code>retrieve_XXX</code> functions are using <code>jws</code> instead of the <code>ws_path</code>.</li>
 <li>
 <code>select_regs</code> takes a new argument <code>context</code> to define the different regressors sets to use.</li>
+<li>
+<code>export_XXX</code> and <code>import_XXX</code> functions don’t support anymore <code>ws_name</code> argument.</li>
+<li>
+<code>export_XXX</code> functions are using <code>td</code> or <code>outliers</code> to replace <code>x</code>.</li>
+<li>
+<code>get_LY_info</code> works now with a X13 model and not a summary_x13 model</li>
 </ul></div>
 <div class="section level4">
 <h4 id="fixed-1-0-0-9000">Fixed<a class="anchor" aria-label="anchor" href="#fixed-1-0-0-9000"></a></h4>
-<ul><li>Bug in select regressors solved</li>
+<ul><li>Bug in select regressors solved (when no TD is significative)</li>
 </ul></div>
 </div>
 <div class="section level3">

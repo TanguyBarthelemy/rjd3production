@@ -15,6 +15,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - New function to create a ws from datasets and a default specification
 - New function to make a ws crunchable
 - Shiny app to compare WS with button to export table
+- New functions to reverse-engineer a specification
+- New functions to create random specifications
 - New WS example and code to generate it
 
 #### Changed
@@ -26,10 +28,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   of the `ws_path`.
 - `select_regs` takes a new argument `context` to define the different
   regressors sets to use.
+- `export_XXX` and `import_XXX` functions don’t support anymore
+  `ws_name` argument.
+- `export_XXX` functions are using `td` or `outliers` to replace `x`.
+- `get_LY_info` works now with a X13 model and not a summary_x13 model
 
 #### Fixed
 
-- Bug in select regressors solved
+- Bug in select regressors solved (when no TD is significative)
 
 ### [1.0.0](https://github.com/InseeFr/rjd3production/releases/tag/v1.0.0) - 2025-08-29
 

@@ -30,13 +30,26 @@ A Java Seasonal Adjustment Item object (`jsai`).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-path <- file.path(tempdir(), "workspace_RSA3.xml")
-jws <- jws_open(path)
-jws_compute(jws)
+# Create temporarily Workspaces
 
-jsai <- get_jsai_by_name(jws, "series_1")
+library("rjd3toolkit")
+library("rjd3workspace")
+
+# Demo workspace
+jws <- create_ws_from_data(ABS)
+jws_compute(jws)
+jsap <- jws_sap(jws, 1L)
+#> Error in .jcall(obj = jws, returnSig = "Ljdplus/sa/base/workspace/MultiProcessing;",     method = "getMultiProcessing", as.integer(idx - 1L)): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
+
+jsai <- get_jsai_by_name(jws, "X0.2.09.10.M")
 df <- get_series(jsai)
+#> Error in .jcall(.jcall(jsai, "Ljdplus/sa/base/api/SaEstimation;", "getEstimation"),     "Ljdplus/sa/base/api/SaSpecification;", "getPointSpec"): RcallMethod: invalid object parameter
 head(df)
-} # }
+#>                                               
+#> 1 function (x, df1, df2, ncp, log = FALSE)    
+#> 2 {                                           
+#> 3     if (missing(ncp))                       
+#> 4         .Call(C_df, x, df1, df2, log)       
+#> 5     else .Call(C_dnf, x, df1, df2, ncp, log)
+#> 6 }                                           
 ```

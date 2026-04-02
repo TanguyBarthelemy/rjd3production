@@ -28,6 +28,7 @@ Il permet notamment de :
   - Les fonctions `import_XXX()` et `export_XXX()` permettent de
     convertir les data.frame contenant les outliers et régresseurs de
     calendrier en fichiers et inversement
+
   - Les fonctions `retrieve_XXX()` et `assign_XXX()` permettent
     d’extraire (resp. d’assigner) les outliers et régresseurs de
     calendrier d’un workspace
@@ -67,14 +68,12 @@ flowchart LR
     class SERIES series
 ```
 
-Pour plus de précisions sur la production de séries cvsj-cjo vous pouvez
-consulter [ces pages](https://saproductionwithjdemetraandr.netlify.app/)
-\## Installation
+## Installation
 
 **{rjd3production}** s’appuie sur le package
 [**{rJava}**](https://cran.r-project.org/web/packages/rJava/index.html)
 
-L’exécution des packages rjd3 nécessite **Java 17 ou plus**. La manière
+L’exécution des packages rjd3 nécessite **Java 21 ou plus**. La manière
 de mettre en place une telle configuration dans R est expliquée
 [ici](https://jdemetra-new-documentation.netlify.app/#Rconfig).
 
@@ -163,10 +162,6 @@ flowchart LR
     class YAML_OUT,YAML_TD yaml
     class SERIES series
 ```
-
-For more details on the production of Seasonally Adjusted series, please
-refer to [these
-pages](https://saproductionwithjdemetraandr.netlify.app/).
 
 ### Installation
 

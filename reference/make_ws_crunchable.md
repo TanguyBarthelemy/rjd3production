@@ -12,11 +12,14 @@ make_ws_crunchable(jws, verbose = TRUE)
 
 - jws:
 
-  The java representation of the workspace
+  A Java Workspace object, as returned by
+  [`rjd3workspace::jws_open()`](https://rjdverse.github.io/rjd3workspace/reference/jws_open.html)
+  or
+  [`rjd3workspace::jws_new()`](https://rjdverse.github.io/rjd3workspace/reference/jws_new.html).
 
 - verbose:
 
-  Boolean. Print additional informations.
+  Boolean. Print additional informations. Default is `TRUE`.
 
 ## Value
 
@@ -35,24 +38,16 @@ data.
 ``` r
 library("rjd3workspace")
 library("rjd3x13")
-#> Your java version is 17. 21 or higher is needed.
-#> 
-#> Attaching package: ‘rjd3x13’
-#> The following object is masked from ‘package:grDevices’:
-#> 
-#>     x11
 
 jws <- jws_new()
-#> Error in jws_new(): java.lang.NoClassDefFoundError: Could not initialize class jdplus.sa.base.workspace.Ws
 jsap <- jws_sap_new(jws, "sap1")
-#> Error: object 'jws' not found
 add_sa_item(
     jsap = jsap,
     name = "series_3",
     x = AirPassengers,
     spec = x13_spec("RSA3")
 )
-#> Error in .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/api/timeseries/TsData;",     "of", as.integer(freq), as.integer(start[1]), as.integer(start[2]),     as.double(s)): RcallMethod: cannot determine object class
 jws <- make_ws_crunchable(jws)
-#> Error in .jcall(jws, "I", "getMultiProcessingCount"): java.lang.UnsupportedClassVersionError: jdplus/toolkit/base/r/timeseries/TsUtility has been compiled by a more recent version of the Java Runtime (class file version 65.0), this version of the Java Runtime only recognizes class file versions up to 61.0
+#> SAP n°1
+#> SAI n°1
 ```

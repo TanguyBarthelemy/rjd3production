@@ -65,9 +65,43 @@ mermaid.initialize({ startOnLoad: true }); }); </script></head><body>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">context_FR</span> <span class="op">&lt;-</span> <span class="fu"><a href="insee_modelling.html">create_insee_context</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/api/timeseries/TsDomain;",     "of", as.integer(period), as.integer(startYear), as.integer(startPeriod),     as.integer(length)):</span> java.lang.UnsupportedClassVersionError: jdplus/toolkit/base/r/timeseries/TsUtility has been compiled by a more recent version of the Java Runtime (class file version 65.0), this version of the Java Runtime only recognizes class file versions up to 61.0</span>
 <span class="r-in"><span><span class="fu">get_named_variables</span><span class="op">(</span><span class="va">context_FR</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'context_FR' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG1.REG1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG2.group_1" "REG2.group_2"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG3.group_1" "REG3.group_2" "REG3.group_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG5.group_1" "REG5.group_2" "REG5.group_3" "REG5.group_4" "REG5.group_5"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG6.group_1" "REG6.group_2" "REG6.group_3" "REG6.group_4" "REG6.group_5"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "REG6.group_6"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $LY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "LY.LY"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG1_LY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG1_LY.LY"   "REG1_LY.REG1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG2_LY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG2_LY.LY"      "REG2_LY.group_1" "REG2_LY.group_2"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG3_LY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG3_LY.LY"      "REG3_LY.group_1" "REG3_LY.group_2" "REG3_LY.group_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG5_LY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG5_LY.LY"      "REG5_LY.group_1" "REG5_LY.group_2" "REG5_LY.group_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "REG5_LY.group_4" "REG5_LY.group_5"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $REG6_LY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "REG6_LY.LY"      "REG6_LY.group_1" "REG6_LY.group_2" "REG6_LY.group_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "REG6_LY.group_4" "REG6_LY.group_5" "REG6_LY.group_6"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

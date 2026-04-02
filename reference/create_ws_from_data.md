@@ -47,5 +47,4 @@ x <- cbind(
 
 # Create workspace
 ws <- create_ws_from_data(x)
-#> Error in rjd3workspace::jws_new(): java.lang.UnsupportedClassVersionError: jdplus/toolkit/base/api/util/Id has been compiled by a more recent version of the Java Runtime (class file version 65.0), this version of the Java Runtime only recognizes class file versions up to 61.0
 ```

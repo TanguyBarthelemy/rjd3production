@@ -8,7 +8,7 @@ specifications and select the most appropriate calendar regressors set
 ## Usage
 
 ``` r
-get_LY_info(smod, verbose = TRUE)
+get_LY_info(mod, verbose = TRUE)
 
 one_diagnostic(series, spec, context)
 
@@ -16,16 +16,14 @@ all_diagnostics(series, specs_set, context)
 
 verif_LY(jeu, diags)
 
-select_reg_one_series(series, name = "", specs_set = NULL, context = NULL, ...)
+select_td_one_series(series, name = "", specs_set = NULL, context = NULL, ...)
 ```
 
 ## Arguments
 
-- smod:
+- mod:
 
-  [list](https://rdrr.io/r/base/list.html) Result of
-  [`summary()`](https://rdrr.io/r/base/summary.html) applied to an X13
-  model.
+  [list](https://rdrr.io/r/base/list.html) An X13 model.
 
 - series:
 
@@ -99,7 +97,7 @@ select_reg_one_series(series, name = "", specs_set = NULL, context = NULL, ...)
 - `verif_LY()` : Name of the chosen regression set (possibly without
   LY).
 
-- `select_reg_one_series()` : Name of the selected regression set.
+- `select_td_one_series()` : Name of the selected regression set.
 
 ## Details
 
@@ -115,7 +113,7 @@ select_reg_one_series(series, name = "", specs_set = NULL, context = NULL, ...)
 - `verif_LY()` checks whether the leap-year effect should be kept or
   removed.
 
-- `select_reg_one_series()` selects the best calendar regressors set for
+- `select_td_one_series()` selects the best calendar regressors set for
   a single series.
 
 ## Examples
@@ -123,27 +121,49 @@ select_reg_one_series(series, name = "", specs_set = NULL, context = NULL, ...)
 ``` r
 # Create a modelling context
 my_context <- create_insee_context(s = AirPassengers)
-#> Error in .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/api/timeseries/TsDomain;",     "of", as.integer(period), as.integer(startYear), as.integer(startPeriod),     as.integer(length)): RcallMethod: cannot determine object class
 
 # Generate specification sets
 my_set <- create_specs_set(context = my_context)
-#> Error: object 'my_context' not found
 
 # Extract LY info
 mod <- rjd3x13::x13(AirPassengers, spec = "RSA3")
-#> Error in .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/api/timeseries/TsData;",     "of", as.integer(freq), as.integer(start[1]), as.integer(start[2]),     as.double(s)): java.lang.UnsupportedClassVersionError: jdplus/toolkit/base/r/timeseries/TsUtility has been compiled by a more recent version of the Java Runtime (class file version 65.0), this version of the Java Runtime only recognizes class file versions up to 61.0
 rjd3production:::get_LY_info(summary(mod))
-#> Error: object 'mod' not found
+#>   LY_coeff LY_p_value
+#> 1       NA         NA
 
 # Compute diagnostics for one spec
 spec <- my_set[[8L]]
-#> Error: object 'my_set' not found
 rjd3production:::one_diagnostic(series = AirPassengers, spec, context = my_context)
-#> Error in .jcall("jdplus/toolkit/base/r/timeseries/TsUtility", "Ljdplus/toolkit/base/api/timeseries/TsData;",     "of", as.integer(freq), as.integer(start[1]), as.integer(start[2]),     as.double(s)): RcallMethod: cannot determine object class
+#>   note     aicc           mode   LY_coeff  LY_p_value
+#> 1    0 965.5798 Multiplicative 0.04282008 0.004105741
 
 # Compute diagnostics for all specs
 rjd3production:::all_diagnostics(series = AirPassengers, specs_set = my_set, context = my_context)
-#> Error: object 'my_set' not found
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#>            regs note     aicc           mode   LY_coeff   LY_p_value
+#> No_TD     No_TD    3 987.3845 Multiplicative         NA           NA
+#> REG1       REG1    0 971.5899 Multiplicative         NA           NA
+#> REG2       REG2    0 973.7502 Multiplicative         NA           NA
+#> REG3       REG3    0 975.7970 Multiplicative         NA           NA
+#> REG5       REG5    0 951.3999 Multiplicative         NA           NA
+#> REG6       REG6    0 980.0282 Multiplicative         NA           NA
+#> LY           LY    3 984.0518 Multiplicative 0.03917411 0.0194139422
+#> REG1_LY REG1_LY    0 965.5798 Multiplicative 0.04282008 0.0041057413
+#> REG2_LY REG2_LY    0 952.8547 Multiplicative 0.04520626 0.0006698235
+#> REG3_LY REG3_LY    0 969.7974 Multiplicative 0.04299381 0.0042857999
+#> REG5_LY REG5_LY    0 971.7842 Multiplicative 0.04435949 0.0038095627
+#> REG6_LY REG6_LY    0 974.0675 Multiplicative 0.04381732 0.0048193465
 
 # Check whether LY should be removed
 diags <- rjd3production:::all_diagnostics(
@@ -151,11 +171,34 @@ diags <- rjd3production:::all_diagnostics(
     specs_set = my_set,
     context = my_context
 )
-#> Error: object 'my_set' not found
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
 rjd3production:::verif_LY("REG6_LY", diags)
-#> Error: object 'diags' not found
+#> [1] "REG6"
 
 # Select regressions for one series
-rjd3production:::select_reg_one_series(series = AirPassengers, context = my_context)
-#> Error: object 'my_context' not found
+rjd3production:::select_td_one_series(series = AirPassengers, context = my_context)
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> [1] "REG5"
 ```
