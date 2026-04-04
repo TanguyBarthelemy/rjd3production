@@ -25,7 +25,7 @@ une structure :
 ``` r
 path_project <- tempfile(pattern = "my_sa_project")
 init_env(path = path_project)
-#> Package: my_sa_project28643f5e17be
+#> Package: my_sa_project28207ba54e34
 #> Title: What the Package Does (One Line, Title Case)
 #> Version: 0.0.0.9000
 #> Authors@R (parsed):

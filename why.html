@@ -43,40 +43,22 @@ mermaid.initialize({ startOnLoad: true }); }); </script></head><body>
 
 <p>Un petit document qui expliquent certains choix de développement faits.</p>
 <div class="section level2">
-<h2 id="ordre-des-arguments">Ordre des arguments<a class="anchor" aria-label="anchor" href="#ordre-des-arguments"></a></h2>
-<p>Lorsqu’on écrit une fonction, il faut garantir que l’ordre est cohérent avec les autres fonctions du package. Je propose :</p>
-<ol style="list-style-type: decimal"><li><code>path</code></li>
-<li><code>version_number</code></li>
-<li><code>gh_repo</code></li>
-<li><code>branch</code></li>
-<li><code>target</code></li>
-<li><code>verbose</code></li>
-</ol></div>
-<div class="section level2">
-<h2 id="documentation-et-inheritparams">Documentation et <code>@inheritParams</code>
-<a class="anchor" aria-label="anchor" href="#documentation-et-inheritparams"></a></h2>
-<p>Pour faire des économies de documentation, on recycle les documentations des arguments.</p>
-<p>Ainsi :</p>
-<ul><li>
-<code>set_latest_deps_version()</code> documente <code>path</code> et <code>verbose</code>
+<h2 id="devtag">{devtag}<a class="anchor" aria-label="anchor" href="#devtag"></a></h2>
+<p>On utilise le package {devtag} pour documenter les fonctions non exportées. Fonctionement :</p>
+<ul><li>Les fonctions exportées portent le tag <code>@export</code>
 </li>
-<li>
-<code>change_remotes_field()</code> documente <code>target</code>
+<li>Les fonctions internes portent le tag <code>@keywords internal</code>
 </li>
-<li>
-<code>get_latest_version()</code> documente <code>gh_repo</code>
+<li>Auparavant, les fonctions non exportées portaient le tag <code>@noRd</code> maintenant, on utilise le tag <code>@dev</code>
 </li>
-<li>
-<code>get_version_from_branch()</code> documente <code>branch</code>
-</li>
-<li>
-<code>get_different_future_version()</code> documente <code>version_number</code>
-</li>
-</ul></div>
+</ul><p>Ce que ça va faire :</p>
+<ul><li>Ajouter une remarque au fichier DESCRIPTION sur l’utilisation de {devtag}</li>
+<li>Ajouter une ligne au .Rbuildignore par fonction non exportée pour ne pas ajouter la doc lors du build</li>
+</ul><p>Quelques précautions à prendre (pour les fonctions non exportées) : - Ne pas utiliser le tag <code>@name</code> pour renommer la page de documentation - Ne pas utiliser le tag <code>@rdname</code> pour documenter plusieurs fonctions dans une même page - Ne pas créer de page de documentation sans fonctions (donc ni avec <code>NULL</code> ou <code>"une chaine de caractères"</code> comme référence)</p>
+</div>
 </div>
 
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside></div>
+  </main></div>
 
 
     <footer><div class="pkgdown-footer-left">
