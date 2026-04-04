@@ -6,6 +6,7 @@
 <url><loc>https://inseefr.github.io/rjd3production/authors.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/index.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/news/index.html</loc></url>
+<url><loc>https://inseefr.github.io/rjd3production/reference/add_raw_data_path.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/reference/compare.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/reference/create_specs_set.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/reference/create_ws_from_data.html</loc></url>
@@ -14,6 +15,7 @@
 <url><loc>https://inseefr.github.io/rjd3production/reference/get_named_variables.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/reference/get_series.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/reference/index.html</loc></url>
+<url><loc>https://inseefr.github.io/rjd3production/reference/init_env.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/reference/insee_modelling.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/reference/make_ws_crunchable.html</loc></url>
 <url><loc>https://inseefr.github.io/rjd3production/reference/random-spec.html</loc></url>

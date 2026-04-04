@@ -18,8 +18,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - New functions to reverse-engineer a specification
 - New functions to create random specifications
 - New WS example and code to generate it
-- `init_env()` fill the .lintr, DESCRIPTION and README files
-- `init_env()` add Git structure
+- [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
+  fill the .lintr, DESCRIPTION and README files
+- [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
+  add Git structure
 
 #### Changed
 

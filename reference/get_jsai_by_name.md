@@ -43,7 +43,7 @@ jsap <- jws_sap(jws, 1L)
 
 jsai <- get_jsai_by_name(jws, "X0.2.09.10.M")
 df <- get_series(jsai)
-#> Error in UseMethod("get_series", x): no applicable method for 'get_series' applied to an object of class "NULL"
+#> Error in .jcall(.jcall(jsai, "Ljdplus/sa/base/api/SaEstimation;", "getEstimation"),     "Ljdplus/sa/base/api/SaSpecification;", "getPointSpec"): RcallMethod: invalid object parameter
 head(df)
 #>                                               
 #> 1 function (x, df1, df2, ncp, log = FALSE)    

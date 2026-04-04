@@ -2,18 +2,25 @@
 
 ## All functions
 
+- [`add_raw_data_path()`](https://inseefr.github.io/rjd3production/reference/add_raw_data_path.md)
+  : Add raw data from a file to a JWS workspace
 - [`compare()`](https://inseefr.github.io/rjd3production/reference/compare.md)
   : Compare series across workspaces
 - [`create_specs_set()`](https://inseefr.github.io/rjd3production/reference/create_specs_set.md)
   : Creating a set of X13 specifications
 - [`create_ws_from_data()`](https://inseefr.github.io/rjd3production/reference/create_ws_from_data.md)
   : Create a Workspace from Data
+- [`get_LY_info()`](https://inseefr.github.io/rjd3production/reference/get_LY_info.md)
+  : Diagnostics Extraction on Calendar Correction with different sets of
+  regressors
 - [`get_jsai_by_name()`](https://inseefr.github.io/rjd3production/reference/get_jsai_by_name.md)
   : Retrieve a SA-Item by its name
 - [`get_named_variables()`](https://inseefr.github.io/rjd3production/reference/get_named_variables.md)
   : Retrieve all the auxiliary variables from a workspace
 - [`get_series()`](https://inseefr.github.io/rjd3production/reference/get_series.md)
   : Extract all series from a SA-Item
+- [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
+  : Initialize a seasonal adjustment project environment
 - [`create_french_calendar()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
   [`create_insee_regressors()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
   [`create_insee_regressors_sets()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)

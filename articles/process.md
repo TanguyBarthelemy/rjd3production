@@ -8,8 +8,9 @@ Le package {rjd3production} est utile pour mettre en place une chaîne de
 production de séries désaisonnalisées.
 
 Avant de créer notre chaîne de production, il faut créer notre
-environnement de travail, notre projet. La fonction `init_env()` créer
-une structure :
+environnement de travail, notre projet. La fonction
+[`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
+créer une structure :
 
 - un dossier `data/` : nos données brutes
 - un dossier `Workspaces/` : nos workspaces
@@ -25,30 +26,6 @@ une structure :
 ``` r
 path_project <- tempfile(pattern = "my_sa_project")
 init_env(path = path_project)
-#> Package: my_sa_project28207ba54e34
-#> Title: What the Package Does (One Line, Title Case)
-#> Version: 0.0.0.9000
-#> Authors@R (parsed):
-#>     * First Last <first.last@example.com> [aut, cre]
-#> Description: What the package does (one paragraph).
-#> License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-#>     license
-#> Imports:
-#>     rjd3production,
-#>     rjd3providers,
-#>     rjd3toolkit,
-#>     rjd3workspace,
-#>     rjd3x13
-#> Suggests:
-#>     cyclocomp,
-#>     devtools,
-#>     lintr,
-#>     remotes,
-#>     rmarkdown,
-#>     usethis
-#> Encoding: UTF-8
-#> Roxygen: list(markdown = TRUE)
-#> RoxygenNote: 7.0.0
 ```
 
 Dans cette vignette, nous allons créer une chaîne de production à partir
@@ -170,9 +147,6 @@ chaque série :
 
 ``` r
 assign_td(td = td, jws = jws)
-#> Série 0.2.09.10., 1/3
-#> Série 0.2.08.10., 2/3
-#> Série 0.2.07.10., 3/3
 ```
 
 Il ne faut pas oublier de mettre à jour les metadonnées de notre

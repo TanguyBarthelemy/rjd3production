@@ -10,25 +10,28 @@ workspace.
 get_series(x, ...)
 
 # S3 method for class 'JD3_TRAMOSEATS_RSLTS'
-get_series(x, name)
+get_series(x, name, ...)
 
 # S3 method for class 'JD3_X13_RSLTS'
-get_series(x, name)
+get_series(x, name, ...)
 
 # S3 method for class 'jobjRef'
-get_series(x)
+get_series(x, ...)
 ```
 
 ## Arguments
 
-- jsai:
+- x:
 
-  A Java Seasonal Adjustment Item object, typically obtained via
-  [`rjd3workspace::jsap_sai()`](https://rjdverse.github.io/rjd3workspace/reference/jws_sap.html)
-  after opening and computing a workspace with
-  [`rjd3workspace::jws_open()`](https://rjdverse.github.io/rjd3workspace/reference/jws_open.html)
-  and
-  [`rjd3workspace::jws_compute()`](https://rjdverse.github.io/rjd3workspace/reference/jws_compute.html).
+  The object to extract the series
+
+- ...:
+
+  Additional argument
+
+- name:
+
+  Name of the SA object
 
 ## Value
 
@@ -41,6 +44,15 @@ A `data.frame` with columns:
 - `date`: observation dates,
 
 - `value`: numeric values of the series.
+
+## Details
+
+`x` can be a Java SAI object, typically obtained via
+[`rjd3workspace::jsap_sai()`](https://rjdverse.github.io/rjd3workspace/reference/jws_sap.html)
+after opening and computing a workspace with
+[`rjd3workspace::jws_open()`](https://rjdverse.github.io/rjd3workspace/reference/jws_open.html)
+and
+[`rjd3workspace::jws_compute()`](https://rjdverse.github.io/rjd3workspace/reference/jws_compute.html).
 
 ## Examples
 

@@ -52,23 +52,29 @@ from a seasonal adjustment item (<code>jsai</code>) inside a JDemetra+ workspace
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_series</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'JD3_TRAMOSEATS_RSLTS'</span></span>
-<span><span class="fu">get_series</span><span class="op">(</span><span class="va">x</span>, <span class="va">name</span><span class="op">)</span></span>
+<span><span class="fu">get_series</span><span class="op">(</span><span class="va">x</span>, <span class="va">name</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'JD3_X13_RSLTS'</span></span>
-<span><span class="fu">get_series</span><span class="op">(</span><span class="va">x</span>, <span class="va">name</span><span class="op">)</span></span>
+<span><span class="fu">get_series</span><span class="op">(</span><span class="va">x</span>, <span class="va">name</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'jobjRef'</span></span>
-<span><span class="fu">get_series</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">get_series</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-jsai">jsai<a class="anchor" aria-label="anchor" href="#arg-jsai"></a></dt>
-<dd><p>A Java Seasonal Adjustment Item object, typically obtained via
-<code><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_sap.html" class="external-link">rjd3workspace::jsap_sai()</a></code> after opening and computing a workspace with <code><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_open.html" class="external-link">rjd3workspace::jws_open()</a></code>
-and <code><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_compute.html" class="external-link">rjd3workspace::jws_compute()</a></code>.</p></dd>
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p>The object to extract the series</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Additional argument</p></dd>
+
+
+<dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
+<dd><p>Name of the SA object</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -78,6 +84,11 @@ and <code><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_comput
 <li><p><code>date</code>: observation dates,</p></li>
 <li><p><code>value</code>: numeric values of the series.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>x</code> can be a Java SAI object, typically obtained via <code><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_sap.html" class="external-link">rjd3workspace::jsap_sai()</a></code> after
+opening and computing a workspace with <code><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_open.html" class="external-link">rjd3workspace::jws_open()</a></code> and <code><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_compute.html" class="external-link">rjd3workspace::jws_compute()</a></code>.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -105,7 +116,6 @@ and <code><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_comput
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4         .Call(C_df, x, df1, df2, log)       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5     else .Call(C_dnf, x, df1, df2, ncp, log)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 }                                           </span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -65,10 +65,17 @@ The function:
 
 ``` r
 library("rjd3workspace")
-file <- system.file("workspaces", "workspace_test.xml",
-                    package = "rjd3workspace")
+library("rjd3x13")
+library("rjd3toolkit")
+new_spec <- x13_spec() |>
+    add_outlier(type = "LS", date = "1990-01-01")
+jws <- create_ws_from_data(x = ABS[, 1, drop = FALSE], spec = new_spec)
+path_ws <- tempfile(pattern = "ws", fileext = ".xml")
+save_workspace(jws, file = path_ws)
 
 # Remove non-significant outliers (p > 0.3) from a workspace
-remove_non_significative_outliers("workspace.xml", threshold = 0.3)
-#> Warning: No SA-Items will be modified if neither domainspec nor estimationspec are selected.
+remove_non_significative_outliers(path_ws, threshold = 0.3, domain = TRUE)
+#> 
+#> 🏷 WS  ws268838da83bd 
+#> Error in .jcall(obj = jws, returnSig = "Ljdplus/sa/base/workspace/MultiProcessing;",     method = "getMultiProcessing", as.integer(idx - 1L)): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
 ```

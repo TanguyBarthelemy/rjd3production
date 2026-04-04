@@ -41,17 +41,7 @@ A `data.frame` with columns:
 
 ``` r
 library("rjd3toolkit")
-#> 
-#> Attaching package: ‘rjd3toolkit’
-#> The following objects are masked from ‘package:stats’:
-#> 
-#>     aggregate, mad
 library("rjd3x13")
-#> 
-#> Attaching package: ‘rjd3x13’
-#> The following object is masked from ‘package:grDevices’:
-#> 
-#>     x11
 library("rjd3workspace")
 
 # Two demo workspaces (RSA3 and RSA5)
@@ -65,7 +55,7 @@ save_workspace(jws_rsa3, file = path_rsa3)
 save_workspace(jws_rsa5, file = path_rsa5)
 
 df <- compare(path_rsa3, path_rsa5, series_names = "X0.2.09.10.M")
-#> Error in .jcall(obj = jws, returnSig = "Ljdplus/sa/base/workspace/MultiProcessing;",     method = "getMultiProcessing", as.integer(idx - 1L)): java.lang.NullPointerException
+#> Error in .jcall(obj = jws, returnSig = "Ljdplus/sa/base/workspace/MultiProcessing;",     method = "getMultiProcessing", as.integer(idx - 1L)): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
 head(df)
 #>                                               
 #> 1 function (x, df1, df2, ncp, log = FALSE)    
