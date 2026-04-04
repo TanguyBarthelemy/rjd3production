@@ -55,15 +55,17 @@ A data.frame with two columns:
 
   Name of the series (column name if `series` is multivariate).
 
-- reg_selected:
+- regs:
 
   Name of the selected regressor set.
 
 ## Examples
 
 ``` r
+library("rjd3toolkit")
+
 # Single series
-select_td(AirPassengers)
+select_td(ABS[, 1])
 #> 
 #> Série my_series en cours... 1/1 
 #> Computing spec No_TD ...Done !
@@ -78,17 +80,13 @@ select_td(AirPassengers)
 #> Computing spec REG3_LY ...Done !
 #> Computing spec REG5_LY ...Done !
 #> Computing spec REG6_LY ...Done !
-#>      series reg_selected
-#> 1 my_series         REG5
+#>      series regs
+#> 1 my_series REG6
 
 # Multiple series
-select_td(Seatbelts[, -8])
+select_td(ABS)
 #> 
-#> Série DriversKilled en cours... 1/7 
-#> 
-#> Série drivers en cours... 2/7 
-#> 
-#> Série front en cours... 3/7 
+#> Série X0.2.09.10.M en cours... 1/22 
 #> Computing spec No_TD ...Done !
 #> Computing spec REG1 ...Done !
 #> Computing spec REG2 ...Done !
@@ -102,7 +100,7 @@ select_td(Seatbelts[, -8])
 #> Computing spec REG5_LY ...Done !
 #> Computing spec REG6_LY ...Done !
 #> 
-#> Série rear en cours... 4/7 
+#> Série X0.2.08.10.M en cours... 2/22 
 #> Computing spec No_TD ...Done !
 #> Computing spec REG1 ...Done !
 #> Computing spec REG2 ...Done !
@@ -116,7 +114,7 @@ select_td(Seatbelts[, -8])
 #> Computing spec REG5_LY ...Done !
 #> Computing spec REG6_LY ...Done !
 #> 
-#> Série kms en cours... 5/7 
+#> Série X0.2.07.10.M en cours... 3/22 
 #> Computing spec No_TD ...Done !
 #> Computing spec REG1 ...Done !
 #> Computing spec REG2 ...Done !
@@ -130,57 +128,474 @@ select_td(Seatbelts[, -8])
 #> Computing spec REG5_LY ...Done !
 #> Computing spec REG6_LY ...Done !
 #> 
-#> Série PetrolPrice en cours... 6/7 
+#> Série X0.2.06.10.M en cours... 4/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
 #> 
-#> Série VanKilled en cours... 7/7 
-#>          series reg_selected
-#> 1 DriversKilled        No_TD
-#> 2       drivers        No_TD
-#> 3         front         REG5
-#> 4          rear         REG1
-#> 5           kms         REG1
-#> 6   PetrolPrice        No_TD
-#> 7     VanKilled        No_TD
+#> Série X0.2.05.10.M en cours... 5/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.04.10.M en cours... 6/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.03.10.M en cours... 7/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.02.10.M en cours... 8/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.01.10.M en cours... 9/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.15.10.M en cours... 10/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.46.10.M en cours... 11/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.14.10.M en cours... 12/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.45.10.M en cours... 13/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.13.10.M en cours... 14/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.44.10.M en cours... 15/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.12.10.M en cours... 16/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.43.10.M en cours... 17/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.11.10.M en cours... 18/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.42.10.M en cours... 19/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.10.10.M en cours... 20/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.41.10.M en cours... 21/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.20.10.M en cours... 22/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#>          series    regs
+#> 1  X0.2.09.10.M    REG6
+#> 2  X0.2.08.10.M    REG6
+#> 3  X0.2.07.10.M    REG6
+#> 4  X0.2.06.10.M    REG3
+#> 5  X0.2.05.10.M    REG3
+#> 6  X0.2.04.10.M    REG3
+#> 7  X0.2.03.10.M    REG5
+#> 8  X0.2.02.10.M    REG6
+#> 9  X0.2.01.10.M    REG6
+#> 10 X0.2.15.10.M    REG6
+#> 11 X0.2.46.10.M    REG6
+#> 12 X0.2.14.10.M    REG6
+#> 13 X0.2.45.10.M    REG6
+#> 14 X0.2.13.10.M    REG6
+#> 15 X0.2.44.10.M    REG6
+#> 16 X0.2.12.10.M    REG6
+#> 17 X0.2.43.10.M    REG6
+#> 18 X0.2.11.10.M REG3_LY
+#> 19 X0.2.42.10.M    REG6
+#> 20 X0.2.10.10.M    REG3
+#> 21 X0.2.41.10.M    REG6
+#> 22 X0.2.20.10.M    REG6
 
 # Restrict regressors sets
-my_context <- create_insee_context()
+my_context <- create_insee_context(s = ABS)
 my_context$variables <- my_context$variables[c("REG1", "REG1_LY", "REG6", "REG6_LY")]
-select_td(Seatbelts[, -8], context = my_context)
+select_td(ABS, context = my_context)
 #> 
-#> Série DriversKilled en cours... 1/7 
-#> 
-#> Série drivers en cours... 2/7 
-#> 
-#> Série front en cours... 3/7 
+#> Série X0.2.09.10.M en cours... 1/22 
 #> Computing spec No_TD ...Done !
 #> Computing spec REG1 ...Done !
 #> Computing spec REG1_LY ...Done !
 #> Computing spec REG6 ...Done !
 #> Computing spec REG6_LY ...Done !
 #> 
-#> Série rear en cours... 4/7 
+#> Série X0.2.08.10.M en cours... 2/22 
 #> Computing spec No_TD ...Done !
 #> Computing spec REG1 ...Done !
 #> Computing spec REG1_LY ...Done !
 #> Computing spec REG6 ...Done !
 #> Computing spec REG6_LY ...Done !
 #> 
-#> Série kms en cours... 5/7 
+#> Série X0.2.07.10.M en cours... 3/22 
 #> Computing spec No_TD ...Done !
 #> Computing spec REG1 ...Done !
 #> Computing spec REG1_LY ...Done !
 #> Computing spec REG6 ...Done !
 #> Computing spec REG6_LY ...Done !
 #> 
-#> Série PetrolPrice en cours... 6/7 
+#> Série X0.2.06.10.M en cours... 4/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
 #> 
-#> Série VanKilled en cours... 7/7 
-#>          series reg_selected
-#> 1 DriversKilled        No_TD
-#> 2       drivers        No_TD
-#> 3         front        No_TD
-#> 4          rear        No_TD
-#> 5           kms        No_TD
-#> 6   PetrolPrice        No_TD
-#> 7     VanKilled        No_TD
+#> Série X0.2.05.10.M en cours... 5/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.04.10.M en cours... 6/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.03.10.M en cours... 7/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.02.10.M en cours... 8/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.01.10.M en cours... 9/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.15.10.M en cours... 10/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.46.10.M en cours... 11/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.14.10.M en cours... 12/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.45.10.M en cours... 13/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.13.10.M en cours... 14/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.44.10.M en cours... 15/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.12.10.M en cours... 16/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.43.10.M en cours... 17/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.11.10.M en cours... 18/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.42.10.M en cours... 19/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.10.10.M en cours... 20/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.41.10.M en cours... 21/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.20.10.M en cours... 22/22 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec REG6_LY ...Done !
+#>          series regs
+#> 1  X0.2.09.10.M REG6
+#> 2  X0.2.08.10.M REG6
+#> 3  X0.2.07.10.M REG6
+#> 4  X0.2.06.10.M REG6
+#> 5  X0.2.05.10.M REG6
+#> 6  X0.2.04.10.M REG6
+#> 7  X0.2.03.10.M REG6
+#> 8  X0.2.02.10.M REG6
+#> 9  X0.2.01.10.M REG6
+#> 10 X0.2.15.10.M REG6
+#> 11 X0.2.46.10.M REG6
+#> 12 X0.2.14.10.M REG6
+#> 13 X0.2.45.10.M REG6
+#> 14 X0.2.13.10.M REG6
+#> 15 X0.2.44.10.M REG6
+#> 16 X0.2.12.10.M REG6
+#> 17 X0.2.43.10.M REG6
+#> 18 X0.2.11.10.M REG6
+#> 19 X0.2.42.10.M REG6
+#> 20 X0.2.10.10.M REG6
+#> 21 X0.2.41.10.M REG6
+#> 22 X0.2.20.10.M REG6
 ```

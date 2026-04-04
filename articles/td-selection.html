@@ -39,7 +39,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/process.html">Production processus</a></li>
+<li><a class="dropdown-item" href="../articles/process.html">Mise en place d'une chaîne de production</a></li>
     <li><a class="dropdown-item" href="../articles/td-selection.html">Selection of calendar td regressors</a></li>
   </ul>
 </li>
@@ -131,10 +131,10 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <span><span class="co">#&gt; Computing spec REG5_LY ...Done !</span></span>
 <span><span class="co">#&gt; Computing spec REG6_LY ...Done !</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">td_table</span><span class="op">)</span></span>
-<span><span class="co">#&gt;         series reg_selected</span></span>
-<span><span class="co">#&gt; 1 X0.2.09.10.M         REG6</span></span>
-<span><span class="co">#&gt; 2 X0.2.08.10.M         REG6</span></span>
-<span><span class="co">#&gt; 3 X0.2.07.10.M         REG3</span></span></code></pre></div>
+<span><span class="co">#&gt;         series regs</span></span>
+<span><span class="co">#&gt; 1 X0.2.09.10.M REG6</span></span>
+<span><span class="co">#&gt; 2 X0.2.08.10.M REG6</span></span>
+<span><span class="co">#&gt; 3 X0.2.07.10.M REG6</span></span></code></pre></div>
 </div>
 </section><section class="level3"><h3 id="importexport">Import/Export<a class="anchor" aria-label="anchor" href="#importexport"></a>
 </h3>
@@ -143,9 +143,9 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">path_td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"td-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/regression_tools.html">export_td</a></span><span class="op">(</span><span class="va">td_table</span>, <span class="va">path_td</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The td table will be written at  /tmp/RtmpAoyMMo/td-table28b06ab1e0b8.yaml</span></span>
+<span><span class="co">#&gt; The td table will be written at  /tmp/RtmpS1SgdP/td-table28b93265a3dc.yaml</span></span>
 <span><span class="va">td_table2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/regression_tools.html">import_td</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path_td</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The td table will be read at  /tmp/RtmpAoyMMo/td-table28b06ab1e0b8.yaml</span></span>
+<span><span class="co">#&gt; The td table will be read at  /tmp/RtmpS1SgdP/td-table28b93265a3dc.yaml</span></span>
 <span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">compare</a></span><span class="op">(</span><span class="va">td_table</span>, <span class="va">td_table2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ✔ No differences</span></span></code></pre></div>
 </div>
@@ -235,10 +235,10 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <span><span class="co">#&gt; Computing spec TD3_TB ...Done !</span></span>
 <span><span class="co">#&gt; Computing spec TD6_TB ...Done !</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_td_table</span><span class="op">)</span></span>
-<span><span class="co">#&gt;         series reg_selected</span></span>
-<span><span class="co">#&gt; 1 X0.2.09.10.M       TD6_TB</span></span>
-<span><span class="co">#&gt; 2 X0.2.08.10.M       TD6_TB</span></span>
-<span><span class="co">#&gt; 3 X0.2.07.10.M       TD6_TB</span></span></code></pre></div>
+<span><span class="co">#&gt;         series   regs</span></span>
+<span><span class="co">#&gt; 1 X0.2.09.10.M TD6_TB</span></span>
+<span><span class="co">#&gt; 2 X0.2.08.10.M TD6_TB</span></span>
+<span><span class="co">#&gt; 3 X0.2.07.10.M TD6_TB</span></span></code></pre></div>
 </div>
 </section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

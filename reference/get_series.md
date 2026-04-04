@@ -7,7 +7,16 @@ workspace.
 ## Usage
 
 ``` r
-get_series(jsai)
+get_series(x, ...)
+
+# S3 method for class 'JD3_TRAMOSEATS_RSLTS'
+get_series(x, name)
+
+# S3 method for class 'JD3_X13_RSLTS'
+get_series(x, name)
+
+# S3 method for class 'jobjRef'
+get_series(x)
 ```
 
 ## Arguments
@@ -45,18 +54,15 @@ library("rjd3workspace")
 jws <- create_ws_from_data(ABS)
 jws_compute(jws)
 jsap <- jws_sap(jws, 1L)
-#> Error in .jcall(obj = jws, returnSig = "Ljdplus/sa/base/workspace/MultiProcessing;",     method = "getMultiProcessing", as.integer(idx - 1L)): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
 jsai <- jsap_sai(jsap, 1L)
-#> Error: object 'jsap' not found
 
 df <- get_series(jsai)
-#> Error: object 'jsai' not found
 head(df)
-#>                                               
-#> 1 function (x, df1, df2, ncp, log = FALSE)    
-#> 2 {                                           
-#> 3     if (missing(ncp))                       
-#> 4         .Call(C_df, x, df1, df2, log)       
-#> 5     else .Call(C_dnf, x, df1, df2, ncp, log)
-#> 6 }                                           
+#>            SAI series       date value
+#> 1 X0.2.09.10.M     a1 1982-04-01 460.1
+#> 2 X0.2.09.10.M     a1 1982-05-01 502.6
+#> 3 X0.2.09.10.M     a1 1982-06-01 443.8
+#> 4 X0.2.09.10.M     a1 1982-07-01 459.1
+#> 5 X0.2.09.10.M     a1 1982-08-01 438.4
+#> 6 X0.2.09.10.M     a1 1982-09-01 465.1
 ```

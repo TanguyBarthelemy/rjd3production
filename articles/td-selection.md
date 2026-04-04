@@ -61,10 +61,10 @@ td_table <- select_td(ABS[, 1:3])
 #> Computing spec REG5_LY ...Done !
 #> Computing spec REG6_LY ...Done !
 print(td_table)
-#>         series reg_selected
-#> 1 X0.2.09.10.M         REG6
-#> 2 X0.2.08.10.M         REG6
-#> 3 X0.2.07.10.M         REG3
+#>         series regs
+#> 1 X0.2.09.10.M REG6
+#> 2 X0.2.08.10.M REG6
+#> 3 X0.2.07.10.M REG6
 ```
 
 ### Import/Export
@@ -75,9 +75,9 @@ Once the regressors have been selected, you can export the table in
 ``` r
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at  /tmp/RtmpAoyMMo/td-table28b06ab1e0b8.yaml
+#> The td table will be written at  /tmp/RtmpS1SgdP/td-table28b93265a3dc.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/RtmpAoyMMo/td-table28b06ab1e0b8.yaml
+#> The td table will be read at  /tmp/RtmpS1SgdP/td-table28b93265a3dc.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
@@ -182,8 +182,8 @@ my_td_table <- select_td(ABS[, 1:3], context = my_context)
 #> Computing spec TD3_TB ...Done !
 #> Computing spec TD6_TB ...Done !
 print(my_td_table)
-#>         series reg_selected
-#> 1 X0.2.09.10.M       TD6_TB
-#> 2 X0.2.08.10.M       TD6_TB
-#> 3 X0.2.07.10.M       TD6_TB
+#>         series   regs
+#> 1 X0.2.09.10.M TD6_TB
+#> 2 X0.2.08.10.M TD6_TB
+#> 3 X0.2.07.10.M TD6_TB
 ```
