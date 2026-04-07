@@ -146,7 +146,11 @@ Si nous en avons, il faut assigner les régresseurs de calendrier à
 chaque série :
 
 ``` r
+jws_compute(jws)
 assign_td(td = td, jws = jws)
+#> Série 0.2.09.10., 1/3
+#> Série 0.2.08.10., 2/3
+#> Série 0.2.07.10., 3/3
 ```
 
 Il ne faut pas oublier de mettre à jour les metadonnées de notre
