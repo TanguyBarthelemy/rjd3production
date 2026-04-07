@@ -203,9 +203,6 @@ remotes::install_github("InseeFr/rjd3production")
   : Creating a set of X13 specifications
 - [`create_ws_from_data()`](https://inseefr.github.io/rjd3production/reference/create_ws_from_data.md)
   : Create a Workspace from Data
-- [`get_LY_info()`](https://inseefr.github.io/rjd3production/reference/get_LY_info.md)
-  : Diagnostics Extraction on Calendar Correction with different sets of
-  regressors
 - [`get_jsai_by_name()`](https://inseefr.github.io/rjd3production/reference/get_jsai_by_name.md)
   : Retrieve a SA-Item by its name
 - [`get_named_variables()`](https://inseefr.github.io/rjd3production/reference/get_named_variables.md)

@@ -33,7 +33,9 @@ The project path invisibly.
 ``` r
 project_path <- tempfile(pattern = "my-project")
 
+# \donttest{
 # Create a new project
 init_env(path = project_path)
 #> Error in setwd(path): cannot change working directory
+# }
 ```
