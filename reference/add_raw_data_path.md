@@ -63,6 +63,7 @@ library("rjd3toolkit")
 
 my_data <- ABS
 path_ABS <- system.file("extdata", "ABS.csv", package = "rjd3providers")
+# \donttest{
 jws <- create_ws_from_data(my_data)
 add_raw_data_path(jws, path_ABS, delimiter = "COMMA")
 #> Warning: There are no columns called X0.2.09.10.M in ABS.csv
@@ -87,4 +88,5 @@ add_raw_data_path(jws, path_ABS, delimiter = "COMMA")
 #> Warning: There are no columns called X0.2.10.10.M in ABS.csv
 #> Warning: There are no columns called X0.2.41.10.M in ABS.csv
 #> Warning: There are no columns called X0.2.20.10.M in ABS.csv
+# }
 ```

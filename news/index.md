@@ -1,6 +1,6 @@
 # Changelog
 
-## rjd3production 1.0.0.9000
+## rjd3production 1.1.0
 
 All notable changes to this project will be documented in this file.
 

@@ -57,11 +57,10 @@ and
 ## Examples
 
 ``` r
-# Create temporarily Workspaces
-
 library("rjd3toolkit")
 library("rjd3workspace")
 
+# \donttest{
 # Demo workspace
 jws <- create_ws_from_data(ABS)
 jws_compute(jws)
@@ -77,4 +76,5 @@ head(df)
 #> 4 X0.2.09.10.M     a1 1982-07-01 459.1
 #> 5 X0.2.09.10.M     a1 1982-08-01 438.4
 #> 6 X0.2.09.10.M     a1 1982-09-01 465.1
+# }
 ```

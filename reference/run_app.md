@@ -30,12 +30,11 @@ Runs a Shiny app in the R session (no return value).
 ## Examples
 
 ``` r
-# Create temporary Workspaces
-
 library("rjd3toolkit")
 library("rjd3x13")
 library("rjd3workspace")
 
+# \donttest{
 # Two demo workspaces (RSA3 and RSA5)
 jws_rsa3 <- create_ws_from_data(ABS, x13_spec("rsa3"))
 jws_rsa5 <- create_ws_from_data(ABS, x13_spec("rsa5"))
@@ -46,21 +45,20 @@ path_rsa5 <- tempfile(pattern = "ws-rsa5", fileext = ".xml")
 save_workspace(jws_rsa3, file = path_rsa3)
 save_workspace(jws_rsa5, file = path_rsa5)
 
-
 # Compare the two workspace
-
 df <- compare(path_rsa3, path_rsa5, series_names = "X0.2.09.10.M")
 head(df)
 #>                    ws          SAI series       date value
-#> 1 ws-rsa3268e5e3147d3 X0.2.09.10.M     a1 1982-04-01 460.1
-#> 2 ws-rsa3268e5e3147d3 X0.2.09.10.M     a1 1982-05-01 502.6
-#> 3 ws-rsa3268e5e3147d3 X0.2.09.10.M     a1 1982-06-01 443.8
-#> 4 ws-rsa3268e5e3147d3 X0.2.09.10.M     a1 1982-07-01 459.1
-#> 5 ws-rsa3268e5e3147d3 X0.2.09.10.M     a1 1982-08-01 438.4
-#> 6 ws-rsa3268e5e3147d3 X0.2.09.10.M     a1 1982-09-01 465.1
+#> 1 ws-rsa324ce2827eeba X0.2.09.10.M     a1 1982-04-01 460.1
+#> 2 ws-rsa324ce2827eeba X0.2.09.10.M     a1 1982-05-01 502.6
+#> 3 ws-rsa324ce2827eeba X0.2.09.10.M     a1 1982-06-01 443.8
+#> 4 ws-rsa324ce2827eeba X0.2.09.10.M     a1 1982-07-01 459.1
+#> 5 ws-rsa324ce2827eeba X0.2.09.10.M     a1 1982-08-01 438.4
+#> 6 ws-rsa324ce2827eeba X0.2.09.10.M     a1 1982-09-01 465.1
 
 # Launch the shiny app
 if (interactive()) {
     run_app(df)
 }
+# }
 ```

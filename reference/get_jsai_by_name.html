@@ -12,7 +12,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">rjd3production</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,11 +73,9 @@ the user-supplied string and returns the corresponding object.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Create temporarily Workspaces</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3toolkit" class="external-link">"rjd3toolkit"</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3workspace" class="external-link">"rjd3workspace"</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Demo workspace</span></span></span>
 <span class="r-in"><span><span class="va">jws</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_ws_from_data.html">create_ws_from_data</a></span><span class="op">(</span><span class="va">ABS</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_compute.html" class="external-link">jws_compute</a></span><span class="op">(</span><span class="va">jws</span><span class="op">)</span></span></span>
@@ -93,6 +91,7 @@ the user-supplied string and returns the corresponding object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 X0.2.09.10.M     a1 1982-07-01 459.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 X0.2.09.10.M     a1 1982-08-01 438.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 X0.2.09.10.M     a1 1982-09-01 465.1</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

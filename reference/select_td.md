@@ -64,6 +64,7 @@ A data.frame with two columns:
 ``` r
 library("rjd3toolkit")
 
+# \donttest{
 # Single series
 select_td(ABS[, 1])
 #> 
@@ -598,4 +599,5 @@ select_td(ABS, context = my_context)
 #> 20 X0.2.10.10.M REG6
 #> 21 X0.2.41.10.M REG6
 #> 22 X0.2.20.10.M REG6
+# }
 ```
