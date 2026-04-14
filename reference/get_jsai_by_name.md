@@ -37,16 +37,18 @@ library("rjd3workspace")
 jws <- create_ws_from_data(ABS)
 jws_compute(jws)
 jsap <- jws_sap(jws, 1L)
+#> Error in .jcall(obj = jws, returnSig = "Ljdplus/sa/base/workspace/MultiProcessing;",     method = "getMultiProcessing", as.integer(idx - 1L)): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
 
 jsai <- get_jsai_by_name(jws, "X0.2.09.10.M")
 df <- get_series(jsai)
+#> Error in .jcall(.jcall(jsai, "Ljdplus/sa/base/api/SaEstimation;", "getEstimation"),     "Ljdplus/sa/base/api/SaSpecification;", "getPointSpec"): RcallMethod: invalid object parameter
 head(df)
-#>            SAI series       date value
-#> 1 X0.2.09.10.M     a1 1982-04-01 460.1
-#> 2 X0.2.09.10.M     a1 1982-05-01 502.6
-#> 3 X0.2.09.10.M     a1 1982-06-01 443.8
-#> 4 X0.2.09.10.M     a1 1982-07-01 459.1
-#> 5 X0.2.09.10.M     a1 1982-08-01 438.4
-#> 6 X0.2.09.10.M     a1 1982-09-01 465.1
+#>                                               
+#> 1 function (x, df1, df2, ncp, log = FALSE)    
+#> 2 {                                           
+#> 3     if (missing(ncp))                       
+#> 4         .Call(C_df, x, df1, df2, log)       
+#> 5     else .Call(C_dnf, x, df1, df2, ncp, log)
+#> 6 }                                           
 # }
 ```

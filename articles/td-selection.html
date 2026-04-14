@@ -87,7 +87,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     aggregate, mad</span></span>
-<span><span class="va">td_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select_td.html">select_td</a></span><span class="op">(</span><span class="va">ABS</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">td_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select_td.html">select_td</a></span><span class="op">(</span><span class="va">ABS</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">3L</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Série X0.2.09.10.M en cours... 1/3 </span></span>
 <span><span class="co">#&gt; Computing spec No_TD ...Done !</span></span>
@@ -143,9 +143,9 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">path_td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"td-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/regression_tools.html">export_td</a></span><span class="op">(</span><span class="va">td_table</span>, <span class="va">path_td</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The td table will be written at  /tmp/RtmpSJoYxH/td-table27259a9d652.yaml</span></span>
+<span><span class="co">#&gt; The td table will be written at  /tmp/RtmpleGSzR/td-table27632f2978e9.yaml</span></span>
 <span><span class="va">td_table2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/regression_tools.html">import_td</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path_td</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The td table will be read at  /tmp/RtmpSJoYxH/td-table27259a9d652.yaml</span></span>
+<span><span class="co">#&gt; The td table will be read at  /tmp/RtmpleGSzR/td-table27632f2978e9.yaml</span></span>
 <span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">compare</a></span><span class="op">(</span><span class="va">td_table</span>, <span class="va">td_table2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ✔ No differences</span></span></code></pre></div>
 </div>
@@ -192,7 +192,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <p>We then create our sets of regressors and create the modelling context:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">series_example</span> <span class="op">&lt;-</span> <span class="va">ABS</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">series_example</span> <span class="op">&lt;-</span> <span class="va">ABS</span><span class="op">[</span>, <span class="fl">1L</span><span class="op">]</span></span>
 <span><span class="va">my_regressors_sets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    TD2_TB <span class="op">=</span> <span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/calendar_td.html" class="external-link">calendar_td</a></span><span class="op">(</span></span>
 <span>        s <span class="op">=</span> <span class="va">series_example</span>,</span>
@@ -215,7 +215,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <p>We can now use our context to select the calendar regressors:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_td_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select_td.html">select_td</a></span><span class="op">(</span><span class="va">ABS</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, context <span class="op">=</span> <span class="va">my_context</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">my_td_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select_td.html">select_td</a></span><span class="op">(</span><span class="va">ABS</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">3L</span><span class="op">)</span><span class="op">]</span>, context <span class="op">=</span> <span class="va">my_context</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Série X0.2.09.10.M en cours... 1/3 </span></span>
 <span><span class="co">#&gt; Computing spec No_TD ...Done !</span></span>

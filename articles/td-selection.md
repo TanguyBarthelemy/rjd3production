@@ -17,7 +17,7 @@ library("rjd3toolkit")
 #> The following objects are masked from 'package:stats':
 #> 
 #>     aggregate, mad
-td_table <- select_td(ABS[, 1:3])
+td_table <- select_td(ABS[, seq_len(3L)])
 #> 
 #> Série X0.2.09.10.M en cours... 1/3 
 #> Computing spec No_TD ...Done !
@@ -75,9 +75,9 @@ Once the regressors have been selected, you can export the table in
 ``` r
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at  /tmp/RtmpSJoYxH/td-table27259a9d652.yaml
+#> The td table will be written at  /tmp/RtmpleGSzR/td-table27632f2978e9.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/RtmpSJoYxH/td-table27259a9d652.yaml
+#> The td table will be read at  /tmp/RtmpleGSzR/td-table27632f2978e9.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
@@ -138,7 +138,7 @@ Let’s imagine that I only want to test three types of sets:
 We then create our sets of regressors and create the modelling context:
 
 ``` r
-series_example <- ABS[, 1]
+series_example <- ABS[, 1L]
 my_regressors_sets <- list(
     TD2_TB = calendar_td(
         s = series_example,
@@ -162,7 +162,7 @@ my_context <- modelling_context(variables = my_regressors_sets)
 We can now use our context to select the calendar regressors:
 
 ``` r
-my_td_table <- select_td(ABS[, 1:3], context = my_context)
+my_td_table <- select_td(ABS[, seq_len(3L)], context = my_context)
 #> 
 #> Série X0.2.09.10.M en cours... 1/3 
 #> Computing spec No_TD ...Done !
