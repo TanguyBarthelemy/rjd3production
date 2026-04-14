@@ -75,9 +75,9 @@ Once the regressors have been selected, you can export the table in
 ``` r
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at  /tmp/RtmpleGSzR/td-table27632f2978e9.yaml
+#> The td table will be written at  /tmp/RtmpNiJYs9/td-table2bb27cc85e31.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/RtmpleGSzR/td-table27632f2978e9.yaml
+#> The td table will be read at  /tmp/RtmpNiJYs9/td-table2bb27cc85e31.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
@@ -139,22 +139,30 @@ We then create our sets of regressors and create the modelling context:
 
 ``` r
 series_example <- ABS[, 1L]
-my_regressors_sets <- list(
-    TD2_TB = calendar_td(
+
+TD2_TB <- calendar_td(
+    s = series_example,
+    groups = c(1L, 1L, 1L, 2L, 1L, 0L, 0L)
+)
+
+TD3_TB <- cbind(
+    calendar_td(
         s = series_example,
         groups = c(1L, 1L, 1L, 2L, 1L, 0L, 0L)
     ),
-    TD3_TB = cbind(
-        calendar_td(
-            s = series_example,
-            groups = c(1L, 1L, 1L, 2L, 1L, 0L, 0L)
-        ),
-        lp_variable(s = series_example)
-    ) |> `colnames<-`(c("group_1", "group_2", "ly")),
-    TD6_TB = calendar_td(
-        s = series_example,
-        groups = c(1L, 2L, 3L, 4L, 5L, 6L, 0L)
-    )
+    lp_variable(s = series_example)
+)
+colnames(TD3_TB) <- c("group_1", "group_2", "ly")
+
+TD6_TB <- calendar_td(
+    s = series_example,
+    groups = c(1L, 2L, 3L, 4L, 5L, 6L, 0L)
+)
+
+my_regressors_sets <- list(
+    TD2_TB = TD2_TB,
+    TD3_TB = TD3_TB,
+    TD6_TB = TD6_TB
 )
 my_context <- modelling_context(variables = my_regressors_sets)
 ```

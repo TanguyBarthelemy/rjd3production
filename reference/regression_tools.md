@@ -6,9 +6,9 @@ regression components used in JDemetra+ workspaces.
 ## Usage
 
 ``` r
-assign_outliers(jws, outliers)
+assign_outliers(jws, outliers, verbose = TRUE)
 
-assign_td(jws, td)
+assign_td(jws, td, verbose = TRUE)
 
 export_outliers(outliers, path = NULL, verbose = TRUE)
 
@@ -50,6 +50,10 @@ retrieve_td(
   created with retrieve_outliers or import_outliers. See Format section
   for more information about the format of this argument.
 
+- verbose:
+
+  Boolean. Print additional informations. Default is `TRUE`.
+
 - td:
 
   \[[data.frame](https://rdrr.io/r/base/data.frame.html)\] A data.frame
@@ -60,10 +64,6 @@ retrieve_td(
 
   [character](https://rdrr.io/r/base/character.html) Path to a YAML file
   to read or write a table.
-
-- verbose:
-
-  Boolean. Print additional informations. Default is `TRUE`.
 
 - domain:
 
@@ -156,59 +156,102 @@ estimationSpec.
 
 ``` r
 library("rjd3workspace")
+library("rjd3toolkit")
 # \donttest{
-file <- system.file("workspaces", "workspace_test.xml",
-                    package = "rjd3workspace")
-jws <- jws_open(file)
+my_data <- ABS[, 1:3]
+jws <- create_ws_from_data(my_data)
+set_context(jws, create_insee_context(start = c(2015L, 1L)))
 
 ## Outliers
 
 # Read all the outliers from a workspace
-outs <- retrieve_outliers(jws)
-#> Série RF0812, 1/5
-#> Série RF0893, 2/5
-#> Série RF0899, 3/5
-#> Série RF1011, 4/5
-#> Série RF1012, 5/5
+outs <- retrieve_outliers(jws, point = TRUE, domain = FALSE)
+#> Série X0.2.09.10.M, 1/3
+#> Série X0.2.08.10.M, 2/3
+#> Série X0.2.07.10.M, 3/3
 
 # Export outliers
 path_outs <- tempfile(pattern = "outliers-table", fileext = ".yaml")
 export_outliers(outs, path_outs)
-#> The outliers table will be written at  /tmp/RtmpO6clRx/outliers-table2515eaadee5.yaml 
+#> The outliers table will be written at  /tmp/RtmpYC6Ahg/outliers-table295f5ffa9614.yaml 
 
 # Import outliers from a file
 outs2 <- import_outliers(path_outs)
-#> The outliers table will be read at  /tmp/RtmpO6clRx/outliers-table2515eaadee5.yaml 
+#> The outliers table will be read at  /tmp/RtmpYC6Ahg/outliers-table295f5ffa9614.yaml 
 
 # Assign the outliers to a WS
 assign_outliers(jws = jws, outliers = outs2)
-#> Série RF0812, 1/5
-#> Série RF0893, 2/5
-#> Série RF0899, 3/5
-#> Série RF1011, 4/5
-#> Série RF1012, 5/5
+#> Série X0.2.09.10.M, 1/3
+#> Série X0.2.08.10.M, 2/3
+#> Série X0.2.07.10.M, 3/3
 
 
 ## Trading day workflow
 
 # Read all the td variables from a workspace
 td <- retrieve_td(jws)
-#> Série RF0812, 1/5
-#> Série RF0893, 2/5
-#> Série RF0899, 3/5
-#> Série RF1011, 4/5
-#> Série RF1012, 5/5
+#> Série X0.2.09.10.M, 1/3
+#> Série X0.2.08.10.M, 2/3
+#> Série X0.2.07.10.M, 3/3
 
 # Export td variables
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td, path_td)
-#> The td table will be written at  /tmp/RtmpO6clRx/td-table25154daedb17.yaml 
+#> The td table will be written at  /tmp/RtmpYC6Ahg/td-table295f39240821.yaml 
 
 # Import td variable from a file
 td2 <- import_td(path_td)
-#> The td table will be read at  /tmp/RtmpO6clRx/td-table25154daedb17.yaml 
+#> The td table will be read at  /tmp/RtmpYC6Ahg/td-table295f39240821.yaml 
+
+# Select td
+td3 <- select_td(my_data)
+#> 
+#> Série X0.2.09.10.M en cours... 1/3 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.08.10.M en cours... 2/3 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
+#> 
+#> Série X0.2.07.10.M en cours... 3/3 
+#> Computing spec No_TD ...Done !
+#> Computing spec REG1 ...Done !
+#> Computing spec REG2 ...Done !
+#> Computing spec REG3 ...Done !
+#> Computing spec REG5 ...Done !
+#> Computing spec REG6 ...Done !
+#> Computing spec LY ...Done !
+#> Computing spec REG1_LY ...Done !
+#> Computing spec REG2_LY ...Done !
+#> Computing spec REG3_LY ...Done !
+#> Computing spec REG5_LY ...Done !
+#> Computing spec REG6_LY ...Done !
 
 # Assign the td variables to a WS
-#assign_td(jws = jws, td = td2)
+assign_td(jws = jws, td = td3)
+#> Série X0.2.09.10.M, 1/3
+#> Série X0.2.08.10.M, 2/3
+#> Série X0.2.07.10.M, 3/3
 # }
 ```

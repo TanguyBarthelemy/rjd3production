@@ -49,9 +49,9 @@ regression components used in JDemetra+ workspaces.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">assign_outliers</span><span class="op">(</span><span class="va">jws</span>, <span class="va">outliers</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">assign_outliers</span><span class="op">(</span><span class="va">jws</span>, <span class="va">outliers</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">assign_td</span><span class="op">(</span><span class="va">jws</span>, <span class="va">td</span><span class="op">)</span></span>
+<span><span class="fu">assign_td</span><span class="op">(</span><span class="va">jws</span>, <span class="va">td</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">export_outliers</span><span class="op">(</span><span class="va">outliers</span>, path <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -93,6 +93,10 @@ retrieve_outliers or import_outliers. See Format section for more
 information about the format of this argument.</p></dd>
 
 
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>Boolean. Print additional informations. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt id="arg-td">td<a class="anchor" aria-label="anchor" href="#arg-td"></a></dt>
 <dd><p>[<a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>] A data.frame created by retrieve_td
 or import_td. See Format section for more information about the format
@@ -101,10 +105,6 @@ of this argument.</p></dd>
 
 <dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
 <dd><p><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a> Path to a YAML file to read or write a table.</p></dd>
-
-
-<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>Boolean. Print additional informations. Default is <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-domain">domain<a class="anchor" aria-label="anchor" href="#arg-domain"></a></dt>
@@ -193,60 +193,103 @@ the point, estimation or domainSpec, while the assignment step
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3workspace" class="external-link">"rjd3workspace"</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3toolkit" class="external-link">"rjd3toolkit"</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"workspaces"</span>, <span class="st">"workspace_test.xml"</span>,</span></span>
-<span class="r-in"><span>                    package <span class="op">=</span> <span class="st">"rjd3workspace"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">jws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_open.html" class="external-link">jws_open</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="va">ABS</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">jws</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_ws_from_data.html">create_ws_from_data</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rjdverse.github.io/rjd3workspace/reference/set_context.html" class="external-link">set_context</a></span><span class="op">(</span><span class="va">jws</span>, <span class="fu"><a href="insee_modelling.html">create_insee_context</a></span><span class="op">(</span>start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2015L</span>, <span class="fl">1L</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Outliers</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Read all the outliers from a workspace</span></span></span>
-<span class="r-in"><span><span class="va">outs</span> <span class="op">&lt;-</span> <span class="fu">retrieve_outliers</span><span class="op">(</span><span class="va">jws</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF0812, 1/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF0893, 2/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF0899, 3/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF1011, 4/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF1012, 5/5</span>
+<span class="r-in"><span><span class="va">outs</span> <span class="op">&lt;-</span> <span class="fu">retrieve_outliers</span><span class="op">(</span><span class="va">jws</span>, point <span class="op">=</span> <span class="cn">TRUE</span>, domain <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.09.10.M, 1/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.08.10.M, 2/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.07.10.M, 3/3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Export outliers</span></span></span>
 <span class="r-in"><span><span class="va">path_outs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"outliers-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">export_outliers</span><span class="op">(</span><span class="va">outs</span>, <span class="va">path_outs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be written at  /tmp/RtmpO6clRx/outliers-table2515eaadee5.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be written at  /tmp/RtmpYC6Ahg/outliers-table295f5ffa9614.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import outliers from a file</span></span></span>
 <span class="r-in"><span><span class="va">outs2</span> <span class="op">&lt;-</span> <span class="fu">import_outliers</span><span class="op">(</span><span class="va">path_outs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be read at  /tmp/RtmpO6clRx/outliers-table2515eaadee5.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be read at  /tmp/RtmpYC6Ahg/outliers-table295f5ffa9614.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign the outliers to a WS</span></span></span>
 <span class="r-in"><span><span class="fu">assign_outliers</span><span class="op">(</span>jws <span class="op">=</span> <span class="va">jws</span>, outliers <span class="op">=</span> <span class="va">outs2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF0812, 1/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF0893, 2/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF0899, 3/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF1011, 4/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF1012, 5/5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.09.10.M, 1/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.08.10.M, 2/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.07.10.M, 3/3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Trading day workflow</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Read all the td variables from a workspace</span></span></span>
 <span class="r-in"><span><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu">retrieve_td</span><span class="op">(</span><span class="va">jws</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF0812, 1/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF0893, 2/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF0899, 3/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF1011, 4/5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Série RF1012, 5/5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.09.10.M, 1/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.08.10.M, 2/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.07.10.M, 3/3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Export td variables</span></span></span>
 <span class="r-in"><span><span class="va">path_td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"td-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">export_td</span><span class="op">(</span><span class="va">td</span>, <span class="va">path_td</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be written at  /tmp/RtmpO6clRx/td-table25154daedb17.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be written at  /tmp/RtmpYC6Ahg/td-table295f39240821.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import td variable from a file</span></span></span>
 <span class="r-in"><span><span class="va">td2</span> <span class="op">&lt;-</span> <span class="fu">import_td</span><span class="op">(</span><span class="va">path_td</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be read at  /tmp/RtmpO6clRx/td-table25154daedb17.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be read at  /tmp/RtmpYC6Ahg/td-table295f39240821.yaml </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Select td</span></span></span>
+<span class="r-in"><span><span class="va">td3</span> <span class="op">&lt;-</span> <span class="fu"><a href="select_td.html">select_td</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.09.10.M en cours... 1/3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec No_TD ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.08.10.M en cours... 2/3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec No_TD ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.07.10.M en cours... 3/3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec No_TD ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6_LY ...Done !</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign the td variables to a WS</span></span></span>
-<span class="r-in"><span><span class="co">#assign_td(jws = jws, td = td2)</span></span></span>
+<span class="r-in"><span><span class="fu">assign_td</span><span class="op">(</span>jws <span class="op">=</span> <span class="va">jws</span>, td <span class="op">=</span> <span class="va">td3</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.09.10.M, 1/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.08.10.M, 2/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.07.10.M, 3/3</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

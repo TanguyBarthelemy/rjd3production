@@ -16,7 +16,8 @@ remove_non_significative_outliers(
   ws_path,
   threshold = 0.3,
   domain = FALSE,
-  estimation = FALSE
+  estimation = FALSE,
+  verbose = TRUE
 )
 ```
 
@@ -40,6 +41,10 @@ remove_non_significative_outliers(
 - estimation:
 
   Boolean indicating if the estimation specification should be modified.
+
+- verbose:
+
+  Boolean. Print additional informations. Default is `TRUE`.
 
 ## Value
 
@@ -78,7 +83,10 @@ save_workspace(jws, file = path_ws)
 # Remove non-significant outliers (p > 0.3) from a workspace
 remove_non_significative_outliers(path_ws, threshold = 0.3, domain = TRUE)
 #> 
-#> 🏷 WS  ws251550cd3751 
-#> Error in .jcall(obj = jws, returnSig = "Ljdplus/sa/base/workspace/MultiProcessing;",     method = "getMultiProcessing", as.integer(idx - 1L)): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
+#> 🏷 WS  ws295f5c5af7ae 
+#> 📌 SAI n° 1 
+#> ❌ Suppression de l'outlier : LS (1990-01-01) 
+#> L'outlier est dans la domainSpec.
+#> 💾 Saving WS file
 # }
 ```

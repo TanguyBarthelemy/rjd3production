@@ -17,6 +17,10 @@ get_LY_info(mod, verbose = TRUE)
 
   [list](https://rdrr.io/r/base/list.html) An X13 model.
 
+- verbose:
+
+  Boolean. Print additional informations. Default is `TRUE`.
+
 - series:
 
   \[[ts](https://rdrr.io/r/stats/ts.html) or numeric\] Time series to

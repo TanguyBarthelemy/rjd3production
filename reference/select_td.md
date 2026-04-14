@@ -8,7 +8,7 @@ the selected set of regressors for each series.
 ## Usage
 
 ``` r
-select_td(series, context = NULL, ...)
+select_td(series, context = NULL, ..., verbose = TRUE)
 ```
 
 ## Arguments
@@ -46,6 +46,10 @@ select_td(series, context = NULL, ...)
 
   :   Other arguments accepted by
       [`create_specs_set()`](https://inseefr.github.io/rjd3production/reference/create_specs_set.md).
+
+- verbose:
+
+  Boolean. Print additional informations. Default is `TRUE`.
 
 ## Value
 

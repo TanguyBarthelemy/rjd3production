@@ -39,6 +39,11 @@ set_minimum_span(
   (Small crutch while waiting for the resolution of jdemetra/jdplus-main
   issue 858.)
 
+## Value
+
+the modify specification (an `JD3_X13_SPEC` or `JD3_TRAMOSEATS_SPEC`
+object).
+
 ## Details
 
 model_span = estimation_span series_span = basic_span
