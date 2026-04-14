@@ -211,11 +211,11 @@ the point, estimation or domainSpec, while the assignment step
 <span class="r-in"><span><span class="co"># Export outliers</span></span></span>
 <span class="r-in"><span><span class="va">path_outs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"outliers-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">export_outliers</span><span class="op">(</span><span class="va">outs</span>, <span class="va">path_outs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be written at  /tmp/RtmpMvc7z9/outliers-table24ce40def34.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be written at  /tmp/RtmpOwIeAd/outliers-table24be14c55b01.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import outliers from a file</span></span></span>
 <span class="r-in"><span><span class="va">outs2</span> <span class="op">&lt;-</span> <span class="fu">import_outliers</span><span class="op">(</span><span class="va">path_outs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be read at  /tmp/RtmpMvc7z9/outliers-table24ce40def34.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be read at  /tmp/RtmpOwIeAd/outliers-table24be14c55b01.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign the outliers to a WS</span></span></span>
 <span class="r-in"><span><span class="fu">assign_outliers</span><span class="op">(</span>jws <span class="op">=</span> <span class="va">jws</span>, outliers <span class="op">=</span> <span class="va">outs2</span><span class="op">)</span></span></span>
@@ -239,11 +239,11 @@ the point, estimation or domainSpec, while the assignment step
 <span class="r-in"><span><span class="co"># Export td variables</span></span></span>
 <span class="r-in"><span><span class="va">path_td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"td-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">export_td</span><span class="op">(</span><span class="va">td</span>, <span class="va">path_td</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be written at  /tmp/RtmpMvc7z9/td-table24ce45cbc547.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be written at  /tmp/RtmpOwIeAd/td-table24be6567b6a9.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import td variable from a file</span></span></span>
 <span class="r-in"><span><span class="va">td2</span> <span class="op">&lt;-</span> <span class="fu">import_td</span><span class="op">(</span><span class="va">path_td</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be read at  /tmp/RtmpMvc7z9/td-table24ce45cbc547.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be read at  /tmp/RtmpOwIeAd/td-table24be6567b6a9.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign the td variables to a WS</span></span></span>
 <span class="r-in"><span><span class="co">#assign_td(jws = jws, td = td2)</span></span></span>
