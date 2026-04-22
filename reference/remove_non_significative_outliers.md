@@ -83,7 +83,7 @@ save_workspace(jws, file = path_ws)
 # Remove non-significant outliers (p > 0.3) from a workspace
 remove_non_significative_outliers(path_ws, threshold = 0.3, domain = TRUE)
 #> 
-#> 🏷 WS  ws242e6dcaed0d 
+#> 🏷 WS  ws271f45788a75 
 #> 📌 SAI n° 1 
 #> ❌ Suppression de l'outlier : LS (1990-01-01) 
 #> L'outlier est dans la domainSpec.
