@@ -211,7 +211,13 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <code class="sourceCode R"><span><span class="va">path_ws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path_project</span>, <span class="st">"Workspaces"</span>, <span class="st">"workspace_travail"</span>, <span class="st">"my_ws.xml"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rjdverse.github.io/rjd3workspace/reference/save_workspace.html" class="external-link">save_workspace</a></span><span class="op">(</span><span class="va">jws</span>, <span class="va">path_ws</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
-</section><script id="quarto-html-after-body" type="application/javascript">
+</section><section class="level2"><h2 id="appel-du-cruncher">Appel du cruncher<a class="anchor" aria-label="anchor" href="#appel-du-cruncher"></a>
+</h2>
+<p>Dans une chaîne de production en R, le cruncher est très important car il permet de :</p>
+<ol type="1">
+<li>Mettre à jour les données brutes à partir du fichier de données</li>
+<li>Mettre à jour le modèle d’ajustement saisonnier (selon une politique de rafraichissement)</li>
+</ol></section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
