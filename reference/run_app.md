@@ -47,14 +47,15 @@ save_workspace(jws_rsa5, file = path_rsa5)
 
 # Compare the two workspace
 df <- compare(path_rsa3, path_rsa5, series_names = "X0.2.09.10.M")
+#> Error in .jcall(obj = jws, returnSig = "Ljdplus/sa/base/workspace/MultiProcessing;",     method = "getMultiProcessing", as.integer(idx - 1L)): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
 head(df)
-#>                    ws          SAI series       date value
-#> 1 ws-rsa327a0144169df X0.2.09.10.M     a1 1982-04-01 460.1
-#> 2 ws-rsa327a0144169df X0.2.09.10.M     a1 1982-05-01 502.6
-#> 3 ws-rsa327a0144169df X0.2.09.10.M     a1 1982-06-01 443.8
-#> 4 ws-rsa327a0144169df X0.2.09.10.M     a1 1982-07-01 459.1
-#> 5 ws-rsa327a0144169df X0.2.09.10.M     a1 1982-08-01 438.4
-#> 6 ws-rsa327a0144169df X0.2.09.10.M     a1 1982-09-01 465.1
+#>                                               
+#> 1 function (x, df1, df2, ncp, log = FALSE)    
+#> 2 {                                           
+#> 3     if (missing(ncp))                       
+#> 4         .Call(C_df, x, df1, df2, log)       
+#> 5     else .Call(C_dnf, x, df1, df2, ncp, log)
+#> 6 }                                           
 
 # Launch the shiny app
 if (interactive()) {

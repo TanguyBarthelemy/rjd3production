@@ -166,42 +166,39 @@ set_context(jws, create_insee_context(start = c(2015L, 1L)))
 
 # Read all the outliers from a workspace
 outs <- retrieve_outliers(jws, point = TRUE, domain = FALSE)
-#> Série X0.2.09.10.M, 1/3
-#> Série X0.2.08.10.M, 2/3
-#> Série X0.2.07.10.M, 3/3
+#> Error in .jcall(jws, "I", "getMultiProcessingCount"): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
 
 # Export outliers
 path_outs <- tempfile(pattern = "outliers-table", fileext = ".yaml")
 export_outliers(outs, path_outs)
-#> The outliers table will be written at  /tmp/Rtmp0qwXfN/outliers-table27a07c43c5ea.yaml 
+#> The outliers table will be written at  /tmp/RtmprbYq1K/outliers-table248a3e711dad.yaml 
+#> Error: object 'outs' not found
 
 # Import outliers from a file
 outs2 <- import_outliers(path_outs)
-#> The outliers table will be read at  /tmp/Rtmp0qwXfN/outliers-table27a07c43c5ea.yaml 
+#> Error in import_outliers(path_outs): The file/tmp/RtmprbYq1K/outliers-table248a3e711dad.yamldoesn't exist.
 
 # Assign the outliers to a WS
 assign_outliers(jws = jws, outliers = outs2)
 #> Série X0.2.09.10.M, 1/3
-#> Série X0.2.08.10.M, 2/3
-#> Série X0.2.07.10.M, 3/3
+#> Error: object 'outs2' not found
 
 
 ## Trading day workflow
 
 # Read all the td variables from a workspace
 td <- retrieve_td(jws)
-#> Série X0.2.09.10.M, 1/3
-#> Série X0.2.08.10.M, 2/3
-#> Série X0.2.07.10.M, 3/3
+#> Error in .jcall(jws, "I", "getMultiProcessingCount"): java.lang.NullPointerException: Cannot invoke "jdplus.sa.base.api.SaEstimation.getQuality()" because "this.estimation" is null
 
 # Export td variables
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td, path_td)
-#> The td table will be written at  /tmp/Rtmp0qwXfN/td-table27a07525d181.yaml 
+#> The td table will be written at  /tmp/RtmprbYq1K/td-table248a7693c8ef.yaml 
 
 # Import td variable from a file
 td2 <- import_td(path_td)
-#> The td table will be read at  /tmp/Rtmp0qwXfN/td-table27a07525d181.yaml 
+#> The td table will be read at  /tmp/RtmprbYq1K/td-table248a7693c8ef.yaml 
+#> Warning: Evaluating R expressions (!expr) requires explicit `eval.expr=TRUE` option (see yaml.load help)
 
 # Select td
 td3 <- select_td(my_data)
@@ -251,7 +248,6 @@ td3 <- select_td(my_data)
 # Assign the td variables to a WS
 assign_td(jws = jws, td = td3)
 #> Série X0.2.09.10.M, 1/3
-#> Série X0.2.08.10.M, 2/3
-#> Série X0.2.07.10.M, 3/3
+#> Error in .jcall(.jcall(jsai, "Ljdplus/sa/base/api/SaEstimation;", "getEstimation"),     "Ljdplus/sa/base/api/SaSpecification;", "getPointSpec"): RcallMethod: invalid object parameter
 # }
 ```
