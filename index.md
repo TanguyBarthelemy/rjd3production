@@ -34,6 +34,7 @@ Il permet notamment de :
     calendrier d’un workspace
 
 ``` mermaid
+
 flowchart LR
     %% Objects
     WS["WS<br/>(JDemetra+<br/>workspace)"]
@@ -82,9 +83,17 @@ de mettre en place une telle configuration dans R est expliquée
 Pour obtenir la version stable actuelle (à partir de la dernière
 version) :
 
+Depuis le CRAN :
+
+``` r
+
+install.packages("rjd3production")
+```
+
 - Depuis GitHub :
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("InseeFr/rjd3production@*release")
 ```
@@ -93,6 +102,7 @@ remotes::install_github("InseeFr/rjd3production@*release")
   [r-universe](https://TanguyBarthelemy.r-universe.dev/rjd3production) :
 
 ``` r
+
 install.packages("rjd3production", repos = c("https://TanguyBarthelemy.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
@@ -102,9 +112,12 @@ Vous pouvez installer la version de développement de
 **{rjd3production}** depuis \[GitHub\] (<https://github.com/>) avec :
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("InseeFr/rjd3production")
 ```
+
+## 🇬🇧 README in english
 
 ### Overview
 
@@ -129,6 +142,7 @@ In particular, it enables you to:
     assign) calendar outliers and regressors from a workspace.
 
 ``` mermaid
+
 flowchart LR
     %% Objects
     WS["WS<br/>(JDemetra+<br/>workspace)"]
@@ -167,9 +181,17 @@ flowchart LR
 
 To get the current stable version (from the latest release):
 
+From CRAN:
+
+``` r
+
+install.packages("rjd3production")
+```
+
 - From GitHub:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("InseeFr/rjd3production@*release")
 ```
@@ -178,6 +200,7 @@ remotes::install_github("InseeFr/rjd3production@*release")
   [r-universe](https://TanguyBarthelemy.r-universe.dev/rjd3production):
 
 ``` r
+
 install.packages("rjd3production", repos = c("https://TanguyBarthelemy.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
@@ -187,6 +210,7 @@ You can install the development version of **{rjd3production}** from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("InseeFr/rjd3production")
 ```
