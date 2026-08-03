@@ -24,4 +24,4 @@ jobs:
           tag: ${{ inputs.release_tag }}
           main-branch: "main"
           dev-branch: "develop"
-          change-remotes: "false"
+          change-remotes: "true"
