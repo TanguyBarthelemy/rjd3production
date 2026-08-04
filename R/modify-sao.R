@@ -5,7 +5,8 @@
 #'
 #' @param jws A Java Workspace object, as returned by
 #' [rjd3workspace::jws_open()] or [rjd3workspace::jws_new()].
-#' @param verbose Boolean. Print additional informations. Default is `TRUE`.
+#' @param verbose Boolean indicating whether to print additional information.
+#'   Default is `TRUE`.
 #'
 #' @details
 #' New metadata are added from temporary files created on the heap. Thus, this
