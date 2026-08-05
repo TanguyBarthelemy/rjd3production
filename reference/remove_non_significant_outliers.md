@@ -44,7 +44,8 @@ remove_non_significant_outliers(
 
 - verbose:
 
-  Boolean. Print additional informations. Default is `TRUE`.
+  Boolean indicating whether to print additional information. Default is
+  `TRUE`.
 
 ## Value
 
@@ -84,7 +85,7 @@ save_workspace(jws, file = path_ws)
 # Remove non-significant outliers (p > 0.3) from a workspace
 remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE)
 #> 
-#> 🏷 WS  ws20132fe7f8da 
+#> 🏷 WS  ws20551d3b2ff7 
 #> 📌 SAI n° 1 
 #> 💾 Saving WS file
 # }
