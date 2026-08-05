@@ -26,7 +26,8 @@ modified.}
 \item{estimation}{Boolean indicating if the estimation specification should
 be modified.}
 
-\item{verbose}{Boolean. Print additional informations. Default is \code{TRUE}.}
+\item{verbose}{Boolean indicating whether to print additional information.
+Default is \code{TRUE}.}
 }
 \value{
 The function invisibly returns \code{NULL}, but it \strong{modifies the workspace file

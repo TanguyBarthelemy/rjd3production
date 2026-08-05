@@ -24,7 +24,8 @@ of types, e.g., "AO", "LS", "TC") and \code{date} (vector of dates).}
 \item{...}{Other arguments accepted by \code{\link[=create_specs_set]{create_specs_set()}}.}
 }}
 
-\item{verbose}{Boolean. Print additional informations. Default is \code{TRUE}.}
+\item{verbose}{Boolean indicating whether to print additional information.
+Default is \code{TRUE}.}
 }
 \value{
 A data.frame with two columns:

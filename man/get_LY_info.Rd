@@ -9,7 +9,8 @@ get_LY_info(mod, verbose = TRUE)
 \arguments{
 \item{mod}{\link{list} An X13 model.}
 
-\item{verbose}{Boolean. Print additional informations. Default is \code{TRUE}.}
+\item{verbose}{Boolean indicating whether to print additional information.
+Default is \code{TRUE}.}
 
 \item{series}{[\link[stats]{ts} or numeric] Time series to analyse.}
 

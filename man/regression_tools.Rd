@@ -49,7 +49,8 @@ retrieve_td(
 \link{retrieve_outliers} or \link{import_outliers}. See Format section for more
 information about the format of this argument.}
 
-\item{verbose}{Boolean. Print additional informations. Default is \code{TRUE}.}
+\item{verbose}{Boolean indicating whether to print additional information.
+Default is \code{TRUE}.}
 
 \item{td}{[\link[base]{data.frame}] A data.frame created by \link{retrieve_td}
 or \link{import_td}. See Format section for more information about the format
