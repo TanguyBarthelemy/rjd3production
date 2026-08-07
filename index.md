@@ -1,10 +1,10 @@
 # {rjd3production}
 
-[![R-CMD-check](https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yaml)
-[![lint](https://github.com/InseeFr/rjd3production/actions/workflows/lint.yaml/badge.svg)](https://github.com/InseeFr/rjd3production/actions/workflows/lint.yaml)
+[![R-CMD-check](https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yml)
+[![lint](https://github.com/InseeFr/rjd3production/actions/workflows/lint.yml/badge.svg)](https://github.com/InseeFr/rjd3production/actions/workflows/lint.yml)
 
 [![GH Pages
-built](https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yaml)
+built](https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yml/badge.svg)](https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yml)
 
 ## [🇫🇷 README en français](#pr%C3%A9sentation) \| [🇬🇧 README in english](#overview)
 
@@ -40,8 +40,8 @@ flowchart LR
     WS["WS<br/>(JDemetra+<br/>workspace)"]
     DF_OUT["outliers_df<br/>(data.frame)"]
     DF_TD["td_df<br/>(data.frame)"]
-    YAML_OUT["outliers YAML<br/>(outliers_&lt;ws_name&gt;.yaml)"]
-    YAML_TD["TD YAML<br/>(td_&lt;ws_name&gt;.yaml)"]
+    YAML_OUT["outliers YAML<br/>(outliers_&lt;ws_name&gt;.yml)"]
+    YAML_TD["TD YAML<br/>(td_&lt;ws_name&gt;.yml)"]
     SERIES["Series<br/>(time series data)"]
 
     %% Outliers workflow
@@ -148,8 +148,8 @@ flowchart LR
     WS["WS<br/>(JDemetra+<br/>workspace)"]
     DF_OUT["outliers_df<br/>(data.frame)"]
     DF_TD["td_df<br/>(data.frame)"]
-    YAML_OUT["outliers YAML<br/>(outliers_&lt;ws_name&gt;.yaml)"]
-    YAML_TD["TD YAML<br/>(td_&lt;ws_name&gt;.yaml)"]
+    YAML_OUT["outliers YAML<br/>(outliers_&lt;ws_name&gt;.yml)"]
+    YAML_TD["TD YAML<br/>(td_&lt;ws_name&gt;.yml)"]
     SERIES["Series<br/>(time series data)"]
 
     %% Outliers workflow
