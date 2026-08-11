@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+* `retrieve_td` works now with LY as only td regressor [#91](https://github.com/InseeFr/rjd3production/issues/91)
+
+
 ## [1.1.1] - 2026-07-20
 
 ### Changed

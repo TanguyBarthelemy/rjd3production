@@ -107,6 +107,7 @@ extract_td <- function(spec) {
         return("No_TD")
     }
 
+    regs_td <- NULL
     if (any(grepl(pattern = "REG1", x = regressors_ud, ignore.case = TRUE))) {
         regs_td <- "REG1"
     } else if (
@@ -136,7 +137,11 @@ extract_td <- function(spec) {
                 grepl(pattern = "LY", x = regressors_ud, ignore.case = TRUE)
         )
     ) {
-        regs_td <- paste0(regs_td, "_LY")
+        if (is.null(regs_td)) {
+            return("LY")
+        } else {
+            return(paste0(regs_td, "_LY"))
+        }
     }
     return(regs_td)
 }
@@ -156,13 +161,10 @@ retrieve_td <- function(
         stop("You have to choose one specification.")
     }
 
-    ws <- rjd3workspace::read_workspace(jws, compute = TRUE)
-    # Waiting for #108
-    # if (result) {
-    #     ws <- rjd3workspace::read_workspace(jws, compute = TRUE)
-    # } else {
-    #     ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
-    # }
+    if (result) {
+        jws_compute(jws)
+    }
+    ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
 
     sap <- ws[["processing"]][[1L]]
     td <- data.frame(

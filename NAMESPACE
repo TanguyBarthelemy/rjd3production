@@ -34,87 +34,111 @@ export(set_minimum_span)
 importFrom(TBox,write_data)
 importFrom(constructive,construct)
 importFrom(date4ts,ts2df)
-importFrom(dygraphs,dygraph)
-importFrom(dygraphs,dygraphOutput)
-importFrom(dygraphs,renderDygraph)
-importFrom(flextable,autofit)
-importFrom(flextable,flextable)
-importFrom(flextable,htmltools_value)
+importFrom(dygraphs,
+  dygraph,
+  dygraphOutput,
+  renderDygraph
+)
+importFrom(flextable,
+  autofit,
+  flextable,
+  htmltools_value
+)
 importFrom(lintr,use_lintr)
 importFrom(rjd3jars,check_java_version)
-importFrom(rjd3providers,txt_data)
-importFrom(rjd3providers,txt_series)
-importFrom(rjd3toolkit,add_outlier)
-importFrom(rjd3toolkit,add_ramp)
-importFrom(rjd3toolkit,add_usrdefvar)
-importFrom(rjd3toolkit,calendar_td)
-importFrom(rjd3toolkit,fixed_day)
-importFrom(rjd3toolkit,lp_variable)
-importFrom(rjd3toolkit,modelling_context)
-importFrom(rjd3toolkit,national_calendar)
-importFrom(rjd3toolkit,remove_outlier)
-importFrom(rjd3toolkit,set_arima)
-importFrom(rjd3toolkit,set_automodel)
-importFrom(rjd3toolkit,set_basic)
-importFrom(rjd3toolkit,set_benchmarking)
-importFrom(rjd3toolkit,set_easter)
-importFrom(rjd3toolkit,set_estimate)
-importFrom(rjd3toolkit,set_outlier)
-importFrom(rjd3toolkit,set_tradingdays)
-importFrom(rjd3toolkit,set_transform)
-importFrom(rjd3toolkit,special_day)
-importFrom(rjd3workspace,add_sa_item)
-importFrom(rjd3workspace,get_context)
-importFrom(rjd3workspace,get_ts)
-importFrom(rjd3workspace,jsap_sai)
-importFrom(rjd3workspace,jws_compute)
-importFrom(rjd3workspace,jws_new)
-importFrom(rjd3workspace,jws_open)
-importFrom(rjd3workspace,jws_sap)
-importFrom(rjd3workspace,jws_sap_new)
-importFrom(rjd3workspace,read_sai)
-importFrom(rjd3workspace,read_workspace)
-importFrom(rjd3workspace,sai_name)
-importFrom(rjd3workspace,sap_sai_count)
-importFrom(rjd3workspace,sap_sai_names)
-importFrom(rjd3workspace,save_workspace)
-importFrom(rjd3workspace,set_name)
-importFrom(rjd3workspace,set_reference_specification)
-importFrom(rjd3workspace,set_specification)
-importFrom(rjd3workspace,set_ts)
-importFrom(rjd3workspace,ws_sap_count)
-importFrom(rjd3x13,set_x11)
-importFrom(rjd3x13,x13)
-importFrom(rjd3x13,x13_spec)
-importFrom(shiny,br)
-importFrom(shiny,checkboxInput)
-importFrom(shiny,downloadButton)
-importFrom(shiny,downloadHandler)
-importFrom(shiny,fluidPage)
-importFrom(shiny,h4)
-importFrom(shiny,reactive)
-importFrom(shiny,renderUI)
-importFrom(shiny,selectInput)
-importFrom(shiny,shinyApp)
-importFrom(shiny,sidebarLayout)
-importFrom(shiny,sidebarPanel)
-importFrom(shiny,titlePanel)
-importFrom(shiny,uiOutput)
-importFrom(stats,frequency)
-importFrom(stats,is.mts)
-importFrom(stats,is.ts)
-importFrom(stats,rnorm)
-importFrom(stats,runif)
-importFrom(stats,time)
+importFrom(rjd3providers,
+  txt_data,
+  txt_series
+)
+importFrom(rjd3toolkit,
+  add_outlier,
+  add_ramp,
+  add_usrdefvar,
+  calendar_td,
+  fixed_day,
+  lp_variable,
+  modelling_context,
+  national_calendar,
+  remove_outlier,
+  set_arima,
+  set_automodel,
+  set_basic,
+  set_benchmarking,
+  set_easter,
+  set_estimate,
+  set_outlier,
+  set_tradingdays,
+  set_transform,
+  special_day
+)
+importFrom(rjd3workspace,
+  add_sa_item,
+  get_context,
+  get_ts,
+  jsap_sai,
+  jws_compute,
+  jws_new,
+  jws_open,
+  jws_sap,
+  jws_sap_new,
+  read_sai,
+  read_workspace,
+  sai_name,
+  sap_sai_count,
+  sap_sai_names,
+  save_workspace,
+  set_name,
+  set_reference_specification,
+  set_specification,
+  set_ts,
+  ws_sap_count
+)
+importFrom(rjd3x13,
+  set_x11,
+  x13,
+  x13_spec
+)
+importFrom(shiny,
+  br,
+  checkboxInput,
+  downloadButton,
+  downloadHandler,
+  fluidPage,
+  h4,
+  reactive,
+  renderUI,
+  selectInput,
+  shinyApp,
+  sidebarLayout,
+  sidebarPanel,
+  titlePanel,
+  uiOutput
+)
+importFrom(stats,
+  frequency,
+  is.mts,
+  is.ts,
+  rnorm,
+  runif,
+  time
+)
 importFrom(tidyr,pivot_wider)
-importFrom(tools,file_ext)
-importFrom(tools,file_path_sans_ext)
-importFrom(usethis,create_project)
-importFrom(usethis,use_description)
-importFrom(usethis,use_git)
-importFrom(usethis,use_readme_rmd)
-importFrom(utils,tail)
-importFrom(utils,write.csv)
-importFrom(yaml,read_yaml)
-importFrom(yaml,write_yaml)
+importFrom(tools,
+  file_ext,
+  file_path_sans_ext
+)
+importFrom(usethis,
+  create_project,
+  use_description,
+  use_git,
+  use_readme_rmd
+)
+importFrom(utils,
+  tail,
+  write.csv
+)
+importFrom(yaml,
+  read_yaml,
+  write_yaml
+)
 importFrom(zoo,as.Date)
