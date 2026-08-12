@@ -30,11 +30,6 @@ init_env <- function(path, open = FALSE) {
         stop("The project exist already.")
     }
 
-    old_path <- getwd()
-    on.exit(expr = {
-        setwd(old_path)
-    })
-
     dir.create(path, recursive = TRUE)
     usethis::create_project(rstudio = TRUE, path = path, open = open)
 
@@ -88,7 +83,7 @@ exclusions: list(\"renv\", \"packrat\")
     file.create(file.path(path, ".Renviron"))
     file.create(file.path(path, ".Rprofile"))
 
-    setwd(path)
+    usethis::proj_set(path)
     usethis::use_description(
         fields = list(
             Imports = "rjd3toolkit, rjd3x13, rjd3providers, rjd3workspace, rjd3production, rjd3qr",
