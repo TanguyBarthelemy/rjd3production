@@ -7,9 +7,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+* `init_env()` creates a project with DESCRIPTION file with `Type: Project` and {rjd3qr} as dependency  [#83](https://github.com/InseeFr/rjd3production/issues/83)
+
 ### Fixed
 
-* `retrieve_td` works now with LY as only td regressor [#91](https://github.com/InseeFr/rjd3production/issues/91)
+* `retrieve_td()` works now with LY as only td regressor [#91](https://github.com/InseeFr/rjd3production/issues/91)
 
 
 ## [1.1.1] - 2026-07-20

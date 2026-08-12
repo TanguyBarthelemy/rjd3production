@@ -91,8 +91,9 @@ exclusions: list(\"renv\", \"packrat\")
     setwd(path)
     usethis::use_description(
         fields = list(
-            Imports = "rjd3toolkit, rjd3x13, rjd3providers, rjd3workspace, rjd3production",
-            Suggests = "devtools, usethis, remotes, cyclocomp, lintr, rmarkdown"
+            Imports = "rjd3toolkit, rjd3x13, rjd3providers, rjd3workspace, rjd3production, rjd3qr",
+            Suggests = "devtools, usethis, remotes, cyclocomp, lintr, rmarkdown",
+            Type = "Project"
         ),
         check_name = FALSE
     )
