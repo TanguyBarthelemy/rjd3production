@@ -79,9 +79,9 @@ au format `.yaml` et le réimporter ultérieurement :
 
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at  /tmp/RtmpIHQqqj/td-table23d34d962ed5.yaml
+#> The td table will be written at  /tmp/RtmpMTiW1C/td-table239b3a3aa16b.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/RtmpIHQqqj/td-table23d34d962ed5.yaml
+#> The td table will be read at  /tmp/RtmpMTiW1C/td-table239b3a3aa16b.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
