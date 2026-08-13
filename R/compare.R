@@ -1,3 +1,13 @@
+basename_n <- function(x, n) {
+    if (n == 1L) {
+        return(basename(x))
+    }
+    if (identical(dirname(x), x)) {
+        stop("Tu es arrivé à la racine...")
+    }
+    return(file.path(basename_n(dirname(x), n - 1L), basename(x)))
+}
+
 #' @title Compare series across workspaces
 #'
 #' @description
@@ -42,10 +52,21 @@
 #' @export
 compare <- function(..., series_names) {
     ws_paths <- list(...) |>
-        lapply(normalizePath)
+        lapply(normalizePath) |>
+        do.call(what = c)
 
     if (length(ws_paths) == 0L) {
         stop("There are no paths provided")
+    }
+
+    ws_names <- basename_n(ws_paths, n = 1)
+    k <- 1L
+    val_dup <- unique(ws_names[duplicated(ws_names)])
+    while (length(val_dup) > 0L) {
+        k <- k + 1
+        idx <- ws_names %in% val_dup
+        ws_names[idx] <- basename_n(ws_paths, n = k)
+        val_dup <- unique(ws_names[duplicated(ws_names)])
     }
 
     if (missing(series_names)) {
@@ -56,9 +77,10 @@ compare <- function(..., series_names) {
     }
 
     output <- NULL
-    for (ws_path in ws_paths) {
+    for (id_ws in seq_along(ws_paths)) {
+        ws_path <- ws_paths[id_ws]
+        ws_name <- tools::file_path_sans_ext(ws_names[id_ws])
         jws <- rjd3workspace::jws_open(ws_path)
-        ws_name <- ws_path |> basename() |> tools::file_path_sans_ext()
         rjd3workspace::jws_compute(jws)
         for (series_name in series_names) {
             series <- get_jsai_by_name(jws = jws, series_name = series_name) |>
