@@ -25,6 +25,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
   can create multiple project in the same R session and with relative
   paths [\#81](https://github.com/InseeFr/rjd3production/issues/81)
+- `compare` returns information to distinguish 2 ws with the same name
+  [\#98](https://github.com/InseeFr/rjd3production/issues/98)
 
 ### [1.1.1](https://github.com/InseeFr/rjd3production/compare/v1.1.0...v1.1.1) - 2026-07-20
 
