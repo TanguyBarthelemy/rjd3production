@@ -208,7 +208,7 @@ one_diagnostic <- function(series, spec, context, verbose = TRUE) {
 all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
     checkmate::assert_class(series, "ts")
     checkmate::assert_numeric(series)
-    checkmate::assert_list(spec)
+    checkmate::assert_list(specs_set)
     checkmate::assert_list(context)
     checkmate::assert_named(context)
     checkmate::assert_set_equal(names(context), c("calendars", "variables"))
