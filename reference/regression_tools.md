@@ -175,11 +175,11 @@ outs <- retrieve_outliers(jws, result = TRUE, reference = FALSE)
 # Export outliers
 path_outs <- tempfile(pattern = "outliers-table", fileext = ".yaml")
 export_outliers(outs, path_outs)
-#> The outliers table will be written at  /tmp/Rtmp6OATTv/outliers-table1f133c1f6a37.yaml 
+#> The outliers table will be written at  /tmp/Rtmp59xGSH/outliers-table1f8b322c59f1.yaml 
 
 # Import outliers from a file
 outs2 <- import_outliers(path_outs)
-#> The outliers table will be read at  /tmp/Rtmp6OATTv/outliers-table1f133c1f6a37.yaml 
+#> The outliers table will be read at  /tmp/Rtmp59xGSH/outliers-table1f8b322c59f1.yaml 
 
 # Assign the outliers to a WS
 assign_outliers(jws = jws, outliers = outs2)
@@ -199,61 +199,20 @@ td <- retrieve_td(jws)
 # Export td variables
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td, path_td)
-#> The td table will be written at  /tmp/Rtmp6OATTv/td-table1f132e9762e1.yaml 
+#> The td table will be written at  /tmp/Rtmp59xGSH/td-table1f8b66efe0f4.yaml 
 
 # Import td variable from a file
 td2 <- import_td(path_td)
-#> The td table will be read at  /tmp/Rtmp6OATTv/td-table1f132e9762e1.yaml 
+#> The td table will be read at  /tmp/Rtmp59xGSH/td-table1f8b66efe0f4.yaml 
 
 # Select td
 td3 <- select_td(my_data)
 #> 
 #> Série X0.2.09.10.M en cours... 1/3 
-#> Computing spec No_TD ...Done !
-#> Computing spec REG1 ...Done !
-#> Computing spec REG2 ...Done !
-#> Computing spec REG3 ...Done !
-#> Computing spec REG5 ...Done !
-#> Computing spec REG6 ...Done !
-#> Computing spec LY ...Done !
-#> Computing spec REG1_LY ...Done !
-#> Computing spec REG2_LY ...Done !
-#> Computing spec REG3_LY ...Done !
-#> Computing spec REG5_LY ...Done !
-#> Computing spec REG6_LY ...Done !
-#> 
-#> Série X0.2.08.10.M en cours... 2/3 
-#> Computing spec No_TD ...Done !
-#> Computing spec REG1 ...Done !
-#> Computing spec REG2 ...Done !
-#> Computing spec REG3 ...Done !
-#> Computing spec REG5 ...Done !
-#> Computing spec REG6 ...Done !
-#> Computing spec LY ...Done !
-#> Computing spec REG1_LY ...Done !
-#> Computing spec REG2_LY ...Done !
-#> Computing spec REG3_LY ...Done !
-#> Computing spec REG5_LY ...Done !
-#> Computing spec REG6_LY ...Done !
-#> 
-#> Série X0.2.07.10.M en cours... 3/3 
-#> Computing spec No_TD ...Done !
-#> Computing spec REG1 ...Done !
-#> Computing spec REG2 ...Done !
-#> Computing spec REG3 ...Done !
-#> Computing spec REG5 ...Done !
-#> Computing spec REG6 ...Done !
-#> Computing spec LY ...Done !
-#> Computing spec REG1_LY ...Done !
-#> Computing spec REG2_LY ...Done !
-#> Computing spec REG3_LY ...Done !
-#> Computing spec REG5_LY ...Done !
-#> Computing spec REG6_LY ...Done !
+#> Error in all_diagnostics(series, specs_set = specs_set, context = context,     verbose = verbose): object 'spec' not found
 
 # Assign the td variables to a WS
 assign_td(jws = jws, td = td3)
-#> Série X0.2.09.10.M, 1/3
-#> Série X0.2.08.10.M, 2/3
-#> Série X0.2.07.10.M, 3/3
+#> Error: object 'td3' not found
 # }
 ```

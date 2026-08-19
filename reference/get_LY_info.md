@@ -126,7 +126,7 @@ my_set <- create_specs_set(context = my_context)
 
 # Extract LY info
 mod <- rjd3x13::x13(ABS[, 1], spec = "RSA3")
-rjd3production:::get_LY_info(summary(mod))
+rjd3production:::get_LY_info(mod)
 #>   LY_coeff LY_p_value
 #> 1       NA         NA
 
@@ -142,31 +142,7 @@ rjd3production:::all_diagnostics(
     specs_set = my_set,
     context = my_context
 )
-#> Computing spec No_TD ...Done !
-#> Computing spec REG1 ...Done !
-#> Computing spec REG2 ...Done !
-#> Computing spec REG3 ...Done !
-#> Computing spec REG5 ...Done !
-#> Computing spec REG6 ...Done !
-#> Computing spec LY ...Done !
-#> Computing spec REG1_LY ...Done !
-#> Computing spec REG2_LY ...Done !
-#> Computing spec REG3_LY ...Done !
-#> Computing spec REG5_LY ...Done !
-#> Computing spec REG6_LY ...Done !
-#>            regs note     aicc           mode   LY_coeff   LY_p_value
-#> No_TD     No_TD    3 4309.092 Multiplicative         NA           NA
-#> REG1       REG1    3 4311.162 Multiplicative         NA           NA
-#> REG2       REG2    3 4307.333 Multiplicative         NA           NA
-#> REG3       REG3    3 4254.210 Multiplicative         NA           NA
-#> REG5       REG5    3 4252.708 Multiplicative         NA           NA
-#> REG6       REG6    3 4232.844 Multiplicative         NA           NA
-#> LY           LY    3 4301.656 Multiplicative 0.03633466 0.0021077834
-#> REG1_LY REG1_LY    3 4303.737 Multiplicative 0.03630864 0.0021400711
-#> REG2_LY REG2_LY    3 4299.263 Multiplicative 0.03721476 0.0015120248
-#> REG3_LY REG3_LY    3 4233.953 Multiplicative 0.04192377 0.0001223889
-#> REG5_LY REG5_LY    3 4242.804 Multiplicative 0.03814784 0.0005888958
-#> REG6_LY REG6_LY    3 4221.123 Multiplicative 0.03900895 0.0002281020
+#> Error in rjd3production:::all_diagnostics(series = ABS[, 1], specs_set = my_set,     context = my_context): object 'spec' not found
 
 # Check whether LY should be removed
 diags <- rjd3production:::all_diagnostics(
@@ -174,34 +150,11 @@ diags <- rjd3production:::all_diagnostics(
     specs_set = my_set,
     context = my_context
 )
-#> Computing spec No_TD ...Done !
-#> Computing spec REG1 ...Done !
-#> Computing spec REG2 ...Done !
-#> Computing spec REG3 ...Done !
-#> Computing spec REG5 ...Done !
-#> Computing spec REG6 ...Done !
-#> Computing spec LY ...Done !
-#> Computing spec REG1_LY ...Done !
-#> Computing spec REG2_LY ...Done !
-#> Computing spec REG3_LY ...Done !
-#> Computing spec REG5_LY ...Done !
-#> Computing spec REG6_LY ...Done !
+#> Error in rjd3production:::all_diagnostics(series = ABS[, 1], specs_set = my_set,     context = my_context): object 'spec' not found
 rjd3production:::verif_LY("REG6_LY", diags)
-#> [1] "REG6"
+#> Error: object 'diags' not found
 
 # Select regressions for one series
 rjd3production:::select_td_one_series(series = ABS[, 1], context = my_context)
-#> Computing spec No_TD ...Done !
-#> Computing spec REG1 ...Done !
-#> Computing spec REG2 ...Done !
-#> Computing spec REG3 ...Done !
-#> Computing spec REG5 ...Done !
-#> Computing spec REG6 ...Done !
-#> Computing spec LY ...Done !
-#> Computing spec REG1_LY ...Done !
-#> Computing spec REG2_LY ...Done !
-#> Computing spec REG3_LY ...Done !
-#> Computing spec REG5_LY ...Done !
-#> Computing spec REG6_LY ...Done !
-#> [1] "REG6"
+#> Error in all_diagnostics(series, specs_set = specs_set, context = context,     verbose = verbose): object 'spec' not found
 ```
