@@ -3,7 +3,7 @@ basename_n <- function(x, n) {
         return(basename(x))
     }
     if (identical(dirname(x), x)) {
-        stop("Tu es arrivé à la racine...")
+        stop("You are at root...")
     }
     return(file.path(basename_n(dirname(x), n - 1L), basename(x)))
 }
