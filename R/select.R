@@ -405,7 +405,7 @@ select_td_one_series <- function(
 #' @importFrom stats is.ts is.mts
 #'
 #' @importFrom checkmate check_class
-#' @importFrom checkmate check_data.frame
+#' @importFrom checkmate check_data_frame
 #' @importFrom checkmate assert_flag
 #' @importFrom checkmate assert_list
 #' @importFrom checkmate assert_named

@@ -41,7 +41,8 @@ importFrom(checkmate,
   assert_named,
   assert_numeric,
   assert_set_equal,
-  check_class
+  check_class,
+  check_data_frame
 )
 importFrom(constructive,construct)
 importFrom(date4ts,ts2df)
