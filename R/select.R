@@ -1,5 +1,13 @@
-#' @importFrom stats frequency time
+#' @importFrom stats time
+#' @importFrom stats frequency
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_numeric
 is_compatible <- function(series, reg) {
+    checkmate::assert_class(series, "ts")
+    checkmate::assert_numeric(series)
+    checkmate::assert_class(reg, "ts")
+    checkmate::assert_numeric(reg)
+
     if (stats::frequency(series) != stats::frequency(reg)) {
         warning("The series and the regressors doesn't have same frequency.")
         return(FALSE)
@@ -71,7 +79,7 @@ is_compatible <- function(series, reg) {
 #'
 #' # Extract LY info
 #' mod <- rjd3x13::x13(ABS[, 1], spec = "RSA3")
-#' rjd3production:::get_LY_info(summary(mod))
+#' rjd3production:::get_LY_info(mod)
 #'
 #' # Compute diagnostics for one spec
 #' spec <- my_set[[8L]]
@@ -97,7 +105,12 @@ is_compatible <- function(series, reg) {
 #'
 #' @dev
 #'
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_flag
 get_LY_info <- function(mod, verbose = TRUE) {
+    checkmate::assert_class(mod, "JD3_X13_OUTPUT")
+    checkmate::assert_flag(verbose)
+
     ud_var <- mod$result_spec$regarima$regression$td$users
     if (
         length(ud_var) == 0L ||
@@ -125,8 +138,22 @@ get_LY_info <- function(mod, verbose = TRUE) {
     return(data.frame(LY_coeff = LY_coeff, LY_p_value = LY_p_value))
 }
 
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_numeric
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
 #' @importFrom rjd3x13 x13
 one_diagnostic <- function(series, spec, context, verbose = TRUE) {
+    checkmate::assert_class(series, "ts")
+    checkmate::assert_numeric(series)
+    checkmate::assert_class(spec, "JD3_X13_SPEC")
+    checkmate::assert_list(context)
+    checkmate::assert_named(context)
+    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
+    checkmate::assert_flag(verbose)
+
     if (length(spec$regarima$regression$td$users) > 0L) {
         condition <- spec$regarima$regression$td$users |>
             strsplit(split = ".", fixed = TRUE) |>
@@ -172,7 +199,21 @@ one_diagnostic <- function(series, spec, context, verbose = TRUE) {
     return(diag)
 }
 
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_numeric
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
 all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
+    checkmate::assert_class(series, "ts")
+    checkmate::assert_numeric(series)
+    checkmate::assert_list(specs_set)
+    checkmate::assert_list(context)
+    checkmate::assert_named(context)
+    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
+    checkmate::assert_flag(verbose)
+
     diags <- lapply(X = seq_along(specs_set), FUN = function(k) {
         spec <- specs_set[[k]]
         if (verbose) {
@@ -200,7 +241,14 @@ all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
     return(diags)
 }
 
+#' @importFrom checkmate assert_character
+#' @importFrom checkmate assert_data_frame
+#' @importFrom checkmate assert_set_equal
 verif_LY <- function(jeu, diags) {
+    checkmate::assert_character(jeu)
+    checkmate::assert_data_frame(diags)
+    checkmate::assert_set_equal(names(diags), c("regs", "note", "aicc", "mode", "LY_coeff", "LY_p_value"))
+
     if (!grepl(pattern = "LY", x = jeu, ignore.case = TRUE)) {
         return(jeu)
     }
@@ -248,6 +296,12 @@ verif_LY <- function(jeu, diags) {
     return(jeu_final)
 }
 
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_numeric
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
 #' @importFrom stats time
 #' @importFrom utils tail
 select_td_one_series <- function(
@@ -258,12 +312,21 @@ select_td_one_series <- function(
     ...,
     verbose = TRUE
 ) {
+    checkmate::assert_class(series, "ts")
+    checkmate::assert_numeric(series)
+    checkmate::assert_flag(verbose)
+
     if (is.null(context)) {
         context <- create_insee_context(s = series)
     }
+    checkmate::assert_list(context)
+    checkmate::assert_named(context)
+    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
+
     if (is.null(specs_set)) {
         specs_set <- create_specs_set(context = context, ...)
     }
+    checkmate::assert_list(specs_set)
 
     if ("No_TD" %in% names(specs_set)) {
         diag_no_td <- one_diagnostic(
@@ -340,16 +403,31 @@ select_td_one_series <- function(
 #' @export
 #'
 #' @importFrom stats is.ts is.mts
+#'
+#' @importFrom checkmate check_class
+#' @importFrom checkmate check_data_frame
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
 select_td <- function(series, context = NULL, ..., verbose = TRUE) {
+
+    cond_series <- isTRUE(checkmate::check_class(series, "ts")) ||
+        isTRUE(checkmate::check_data_frame(series))
+    if (!cond_series) {
+        stop("Series must be (m)ts object or a data.frame of ts.")
+    }
+    checkmate::assert_flag(verbose)
+
     if (is.null(context)) {
         context <- create_insee_context(s = series)
     }
+    checkmate::assert_list(context)
+    checkmate::assert_named(context)
+    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
+
     specs_set <- create_specs_set(context = context, ...)
 
-    # Ne marche pas avec ABS
-    # if (!stats::is.ts(series)) {
-    #     stop("Series must be (m)ts object.")
-    # }
     if (stats::is.ts(series) && !stats::is.mts(series)) {
         attr(series, "dim") <- c(length(series), 1L)
         attr(series, "class") <- c("mts", "ts", "matrix", "array")
