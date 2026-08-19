@@ -214,11 +214,11 @@ the resultSpec, estimationSpec or referenceSpec, while the assignment step
 <span class="r-in"><span><span class="co"># Export outliers</span></span></span>
 <span class="r-in"><span><span class="va">path_outs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"outliers-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">export_outliers</span><span class="op">(</span><span class="va">outs</span>, <span class="va">path_outs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be written at  /tmp/Rtmp59xGSH/outliers-table1f8b322c59f1.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be written at  /tmp/Rtmpc1tpJp/outliers-table25de55d256f1.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import outliers from a file</span></span></span>
 <span class="r-in"><span><span class="va">outs2</span> <span class="op">&lt;-</span> <span class="fu">import_outliers</span><span class="op">(</span><span class="va">path_outs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be read at  /tmp/Rtmp59xGSH/outliers-table1f8b322c59f1.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be read at  /tmp/Rtmpc1tpJp/outliers-table25de55d256f1.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign the outliers to a WS</span></span></span>
 <span class="r-in"><span><span class="fu">assign_outliers</span><span class="op">(</span>jws <span class="op">=</span> <span class="va">jws</span>, outliers <span class="op">=</span> <span class="va">outs2</span><span class="op">)</span></span></span>
@@ -238,21 +238,62 @@ the resultSpec, estimationSpec or referenceSpec, while the assignment step
 <span class="r-in"><span><span class="co"># Export td variables</span></span></span>
 <span class="r-in"><span><span class="va">path_td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"td-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">export_td</span><span class="op">(</span><span class="va">td</span>, <span class="va">path_td</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be written at  /tmp/Rtmp59xGSH/td-table1f8b66efe0f4.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be written at  /tmp/Rtmpc1tpJp/td-table25de33e1b01f.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import td variable from a file</span></span></span>
 <span class="r-in"><span><span class="va">td2</span> <span class="op">&lt;-</span> <span class="fu">import_td</span><span class="op">(</span><span class="va">path_td</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be read at  /tmp/Rtmp59xGSH/td-table1f8b66efe0f4.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be read at  /tmp/Rtmpc1tpJp/td-table25de33e1b01f.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Select td</span></span></span>
 <span class="r-in"><span><span class="va">td3</span> <span class="op">&lt;-</span> <span class="fu"><a href="select_td.html">select_td</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.09.10.M en cours... 1/3 </span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in all_diagnostics(series, specs_set = specs_set, context = context,     verbose = verbose):</span> object 'spec' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec No_TD ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.08.10.M en cours... 2/3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec No_TD ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.07.10.M en cours... 3/3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec No_TD ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6 ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG1_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG2_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG3_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG5_LY ...Done !</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing spec REG6_LY ...Done !</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign the td variables to a WS</span></span></span>
 <span class="r-in"><span><span class="fu">assign_td</span><span class="op">(</span>jws <span class="op">=</span> <span class="va">jws</span>, td <span class="op">=</span> <span class="va">td3</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'td3' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.09.10.M, 1/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.08.10.M, 2/3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Série X0.2.07.10.M, 3/3</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
