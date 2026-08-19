@@ -59,11 +59,11 @@ compare <- function(..., series_names) {
         stop("There are no paths provided")
     }
 
-    ws_names <- basename_n(ws_paths, n = 1)
+    ws_names <- basename_n(ws_paths, n = 1L)
     k <- 1L
     val_dup <- unique(ws_names[duplicated(ws_names)])
     while (length(val_dup) > 0L) {
-        k <- k + 1
+        k <- k + 1L
         idx <- ws_names %in% val_dup
         ws_names[idx] <- basename_n(ws_paths, n = k)
         val_dup <- unique(ws_names[duplicated(ws_names)])
