@@ -94,6 +94,9 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' where each column represents a series to be seasonally adjusted.
 #' Column names are used as SA-Item names.
 #' @param spec A JDemetra+ specification. Defaults to `rjd3x13::x13_spec()`.
+#' @param context A modelling context for a Workspace. Defaults to NULL.
+#' @param sap_name Name of the SA-Processing created. Defaults to "SAP1"
+#' @param path Path leading to an input data file with metadata. If not NULL, the ts metadata are completed with the input file.
 #'
 #' @details
 #' All series share the same specification (`spec`).
@@ -111,9 +114,13 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' @importFrom rjd3workspace jws_new add_sa_item jws_sap_new
 #' @importFrom rjd3x13 x13_spec
 #' @export
-create_ws_from_data <- function(x, spec = rjd3x13::x13_spec()) {
+create_ws_from_data <- function(x, spec = rjd3x13::x13_spec(), context = NULL, sap_name = "SAP1", path = NULL) {
     jws <- rjd3workspace::jws_new()
-    jsap <- rjd3workspace::jws_sap_new(jws, "SAP1")
+    rjd3workspace::set_context(jws, modelling_context = context)
+    if (!is.null(path)){
+        add_raw_data_path(jws, path)
+    }
+    jsap <- rjd3workspace::jws_sap_new(jws, sap_name)
     for (k in seq_len(ncol(x))) {
         series <- x[, k]
         rjd3workspace::add_sa_item(
