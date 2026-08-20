@@ -4,7 +4,13 @@
 \alias{create_ws_from_data}
 \title{Create a Workspace from Data}
 \usage{
-create_ws_from_data(x, spec = rjd3x13::x13_spec())
+create_ws_from_data(
+  x,
+  spec = rjd3x13::x13_spec(),
+  context = NULL,
+  sap_name = "SAP1",
+  path = NULL
+)
 }
 \arguments{
 \item{x}{A time series object (e.g. \code{ts}, \code{mts}, or matrix coercible to \code{ts})
@@ -12,6 +18,12 @@ where each column represents a series to be seasonally adjusted.
 Column names are used as SA-Item names.}
 
 \item{spec}{A JDemetra+ specification. Defaults to \code{rjd3x13::x13_spec()}.}
+
+\item{context}{A modelling context for a Workspace. Defaults to NULL.}
+
+\item{sap_name}{Name of the SA-Processing created. Defaults to "SAP1"}
+
+\item{path}{Path leading to an input data file with metadata. If not NULL, the ts metadata are completed with the input file.}
 }
 \value{
 A JDemetra+ workspace object (Java pointer) containing one SA-Processing with

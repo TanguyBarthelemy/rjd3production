@@ -124,8 +124,11 @@ create_insee_regressors <- function(
         s = s
     ) |>
         do.call(what = cbind)
-    cols <- colnames(regs_td) |>
-        gsub(pattern = ".", replacement = "_", fixed = TRUE)
+
+    cols <- c("REG1_week", "REG2_week", "REG2_saturday",
+              "REG3_monday", "REG3_tuesday_to_friday", "REG3_saturday",
+              "REG5_monday", "REG5_tuesday", "REG5_wednesday", "REG5_thursday", "REG5_friday",
+              "REG6_monday", "REG6_tuesday", "REG6_wednesday", "REG6_thursday", "REG6_friday", "REG6_saturday")
     regs_td <- cbind(
         LY = rjd3toolkit::lp_variable(
             frequency = frequency,
@@ -168,6 +171,7 @@ create_insee_regressors_sets <- function(
 
     REG1 <- regs_td[, id_REG1, drop = FALSE]
     attr(REG1, "class") <- c("mts", "ts", "matrix", "array")
+    colnames(REG1) <- substr(colnames(REG1), 6L, 50L)
 
     LY <- regs_td[, id_LY, drop = FALSE]
     attr(LY, "class") <- c("mts", "ts", "matrix", "array")
