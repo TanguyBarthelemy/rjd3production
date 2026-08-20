@@ -79,7 +79,7 @@ export_outliers <- function(outliers, path = NULL, verbose = TRUE) {
 #' @export
 import_outliers <- function(path, verbose = TRUE) {
     if (!file.exists(path)) {
-        stop("The file", path, "doesn't exist.")
+        stop("The file ", path, " doesn't exist.")
     }
     if (!tools::file_ext(path) %in% c("yml", "yaml")) {
         stop("Only .yml and .yaml files are accepted.")
@@ -98,7 +98,7 @@ import_outliers <- function(path, verbose = TRUE) {
 export_td <- function(td, path = NULL, verbose = TRUE) {
     path <- prepare_path(path, "td")
     if (verbose) {
-        cat("The td table will be written at ", path, "\n")
+        cat("The td table will be written at", path, "\n")
     }
     yaml::write_yaml(x = td, file = path)
     return(invisible(path))
@@ -111,7 +111,7 @@ export_td <- function(td, path = NULL, verbose = TRUE) {
 #' @export
 import_td <- function(path, verbose = TRUE) {
     if (!file.exists(path)) {
-        stop("The file", path, "doesn't exist.")
+        stop("The file ", path, " doesn't exist.")
     }
     if (!tools::file_ext(path) %in% c("yml", "yaml")) {
         stop("Only .yml and .yaml files are accepted.")
