@@ -247,7 +247,10 @@ all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
 verif_LY <- function(jeu, diags) {
     checkmate::assert_character(jeu)
     checkmate::assert_data_frame(diags)
-    checkmate::assert_set_equal(names(diags), c("regs", "note", "aicc", "mode", "LY_coeff", "LY_p_value"))
+    checkmate::assert_set_equal(
+        names(diags),
+        c("regs", "note", "aicc", "mode", "LY_coeff", "LY_p_value")
+    )
 
     if (!grepl(pattern = "LY", x = jeu, ignore.case = TRUE)) {
         return(jeu)
@@ -411,7 +414,6 @@ select_td_one_series <- function(
 #' @importFrom checkmate assert_named
 #' @importFrom checkmate assert_set_equal
 select_td <- function(series, context = NULL, ..., verbose = TRUE) {
-
     cond_series <- isTRUE(checkmate::check_class(series, "ts")) ||
         isTRUE(checkmate::check_data_frame(series))
     if (!cond_series) {

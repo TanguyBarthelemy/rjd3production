@@ -125,10 +125,25 @@ create_insee_regressors <- function(
     ) |>
         do.call(what = cbind)
 
-    cols <- c("REG1_week", "REG2_week", "REG2_saturday",
-              "REG3_monday", "REG3_tuesday_to_friday", "REG3_saturday",
-              "REG5_monday", "REG5_tuesday", "REG5_wednesday", "REG5_thursday", "REG5_friday",
-              "REG6_monday", "REG6_tuesday", "REG6_wednesday", "REG6_thursday", "REG6_friday", "REG6_saturday")
+    cols <- c(
+        "REG1_week",
+        "REG2_week",
+        "REG2_saturday",
+        "REG3_monday",
+        "REG3_tuesday_to_friday",
+        "REG3_saturday",
+        "REG5_monday",
+        "REG5_tuesday",
+        "REG5_wednesday",
+        "REG5_thursday",
+        "REG5_friday",
+        "REG6_monday",
+        "REG6_tuesday",
+        "REG6_wednesday",
+        "REG6_thursday",
+        "REG6_friday",
+        "REG6_saturday"
+    )
     regs_td <- cbind(
         LY = rjd3toolkit::lp_variable(
             frequency = frequency,

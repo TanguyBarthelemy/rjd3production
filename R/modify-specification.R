@@ -94,11 +94,11 @@ remove_non_significant_outliers <- function(
 }
 
 remove_non_significant_outliers_jws <- function(
-        jws,
-        threshold = 0.3,
-        reference = FALSE,
-        estimation = FALSE,
-        verbose = TRUE
+    jws,
+    threshold = 0.3,
+    reference = FALSE,
+    estimation = FALSE,
+    verbose = TRUE
 ) {
     if (!reference && !estimation) {
         warning(
@@ -134,11 +134,11 @@ remove_non_significant_outliers_jws <- function(
 
         if (nrow(outliers_to_remove) > 1L) {
             if (reference) {
-                new_referenceSpec <- sai$referenceSpec |>
-                    rjd3toolkit::remove_outlier(
-                        type = outlier$code,
-                        date = outlier$pos
-                    )
+                new_referenceSpec <- rjd3toolkit::remove_outlier(
+                    x = sai$referenceSpec,
+                    type = outlier$code,
+                    date = outlier$pos
+                )
                 rjd3workspace::set_reference_specification(
                     jsap = jsap,
                     idx = id_sai,
@@ -147,11 +147,11 @@ remove_non_significant_outliers_jws <- function(
             }
 
             if (estimation) {
-                new_estimationSpec <- sai$estimationSpec |>
-                    rjd3toolkit::remove_outlier(
-                        type = outlier$code,
-                        date = outlier$pos
-                    )
+                new_estimationSpec <- rjd3toolkit::remove_outlier(
+                    x = sai$estimationSpec,
+                    type = outlier$code,
+                    date = outlier$pos
+                )
                 rjd3workspace::set_specification(
                     jsap = jsap,
                     idx = id_sai,
@@ -166,9 +166,9 @@ remove_non_significant_outliers_jws <- function(
 }
 
 get_non_significant_outliers_jsai <- function(
-        jsai,
-        threshold = 0.3,
-        verbose = TRUE
+    jsai,
+    threshold = 0.3,
+    verbose = TRUE
 ) {
     sai <- rjd3workspace::read_sai(jsai)
     series_name <- rjd3workspace::sai_name(jsai)
@@ -193,9 +193,9 @@ get_non_significant_outliers_jsai <- function(
         outlier_name <- paste0(outlier$code, " (", outlier$pos, ")")
         if (
             outlier_name %in%
-            rownames(xregs) &&
-            !is.na(xregs[outlier_name, "Pr(>|t|)"]) &&
-            xregs[outlier_name, "Pr(>|t|)"] > threshold
+                rownames(xregs) &&
+                !is.na(xregs[outlier_name, "Pr(>|t|)"]) &&
+                xregs[outlier_name, "Pr(>|t|)"] > threshold
         ) {
             outliers_table <- rbind(
                 outliers_table,

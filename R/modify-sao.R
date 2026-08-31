@@ -114,7 +114,13 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' @importFrom rjd3workspace jws_new add_sa_item jws_sap_new
 #' @importFrom rjd3x13 x13_spec
 #' @export
-create_ws_from_data <- function(x, spec = rjd3x13::x13_spec(), context = NULL, sap_name = "SAP1", path = NULL) {
+create_ws_from_data <- function(
+    x,
+    spec = rjd3x13::x13_spec(),
+    context = NULL,
+    sap_name = "SAP1",
+    path = NULL
+) {
     jws <- rjd3workspace::jws_new()
     rjd3workspace::set_context(jws, modelling_context = context)
     if (!is.null(path)) {
