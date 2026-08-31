@@ -96,7 +96,10 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' @param spec A JDemetra+ specification. Defaults to `rjd3x13::x13_spec()`.
 #' @param context A modelling context for a Workspace. Defaults to NULL.
 #' @param sap_name Name of the SA-Processing created. Defaults to "SAP1"
-#' @param path Path leading to an input data file with metadata. If not NULL, the ts metadata are completed with the input file.
+#' @param path Path leading to an input data file with metadata. If not NULL,
+#'   the ts metadata are completed with the input file.
+#' @param name_series Name of the series. Only used with univariate time series
+#'   (with no colnames).
 #'
 #' @details
 #' All series share the same specification (`spec`).
@@ -119,7 +122,8 @@ create_ws_from_data <- function(
     spec = rjd3x13::x13_spec(),
     context = NULL,
     sap_name = "SAP1",
-    path = NULL
+    path = NULL,
+    name_series = "my_series"
 ) {
     jws <- rjd3workspace::jws_new()
     rjd3workspace::set_context(jws, modelling_context = context)
@@ -127,6 +131,13 @@ create_ws_from_data <- function(
         add_raw_data_path(jws, path)
     }
     jsap <- rjd3workspace::jws_sap_new(jws, sap_name)
+
+    if (stats::is.ts(x) && !stats::is.mts(x)) {
+        attr(x, "dim") <- c(length(x), 1L)
+        attr(x, "class") <- c("mts", "ts", "matrix", "array")
+        colnames(x) <- name_series
+    }
+
     for (k in seq_len(ncol(x))) {
         series <- x[, k]
         rjd3workspace::add_sa_item(

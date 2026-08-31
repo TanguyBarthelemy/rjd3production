@@ -1,6 +1,6 @@
 linters: lintr::all_linters(
         indentation_linter = lintr::indentation_linter(indent = 4L),
-        line_length_linter = lintr::line_length_linter(130L),
+        line_length_linter = lintr::line_length_linter(120L),
         library_call_linter = NULL,
         return_linter = NULL,
         cyclocomp_linter = lintr::cyclocomp_linter(complexity_limit = 65L),
@@ -8,10 +8,8 @@ linters: lintr::all_linters(
         object_length_linter = NULL,
         object_name_linter = NULL,
         commented_code_linter = NULL,
-        object_usage_linter = NULL,
         nonportable_path_linter = NULL,
         undesirable_function_linter = NULL,
-        function_argument_linter = NULL,
         condition_call_linter = NULL,
         object_overwrite_linter = NULL
     )

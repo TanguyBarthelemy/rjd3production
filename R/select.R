@@ -438,7 +438,6 @@ select_td <- function(series, context = NULL, ..., verbose = TRUE) {
 
     output <- sapply(X = seq_len(ncol(series)), FUN = function(k) {
         series_name <- colnames(series)[k]
-        outliers <- NULL
 
         # if (with_outliers) {
         #     # On récupère les outliers

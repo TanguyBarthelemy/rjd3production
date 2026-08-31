@@ -111,14 +111,6 @@ remove_non_significant_outliers_jws <- function(
     jsap <- rjd3workspace::jws_sap(jws, 1L)
     nb_sai <- rjd3workspace::sap_sai_count(jsap)
 
-    outliers_table <- data.frame(
-        series = character(),
-        name = character(),
-        type = character(),
-        position = character(),
-        stringsAsFactors = FALSE
-    )
-
     for (id_sai in seq_len(nb_sai)) {
         if (verbose) {
             cat("\U1F4CC SAI n\UB0", id_sai, "\n")
@@ -174,7 +166,7 @@ get_non_significant_outliers_jsai <- function(
     sai <- rjd3workspace::read_sai(jsai)
     series_name <- rjd3workspace::sai_name(jsai)
 
-    outliers_table <- data.frame(
+    outliers_to_remove <- data.frame(
         series = character(),
         name = character(),
         type = character(),
@@ -183,12 +175,10 @@ get_non_significant_outliers_jsai <- function(
     )
 
     outliers <- sai$estimationSpec$regarima$regression$outliers
-    outliers_reference <- sai$referenceSpec$regarima$regression$outliers
     if (is.null(sai$results)) {
         stop("Please compute your workspace")
     }
     xregs <- summary(sai$results)$preprocessing$xregs
-    outliers_to_remove <- NULL
     for (id_out in seq_along(outliers)) {
         outlier <- outliers[[id_out]]
         outlier_name <- paste0(outlier$code, " (", outlier$pos, ")")
@@ -198,8 +188,8 @@ get_non_significant_outliers_jsai <- function(
                 !is.na(xregs[outlier_name, "Pr(>|t|)"]) &&
                 xregs[outlier_name, "Pr(>|t|)"] > threshold
         ) {
-            outliers_table <- rbind(
-                outliers_table,
+            outliers_to_remove <- rbind(
+                outliers_to_remove,
                 data.frame(
                     series = series_name,
                     name = outlier_name,
@@ -210,7 +200,7 @@ get_non_significant_outliers_jsai <- function(
         }
     }
 
-    return(outliers_table)
+    return(outliers_to_remove)
 }
 
 #' @title Set span minimum to a value
