@@ -1,5 +1,7 @@
 #' @importFrom stats time
 #' @importFrom stats frequency
+#' @importFrom utils head
+#' @importFrom utils tail
 #' @importFrom checkmate assert_class
 #' @importFrom checkmate assert_numeric
 is_compatible <- function(series, reg) {
@@ -8,10 +10,10 @@ is_compatible <- function(series, reg) {
     checkmate::assert_class(reg, "ts")
     checkmate::assert_numeric(reg)
 
-    d0_series <- round(as.double(head(stats::time(series), n = 1L)), 3L)
-    d1_series <- round(as.double(tail(stats::time(series), n = 1L)), 3L)
-    d0_reg <- round(as.double(head(stats::time(reg), n = 1L)), 3L)
-    d1_reg <- round(as.double(tail(stats::time(reg), n = 1L)), 3L)
+    d0_series <- round(as.double(utils::head(stats::time(series), n = 1L)), 3L)
+    d1_series <- round(as.double(utils::tail(stats::time(series), n = 1L)), 3L)
+    d0_reg <- round(as.double(utils::head(stats::time(reg), n = 1L)), 3L)
+    d1_reg <- round(as.double(utils::tail(stats::time(reg), n = 1L)), 3L)
 
     if (stats::frequency(series) != stats::frequency(reg)) {
         warning(
