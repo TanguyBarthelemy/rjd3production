@@ -45,7 +45,7 @@ init_env <- function(path, open = FALSE) {
             "un dossier `BQ/`",
             "un fichier DESCRIPTION",
             "un fichier `.lintr`",
-            "un fichier README.md",
+            "un fichier README.md"
         ),
         ":",
         c(
@@ -59,7 +59,7 @@ init_env <- function(path, open = FALSE) {
             "les bilans qualit\U0E9 et fichiers de d\U0E9cisions",
             "g\U0E9rer les d\U0E9pendances de notre projet",
             "faire l'analyse statique du code (bonnes pratiques de formattage)",
-            "expliquer le but et la structure de notre projet",
+            "expliquer le but et la structure de notre projet"
         ),
         collapse = ""
     )
