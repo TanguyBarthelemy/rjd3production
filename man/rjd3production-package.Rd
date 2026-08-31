@@ -17,11 +17,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Tanguy Barthelemy \email{timeserieswithjdemetraandr@gmail.com} [artist]
+\strong{Maintainer}: Tanguy Barthelemy \email{timeserieswithjdemetraandr@gmail.com} [artist, copyright holder]
 
 Authors:
 \itemize{
-  \item Tanguy Barthelemy \email{timeserieswithjdemetraandr@gmail.com} [artist]
+  \item Tanguy Barthelemy \email{timeserieswithjdemetraandr@gmail.com} [artist, copyright holder]
 }
 
 }

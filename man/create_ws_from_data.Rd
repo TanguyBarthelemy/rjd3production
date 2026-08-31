@@ -9,7 +9,8 @@ create_ws_from_data(
   spec = rjd3x13::x13_spec(),
   context = NULL,
   sap_name = "SAP1",
-  path = NULL
+  path = NULL,
+  name_series = "my_series"
 )
 }
 \arguments{
@@ -23,7 +24,11 @@ Column names are used as SA-Item names.}
 
 \item{sap_name}{Name of the SA-Processing created. Defaults to "SAP1"}
 
-\item{path}{Path leading to an input data file with metadata. If not NULL, the ts metadata are completed with the input file.}
+\item{path}{Path leading to an input data file with metadata. If not NULL,
+the ts metadata are completed with the input file.}
+
+\item{name_series}{Name of the series. Only used with univariate time series
+(with no colnames).}
 }
 \value{
 A JDemetra+ workspace object (Java pointer) containing one SA-Processing with
