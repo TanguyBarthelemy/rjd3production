@@ -46,6 +46,7 @@
 #' jws <- make_ws_crunchable(jws)
 #'
 make_ws_crunchable <- function(jws, verbose = TRUE) {
+    data_dir <- file.path(tempdir(), paste0("ws-data-dir-", sample(10000, 1L)))
     nb_sap <- rjd3workspace::ws_sap_count(jws)
     for (id_sap in seq_len(nb_sap)) {
         if (verbose) {
@@ -68,7 +69,10 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
             )
             data_sai <- date4ts::ts2df(rjd3workspace::get_ts(jsai)$data)
             colnames(data_sai) <- c("date", name)
-            data_path <- tempfile(fileext = ".csv")
+            data_path <- file.path(
+                data_dir,
+                paste0("data-", id_sap, "-", id_sai, ".csv")
+            )
             TBox::write_data(data = data_sai, path = data_path)
             ts_obj <- rjd3providers::txt_series(
                 data_path,
@@ -118,12 +122,12 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' @importFrom rjd3x13 x13_spec
 #' @export
 create_ws_from_data <- function(
-    x,
-    spec = rjd3x13::x13_spec(),
-    context = NULL,
-    sap_name = "SAP1",
-    path = NULL,
-    name_series = "my_series"
+        x,
+        spec = rjd3x13::x13_spec(),
+        context = NULL,
+        sap_name = "SAP1",
+        path = NULL,
+        name_series = "my_series"
 ) {
     jws <- rjd3workspace::jws_new()
     rjd3workspace::set_context(jws, modelling_context = context)
