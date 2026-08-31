@@ -16,7 +16,7 @@
 #' @examples
 #' project_path <- tempfile(pattern = "my-project")
 #'
-#' \dontrun{
+#' \donttest{
 #' # Create a new project
 #' init_env(path = project_path)
 #' }
@@ -114,8 +114,9 @@ exclusions: list(\"renv\", \"packrat\")
         check_name = FALSE
     )
 
-    system(paste("git -C", normalizePath(path), "init -b main"))
-    # usethis::use_git(message = "Nouveau projet de d\U0E9saisonnalisation !")
+    # system(paste("git -C", normalizePath(path), "init -b main"))
+    usethis::git_default_branch_configure(name = "main")
+    usethis::use_git(message = "Nouveau projet de d\U0E9saisonnalisation !")
 
     return(invisible(path))
 }
