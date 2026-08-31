@@ -9,13 +9,22 @@ is_compatible <- function(series, reg) {
     checkmate::assert_numeric(reg)
 
     if (stats::frequency(series) != stats::frequency(reg)) {
-        warning("The series and the regressors doesn't have same frequency.")
+        warning(
+            "The series and the regressors doesn't have same frequency.",
+            call. = FALSE
+        )
         return(FALSE)
     } else if (stats::time(series)[1L] < stats::time(reg)[1L]) {
-        warning("The regressors starts after the beginning of the series.")
+        warning(
+            "The regressors starts after the beginning of the series.",
+            call. = FALSE
+        )
         return(FALSE)
     } else if (rev(stats::time(series))[1L] > rev(stats::time(reg))[1L]) {
-        warning("The regressors ends before the end of the series.")
+        warning(
+            "The regressors ends before the end of the series.",
+            call. = FALSE
+        )
         return(FALSE)
     }
     return(TRUE)
@@ -128,7 +137,7 @@ get_LY_info <- function(mod, verbose = TRUE) {
         fixed = TRUE
     )
     if (length(idx) > 1L) {
-        stop("Plusieurs variables portent le nom LY.")
+        stop("Plusieurs variables portent le nom LY.", call. = FALSE)
     } else if (length(idx) == 0L && length(idx2) == 1L) {
         idx <- idx2
     }
@@ -164,7 +173,10 @@ one_diagnostic <- function(series, spec, context, verbose = TRUE) {
                 series = series
             )
         if (!all(condition)) {
-            stop("One of the regressors doesn't have the good properties.")
+            stop(
+                "One of the regressors doesn't have the good properties.",
+                call. = FALSE
+            )
         }
     }
 

@@ -68,7 +68,8 @@ remove_non_significant_outliers <- function(
     if (!reference && !estimation) {
         warning(
             "No SA-Items will be modified if neither referenceSpec",
-            "nor estimationspec are selected."
+            "nor estimationspec are selected.",
+            call. = FALSE
         )
         return(invisible(NULL))
     }
@@ -103,7 +104,8 @@ remove_non_significant_outliers_jws <- function(
     if (!reference && !estimation) {
         warning(
             "No SA-Items will be modified if neither referenceSpec",
-            "nor estimationspec are selected."
+            "nor estimationspec are selected.",
+            call. = FALSE
         )
         return(invisible(NULL))
     }
@@ -176,7 +178,7 @@ get_non_significant_outliers_jsai <- function(
 
     outliers <- sai$estimationSpec$regarima$regression$outliers
     if (is.null(sai$results)) {
-        stop("Please compute your workspace")
+        stop("Please compute your workspace", call. = FALSE)
     }
     xregs <- summary(sai$results)$preprocessing$xregs
     for (id_out in seq_along(outliers)) {

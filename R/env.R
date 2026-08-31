@@ -27,7 +27,7 @@
 #'
 init_env <- function(path, open = FALSE) {
     if (dir.exists(path)) {
-        stop("The project exist already.")
+        stop("The project exist already.", call. = FALSE)
     }
 
     dir.create(path, recursive = TRUE)

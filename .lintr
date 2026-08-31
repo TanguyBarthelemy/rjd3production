@@ -1,17 +1,17 @@
 linters: lintr::all_linters(
         indentation_linter = lintr::indentation_linter(indent = 4L),
-        line_length_linter = lintr::line_length_linter(120L),
+        line_length_linter = lintr::line_length_linter(100L),
         library_call_linter = NULL,
         return_linter = NULL,
         cyclocomp_linter = lintr::cyclocomp_linter(complexity_limit = 65L),
         namespace_linter = NULL,
         object_length_linter = NULL,
         object_name_linter = NULL,
-        commented_code_linter = NULL,
-        nonportable_path_linter = NULL,
-        undesirable_function_linter = NULL,
-        condition_call_linter = NULL,
-        object_overwrite_linter = NULL
+        commented_code_linter = NULL
+        #object_overwrite_linter = NULL,
+        #nonportable_path_linter = NULL,
+        #undesirable_function_linter = NULL,
+        #condition_call_linter = NULL
     )
 encoding: "UTF-8"
 exclusions: list(
@@ -23,5 +23,8 @@ exclusions: list(
     ),
     "tests/testthat.R" = list(
         unused_import_linter = Inf
+    ),
+    "data-raw/ws_example.R" = list(
+        undesirable_function_linter = Inf
     )
   )

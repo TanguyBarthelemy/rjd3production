@@ -11,7 +11,12 @@ prepare_path <- function(path = NULL, object = "outliers") {
             tmpdir = path_dir,
             fileext = ".yaml"
         )
-        warning("The path is missing. ", "The table will be written at ", path)
+        warning(
+            "The path is missing. ",
+            "The table will be written at ",
+            path,
+            call. = FALSE
+        )
     } else if (dir.exists(path)) {
         path <- tempfile(
             pattern = "td_",
@@ -29,7 +34,8 @@ prepare_path <- function(path = NULL, object = "outliers") {
             warning(
                 "Only .yml and .yaml files are accepted.",
                 "The table will be written at ",
-                path
+                path,
+                call. = FALSE
             )
         }
     } else if (nzchar(tools::file_ext(path))) {
@@ -45,7 +51,8 @@ prepare_path <- function(path = NULL, object = "outliers") {
             warning(
                 "Only .yml and .yaml files are accepted.",
                 "The table will be written at ",
-                path
+                path,
+                call. = FALSE
             )
         }
     } else {
@@ -79,10 +86,10 @@ export_outliers <- function(outliers, path = NULL, verbose = TRUE) {
 #' @export
 import_outliers <- function(path, verbose = TRUE) {
     if (!file.exists(path)) {
-        stop("The file ", path, " doesn't exist.")
+        stop("The file ", path, " doesn't exist.", call. = FALSE)
     }
     if (!tools::file_ext(path) %in% c("yml", "yaml")) {
-        stop("Only .yml and .yaml files are accepted.")
+        stop("Only .yml and .yaml files are accepted.", call. = FALSE)
     }
     if (verbose) {
         cat("The outliers table will be read at ", path, "\n")
@@ -111,10 +118,10 @@ export_td <- function(td, path = NULL, verbose = TRUE) {
 #' @export
 import_td <- function(path, verbose = TRUE) {
     if (!file.exists(path)) {
-        stop("The file ", path, " doesn't exist.")
+        stop("The file ", path, " doesn't exist.", call. = FALSE)
     }
     if (!tools::file_ext(path) %in% c("yml", "yaml")) {
-        stop("Only .yml and .yaml files are accepted.")
+        stop("Only .yml and .yaml files are accepted.", call. = FALSE)
     }
     if (verbose) {
         cat("The td table will be read at ", path, "\n")

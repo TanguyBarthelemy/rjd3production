@@ -10,7 +10,7 @@ retrieve_outliers <- function(
     verbose = TRUE
 ) {
     if (reference + result + estimation != 1L) {
-        stop("You have to choose one specification.")
+        stop("You have to choose one specification.", call. = FALSE)
     }
 
     ws <- rjd3workspace::read_workspace(jws, compute = TRUE)
@@ -158,7 +158,7 @@ retrieve_td <- function(
     verbose = TRUE
 ) {
     if (reference + result + estimation != 1L) {
-        stop("You have to choose one specification.")
+        stop("You have to choose one specification.", call. = FALSE)
     }
 
     if (result) {
