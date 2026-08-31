@@ -1,8 +1,5 @@
 # Selection of calendar td regressors
 
-    Installing package into '/home/runner/work/_temp/Library'
-    (as 'lib' is unspecified)
-
 ``` r
 
 library("rjd3production")
@@ -81,9 +78,9 @@ Once the regressors have been selected, you can export the table in
 
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at  /tmp/RtmpNybUrU/td-table2671376a87f8.yaml
+#> The td table will be written at /tmp/RtmpAPEvV3/td-table25ad4ab60d6c.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/RtmpNybUrU/td-table2671376a87f8.yaml
+#> The td table will be read at  /tmp/RtmpAPEvV3/td-table25ad4ab60d6c.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
