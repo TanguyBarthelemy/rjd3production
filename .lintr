@@ -12,18 +12,18 @@ linters: lintr::all_linters(
     )
 encoding: "UTF-8"
 exclusions: list(
-    "vignettes/process.R" = list(
+    "vignettes/process-en.R" = list(
         unused_import_linter = Inf,
         undesirable_function_linter = Inf
     ),
-    "vignettes/process.qmd" = list(
+    "vignettes/process-fr.qmd" = list(
         unused_import_linter = Inf,
         undesirable_function_linter = Inf
     ),
-    "vignettes/td-selection-fr.R" = list(
+    "vignettes/td-selection-fr.qmd" = list(
         undesirable_function_linter = Inf
     ),
-    "vignettes/td-selection-en.R" = list(
+    "vignettes/td-selection-en.qmd" = list(
         undesirable_function_linter = Inf
     ),
     "tests/testthat.R" = list(

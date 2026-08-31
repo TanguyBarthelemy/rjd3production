@@ -8,19 +8,24 @@ is_compatible <- function(series, reg) {
     checkmate::assert_class(reg, "ts")
     checkmate::assert_numeric(reg)
 
+    d0_series <- round(as.double(head(stats::time(series), n = 1L)), 3L)
+    d1_series <- round(as.double(tail(stats::time(series), n = 1L)), 3L)
+    d0_reg <- round(as.double(head(stats::time(reg), n = 1L)), 3L)
+    d1_reg <- round(as.double(tail(stats::time(reg), n = 1L)), 3L)
+
     if (stats::frequency(series) != stats::frequency(reg)) {
         warning(
             "The series and the regressors doesn't have same frequency.",
             call. = FALSE
         )
         return(FALSE)
-    } else if (stats::time(series)[1L] < stats::time(reg)[1L]) {
+    } else if (d0_series < d0_reg) {
         warning(
             "The regressors starts after the beginning of the series.",
             call. = FALSE
         )
         return(FALSE)
-    } else if (rev(stats::time(series))[1L] > rev(stats::time(reg))[1L]) {
+    } else if (d1_series > d1_reg) {
         warning(
             "The regressors ends before the end of the series.",
             call. = FALSE
@@ -123,7 +128,7 @@ get_LY_info <- function(mod, verbose = TRUE) {
     ud_var <- mod$result_spec$regarima$regression$td$users
     if (
         length(ud_var) == 0L ||
-            !any(grepl(pattern = ".LY", x = ud_var, fixed = TRUE))
+        !any(grepl(pattern = ".LY", x = ud_var, fixed = TRUE))
     ) {
         return(data.frame(LY_coeff = NA, LY_p_value = NA))
     }
@@ -188,10 +193,11 @@ one_diagnostic <- function(series, spec, context, verbose = TRUE) {
     )
 
     # Si res_td < 0.05 -> il y a des tradings days residuals
-    res_td <- sapply(
+    res_td <- vapply(
         X = mod$user_defined,
         FUN = `[[`,
-        "pvalue"
+        "pvalue",
+        FUN.VALUE = double(1L)
     )
 
     # Plus la note est élevé, moins bine c'est.
@@ -320,12 +326,12 @@ verif_LY <- function(jeu, diags) {
 #' @importFrom stats time
 #' @importFrom utils tail
 select_td_one_series <- function(
-    series,
-    name = "",
-    specs_set = NULL,
-    context = NULL,
-    ...,
-    verbose = TRUE
+        series,
+        name = "",
+        specs_set = NULL,
+        context = NULL,
+        ...,
+        verbose = TRUE
 ) {
     checkmate::assert_class(series, "ts")
     checkmate::assert_numeric(series)
