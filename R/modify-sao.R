@@ -50,6 +50,7 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
         tempdir(),
         paste0("ws-data-dir-", sample.int(10000L, 1L))
     )
+    dir.create(data_dir)
     nb_sap <- rjd3workspace::ws_sap_count(jws)
     for (id_sap in seq_len(nb_sap)) {
         if (verbose) {
