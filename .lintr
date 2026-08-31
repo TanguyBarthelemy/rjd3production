@@ -7,20 +7,28 @@ linters: lintr::all_linters(
         namespace_linter = NULL,
         object_length_linter = NULL,
         object_name_linter = NULL,
-        commented_code_linter = NULL
-        #object_overwrite_linter = NULL,
-        #undesirable_function_linter = NULL
+        commented_code_linter = NULL,
+        object_overwrite_linter = NULL
     )
 encoding: "UTF-8"
 exclusions: list(
     "vignettes/process.R" = list(
-        unused_import_linter = Inf
+        unused_import_linter = Inf,
+        undesirable_function_linter = Inf
     ),
     "vignettes/process.qmd" = list(
-        unused_import_linter = Inf
+        unused_import_linter = Inf,
+        undesirable_function_linter = Inf
+    ),
+    "vignettes/td-selection-fr.R" = list(
+        undesirable_function_linter = Inf
+    ),
+    "vignettes/td-selection-en.R" = list(
+        undesirable_function_linter = Inf
     ),
     "tests/testthat.R" = list(
-        unused_import_linter = Inf
+        unused_import_linter = Inf,
+        undesirable_function_linter = Inf
     ),
     "data-raw/ws_example.R" = list(
         undesirable_function_linter = Inf

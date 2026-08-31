@@ -368,7 +368,8 @@ select_td_one_series <- function(
         stop(
             "Erreur lors du calcul de l'aicc et des p-value.
              Aucun jeu de regresseur n'a pu \u00eatre s\u00e9lectionn\u00e9. ",
-            ifelse(nzchar(name), paste0("(S\u00e9rie ", name, ")"), "")
+            ifelse(nzchar(name), paste0("(S\u00e9rie ", name, ")"), ""),
+            call. = FALSE
         )
     }
 
@@ -429,7 +430,10 @@ select_td <- function(series, context = NULL, ..., verbose = TRUE) {
     cond_series <- isTRUE(checkmate::check_class(series, "ts")) ||
         isTRUE(checkmate::check_data_frame(series))
     if (!cond_series) {
-        stop("Series must be (m)ts object or a data.frame of ts.")
+        stop(
+            "Series must be (m)ts object or a data.frame of ts.",
+            call. = FALSE
+        )
     }
     checkmate::assert_flag(verbose)
 
