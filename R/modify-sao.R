@@ -124,7 +124,7 @@ create_ws_from_data <- function(x, spec = rjd3x13::x13_spec(), context = NULL, s
     for (k in seq_len(ncol(x))) {
         series <- x[, k]
         rjd3workspace::add_sa_item(
-            jsap,
+            jsap = jsap,
             name = colnames(x)[k],
             x = series,
             spec = spec

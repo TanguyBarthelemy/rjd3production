@@ -76,88 +76,13 @@ remove_non_significant_outliers <- function(
     if (verbose) {
         cat("\n\U1F3F7 WS ", ws_name, "\n")
     }
-    jws <- rjd3workspace::jws_open(file = ws_path)
-    rjd3workspace::jws_compute(jws)
-    jsap <- rjd3workspace::jws_sap(jws, 1L)
-    nb_sai <- rjd3workspace::sap_sai_count(jsap)
-
-    outliers_table <- data.frame(
-        series = character(),
-        name = character(),
-        stringsAsFactors = FALSE
-    )
-
-    for (id_sai in seq_len(nb_sai)) {
-        if (verbose) {
-            cat("\U1F4CC SAI n\UB0", id_sai, "\n")
-        }
-        jsai <- rjd3workspace::jsap_sai(jsap, idx = id_sai)
-        sai <- rjd3workspace::read_sai(jsai)
-        series_name <- rjd3workspace::sai_name(jsai)
-        new_estimationSpec <- estimationSpec <- sai$estimationSpec
-        new_referenceSpec <- referenceSpec <- sai$referenceSpec
-        outliers <- estimationSpec$regarima$regression$outliers
-        outliers_reference <- referenceSpec$regarima$regression$outliers
-        outliers_name_reference <- do.call(
-            lapply(X = outliers_reference, FUN = function(outlier) {
-                paste0(outlier$code, " (", outlier$pos, ")")
-            }),
-            what = c
+    jws <- rjd3workspace::jws_open(file = ws_path) |>
+        remove_non_significant_outliers_jws(
+            threshold = threshold,
+            reference = reference,
+            estimation = estimation,
+            verbose = verbose
         )
-        xregs <- summary(sai$results)$preprocessing$xregs
-        outliers_to_remove <- NULL
-        for (id_out in seq_along(outliers)) {
-            outlier <- outliers[[id_out]]
-            outlier_name <- paste0(outlier$code, " (", outlier$pos, ")")
-            if (
-                outlier_name %in%
-                    rownames(xregs) &&
-                    !is.na(xregs[outlier_name, "Pr(>|t|)"]) &&
-                    xregs[outlier_name, "Pr(>|t|)"] > threshold
-            ) {
-                if (verbose) {
-                    cat("\U274C Suppression de l'outlier :", outlier_name, "\n")
-                }
-                new_estimationSpec <- rjd3toolkit::remove_outlier(
-                    new_estimationSpec,
-                    type = outlier$code,
-                    date = outlier$pos
-                )
-                if (outlier_name %in% outliers_name_reference) {
-                    new_referenceSpec <- rjd3toolkit::remove_outlier(
-                        new_referenceSpec,
-                        type = outlier$code,
-                        date = outlier$pos
-                    )
-                    if (verbose) {
-                        cat("L'outlier est dans la referenceSpec.\n")
-                    }
-                }
-                outliers_to_remove <- c(outlier_name, outliers_to_remove)
-            }
-        }
-        if (estimation) {
-            rjd3workspace::set_specification(jsap, id_sai, new_estimationSpec)
-        }
-        if (reference) {
-            rjd3workspace::set_reference_specification(
-                jsap,
-                id_sai,
-                new_referenceSpec
-            )
-        }
-        rjd3workspace::set_name(jsap, idx = id_sai, name = series_name)
-
-        if (length(outliers_to_remove) > 0L) {
-            outliers_table <- rbind(
-                outliers_table,
-                data.frame(
-                    series = series_name,
-                    name = outliers_to_remove
-                )
-            )
-        }
-    }
     if (verbose) {
         cat("\U1F4BE Saving WS file\n")
     }
@@ -166,6 +91,125 @@ remove_non_significant_outliers <- function(
         file = ws_path,
         replace = TRUE
     )
+}
+
+remove_non_significant_outliers_jws <- function(
+        jws,
+        threshold = 0.3,
+        reference = FALSE,
+        estimation = FALSE,
+        verbose = TRUE
+) {
+    if (!reference && !estimation) {
+        warning(
+            "No SA-Items will be modified if neither referenceSpec",
+            "nor estimationspec are selected."
+        )
+        return(invisible(NULL))
+    }
+    rjd3workspace::jws_compute(jws)
+    jsap <- rjd3workspace::jws_sap(jws, 1L)
+    nb_sai <- rjd3workspace::sap_sai_count(jsap)
+
+    outliers_table <- data.frame(
+        series = character(),
+        name = character(),
+        type = character(),
+        position = character(),
+        stringsAsFactors = FALSE
+    )
+
+    for (id_sai in seq_len(nb_sai)) {
+        if (verbose) {
+            cat("\U1F4CC SAI n\UB0", id_sai, "\n")
+        }
+        jsai <- rjd3workspace::jsap_sai(jsap, idx = id_sai)
+        series_name <- rjd3workspace::sai_name(jsai)
+
+        outliers_to_remove <- get_non_significant_outliers_jsai(
+            jsai = jsai,
+            threshold = threshold,
+            verbose = verbose
+        )
+
+        if (nrow(outliers_to_remove) > 1L) {
+            if (reference) {
+                new_referenceSpec <- sai$referenceSpec |>
+                    rjd3toolkit::remove_outlier(
+                        type = outlier$code,
+                        date = outlier$pos
+                    )
+                rjd3workspace::set_reference_specification(
+                    jsap = jsap,
+                    idx = id_sai,
+                    spec = new_referenceSpec
+                )
+            }
+
+            if (estimation) {
+                new_estimationSpec <- sai$estimationSpec |>
+                    rjd3toolkit::remove_outlier(
+                        type = outlier$code,
+                        date = outlier$pos
+                    )
+                rjd3workspace::set_specification(
+                    jsap = jsap,
+                    idx = id_sai,
+                    spec = new_estimationSpec
+                )
+            }
+            rjd3workspace::set_name(jsap, idx = id_sai, name = series_name)
+        }
+    }
+
+    return(jws)
+}
+
+get_non_significant_outliers_jsai <- function(
+        jsai,
+        threshold = 0.3,
+        verbose = TRUE
+) {
+    sai <- rjd3workspace::read_sai(jsai)
+    series_name <- rjd3workspace::sai_name(jsai)
+
+    outliers_table <- data.frame(
+        series = character(),
+        name = character(),
+        type = character(),
+        position = character(),
+        stringsAsFactors = FALSE
+    )
+
+    outliers <- sai$estimationSpec$regarima$regression$outliers
+    outliers_reference <- sai$referenceSpec$regarima$regression$outliers
+    if (is.null(sai$results)) {
+        stop("Please compute your workspace")
+    }
+    xregs <- summary(sai$results)$preprocessing$xregs
+    outliers_to_remove <- NULL
+    for (id_out in seq_along(outliers)) {
+        outlier <- outliers[[id_out]]
+        outlier_name <- paste0(outlier$code, " (", outlier$pos, ")")
+        if (
+            outlier_name %in%
+            rownames(xregs) &&
+            !is.na(xregs[outlier_name, "Pr(>|t|)"]) &&
+            xregs[outlier_name, "Pr(>|t|)"] > threshold
+        ) {
+            outliers_table <- rbind(
+                outliers_table,
+                data.frame(
+                    series = series_name,
+                    name = outlier_name,
+                    type = outlier$code,
+                    position = outlier$pos
+                )
+            )
+        }
+    }
+
+    return(outliers_table)
 }
 
 #' @title Set span minimum to a value
