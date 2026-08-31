@@ -52,4 +52,6 @@ add_sa_item(
 jws <- make_ws_crunchable(jws)
 #> SAP n°1
 #> SAI n°1
+#> Warning: cannot open file '/tmp/RtmpsIWjOM/ws-data-dir-5293/data-1-1.csv': No such file or directory
+#> Error in file(file, ifelse(append, "a", "w")): cannot open the connection
 ```

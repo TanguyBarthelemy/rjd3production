@@ -78,9 +78,9 @@ Once the regressors have been selected, you can export the table in
 
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at /tmp/RtmpCrHDMH/td-table25583d4925c1.yaml
+#> The td table will be written at /tmp/RtmpxeKWDd/td-table24e736a4d38a.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/RtmpCrHDMH/td-table25583d4925c1.yaml
+#> The td table will be read at  /tmp/RtmpxeKWDd/td-table24e736a4d38a.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
