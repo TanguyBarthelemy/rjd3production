@@ -63,30 +63,30 @@ random_span <- function() {
 #' @importFrom rjd3toolkit add_outlier
 #' @importFrom stats rnorm
 random_add_outlier <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
     n <- sample.int(15L, size = 1L)
-    args$type <- sample(c("AO", "LS", "TC", "SO"), size = n, replace = TRUE)
-    args$date <- as.character(as.Date(sample.int(20000L, size = n)))
-    args$coef <- sample(c(rep(0.0, n), stats::rnorm(n)), size = n)
-    args$name <- sample(
+    spec_args$type <- sample(c("AO", "LS", "TC", "SO"), size = n, replace = TRUE)
+    spec_args$date <- as.character(as.Date(sample.int(20000L, size = n)))
+    spec_args$coef <- sample(c(rep(0.0, n), stats::rnorm(n)), size = n)
+    spec_args$name <- sample(
         x = c(
-            paste0(args$type, " (", args$date, ")"),
-            paste0(args$type, seq_len(n), "_rnd")
+            paste0(spec_args$type, " (", spec_args$date, ")"),
+            paste0(spec_args$type, seq_len(n), "_rnd")
         ),
         size = n
     )
 
-    output <- do.call(rjd3toolkit::add_outlier, args)
+    output <- do.call(rjd3toolkit::add_outlier, spec_args)
     return(output)
 }
 
 #' @importFrom rjd3x13 set_x11
 #' @importFrom stats runif
 random_set_x11 <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args$mode <- random_choice(c(
+    spec_args$mode <- random_choice(c(
         NA_character_,
         "Undefined",
         "Additive",
@@ -94,8 +94,8 @@ random_set_x11 <- function(x) {
         "LogAdditive",
         "PseudoAdditive"
     ))
-    args$seasonal.comp <- random_flag()
-    args$seasonal.filter <- random_choice(c(
+    spec_args$seasonal.comp <- random_flag()
+    spec_args$seasonal.filter <- random_choice(c(
         NA_character_,
         "Msr",
         "Stable",
@@ -106,58 +106,58 @@ random_set_x11 <- function(x) {
         "S3X9",
         "S3X15"
     ))
-    args$henderson.filter <- random_choice(c(0L, 2L * seq_len(25L) + 1L))
-    args$lsigma <- stats::runif(n = 1L, 0.6, 3.0)
-    args$usigma <- stats::runif(n = 1L, 3.0, 10.0)
-    args$bcasts <- random_choice(0L:30L)
-    args$fcasts <- random_choice(0L:30L)
-    args$calendar.sigma <- random_choice(c("None", "All", "Signif", "Select"))
-    args$exclude.forecast <- random_flag()
-    args$sigma.vector <- random_choice(list(NULL, 1L, 2L))[[1L]]
+    spec_args$henderson.filter <- random_choice(c(0L, 2L * seq_len(25L) + 1L))
+    spec_args$lsigma <- stats::runif(n = 1L, 0.6, 3.0)
+    spec_args$usigma <- stats::runif(n = 1L, 3.0, 10.0)
+    spec_args$bcasts <- random_choice(0L:30L)
+    spec_args$fcasts <- random_choice(0L:30L)
+    spec_args$calendar.sigma <- random_choice(c("None", "All", "Signif", "Select"))
+    spec_args$exclude.forecast <- random_flag()
+    spec_args$sigma.vector <- random_choice(list(NULL, 1L, 2L))[[1L]]
 
-    output <- do.call(rjd3x13::set_x11, args)
+    output <- do.call(rjd3x13::set_x11, spec_args)
     return(output)
 }
 
 #' @importFrom rjd3toolkit set_transform
 random_set_transform <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args$fun <- random_choice(c(NA_character_, "None", "Auto", "Log"))
-    args$adjust <- random_choice(c(
+    spec_args$fun <- random_choice(c(NA_character_, "None", "Auto", "Log"))
+    spec_args$adjust <- random_choice(c(
         NA_character_,
         "None",
         "LeapYear",
         "LengthOfPeriod"
     ))
-    args$outliers <- random_flag()
-    args$aicdiff <- random_numeric_or_null()
+    spec_args$outliers <- random_flag()
+    spec_args$aicdiff <- random_numeric_or_null()
 
-    output <- do.call(rjd3toolkit::set_transform, args)
+    output <- do.call(rjd3toolkit::set_transform, spec_args)
     return(output)
 }
 
 #' @importFrom rjd3toolkit set_easter
 random_set_easter <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args$enabled <- random_flag()
-    args$julian <- random_flag()
-    args$duration <- random_choice(1L:20L)
-    args$test <- random_choice(c("Add", "Remove", "None"))
-    args$coef <- random_numeric_or_null()
-    args$coef.type <- random_choice(c(NA_character_, "Estimated", "Fixed"))
+    spec_args$enabled <- random_flag()
+    spec_args$julian <- random_flag()
+    spec_args$duration <- random_choice(1L:20L)
+    spec_args$test <- random_choice(c("Add", "Remove", "None"))
+    spec_args$coef <- random_numeric_or_null()
+    spec_args$coef.type <- random_choice(c(NA_character_, "Estimated", "Fixed"))
 
-    output <- do.call(rjd3toolkit::set_easter, args)
+    output <- do.call(rjd3toolkit::set_easter, spec_args)
     return(output)
 }
 
 #' @importFrom rjd3toolkit set_tradingdays
 #' @importFrom stats runif
 random_set_tradingdays <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args$option <- random_choice(c(
+    spec_args$option <- random_choice(c(
         NA_character_,
         "TradingDays",
         "WorkingDays",
@@ -169,184 +169,184 @@ random_set_tradingdays <- function(x) {
         "UserDefined"
     ))
 
-    args$coef <- random_choice(list(NULL, NA_real_, stats::runif(1L)))[[1L]]
-    args$leapyear.coef <- random_choice(list(
+    spec_args$coef <- random_choice(list(NULL, NA_real_, stats::runif(1L)))[[1L]]
+    spec_args$leapyear.coef <- random_choice(list(
         NULL,
         NA_real_,
         stats::runif(1L)
     ))[[1L]]
-    args$test <- random_choice(c(NA_character_, "None", "Remove", "Add"))
+    spec_args$test <- random_choice(c(NA_character_, "None", "Remove", "Add"))
 
-    if (is.na(args$option) || args$option == "None") {
-        args$stocktd <- random_choice(list(NA_integer_, NULL, 0L, 1L, 2L))[[1L]]
-        args$test <- "None"
-        args$coef <- NULL
-    } else if (args$option == "UserDefined") {
-        args$uservariable <- random_name(6L)
+    if (is.na(spec_args$option) || spec_args$option == "None") {
+        spec_args$stocktd <- random_choice(list(NA_integer_, NULL, 0L, 1L, 2L))[[1L]]
+        spec_args$test <- "None"
+        spec_args$coef <- NULL
+    } else if (spec_args$option == "UserDefined") {
+        spec_args$uservariable <- random_name(6L)
     }
 
-    if (!is.null(args$coef) || !is.null(args$leapyear.coef)) {
-        args$test <- "None"
+    if (!is.null(spec_args$coef) || !is.null(spec_args$leapyear.coef)) {
+        spec_args$test <- "None"
     }
 
-    args$calendar.name <- random_choice(c(NA_character_, "calA", "calB"))
-    args$coef.type <- random_choice(c(NA_character_, "Fixed", "Estimated"))
-    args$automatic <- random_choice(c(
+    spec_args$calendar.name <- random_choice(c(NA_character_, "calA", "calB"))
+    spec_args$coef.type <- random_choice(c(NA_character_, "Fixed", "Estimated"))
+    spec_args$automatic <- random_choice(c(
         NA_character_,
         "Unused",
         "WaldTest",
         "Aic",
         "Bic"
     ))
-    args$autoadjust <- random_flag()
-    args$leapyear <- random_choice(c(
+    spec_args$autoadjust <- random_flag()
+    spec_args$leapyear <- random_choice(c(
         NA_character_,
         "LeapYear",
         "LengthOfPeriod",
         "None"
     ))
-    args$leapyear.coef.type <- random_choice(c(
+    spec_args$leapyear.coef.type <- random_choice(c(
         NA_character_,
         "Fixed",
         "Estimated"
     ))
 
-    output <- do.call(rjd3toolkit::set_tradingdays, args)
+    output <- do.call(rjd3toolkit::set_tradingdays, spec_args)
     return(output)
 }
 
 #' @importFrom rjd3toolkit set_arima
 #' @importFrom stats rnorm
 random_set_arima <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args$mean <- random_choice(c(NA_integer_, 0L, -2L:2L))
-    args$mean.type <- random_choice(c(
+    spec_args$mean <- random_choice(c(NA_integer_, 0L, -2L:2L))
+    spec_args$mean.type <- random_choice(c(
         NA_character_,
         "Undefined",
         "Fixed",
         "Initial"
     ))
-    args$p <- random_choice(c(NA_integer_, 0L:3L))
-    args$d <- random_choice(c(NA_integer_, 0L:2L))
-    args$q <- random_choice(c(NA_integer_, 0L:3L))
-    args$bp <- random_choice(c(NA_integer_, 0L:2L))
-    args$bd <- random_choice(c(NA_integer_, 0L:2L))
-    args$bq <- random_choice(c(NA_integer_, 0L:2L))
-    args$coef <- random_choice(list(
+    spec_args$p <- random_choice(c(NA_integer_, 0L:3L))
+    spec_args$d <- random_choice(c(NA_integer_, 0L:2L))
+    spec_args$q <- random_choice(c(NA_integer_, 0L:3L))
+    spec_args$bp <- random_choice(c(NA_integer_, 0L:2L))
+    spec_args$bd <- random_choice(c(NA_integer_, 0L:2L))
+    spec_args$bq <- random_choice(c(NA_integer_, 0L:2L))
+    spec_args$coef <- random_choice(list(
         NULL,
-        stats::rnorm(sum(args$p, args$q, args$bp, args$bq, na.rm = TRUE))
+        stats::rnorm(sum(spec_args$p, spec_args$q, spec_args$bp, spec_args$bq, na.rm = TRUE))
     ))[[1L]]
-    args$coef.type <- random_choice(c(
+    spec_args$coef.type <- random_choice(c(
         NA_character_,
         "Undefined",
         "Fixed",
         "Initial"
     ))
 
-    output <- do.call(rjd3toolkit::set_arima, args)
+    output <- do.call(rjd3toolkit::set_arima, spec_args)
     return(output)
 }
 
 #' @importFrom rjd3toolkit set_automodel
 #' @importFrom stats rnorm
 random_set_automodel <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args$enabled <- random_flag()
-    args$acceptdefault <- random_flag()
-    args$cancel <- random_choice(c(NA, abs(stats::rnorm(1L))))
-    args$ub1 <- random_choice(c(NA, abs(stats::rnorm(1L))))
-    args$ub2 <- random_choice(c(NA, abs(stats::rnorm(1L))))
-    args$reducecv <- random_choice(c(NA, abs(stats::rnorm(1L))))
-    args$ljungboxlimit <- random_choice(c(NA, abs(stats::rnorm(1L))))
-    args$tsig <- random_choice(c(NA, abs(stats::rnorm(1L))))
-    args$ubfinal <- random_choice(c(NA, abs(stats::rnorm(1L))))
-    args$checkmu <- random_flag()
-    args$mixed <- random_flag()
-    args$balanced <- random_flag()
+    spec_args$enabled <- random_flag()
+    spec_args$acceptdefault <- random_flag()
+    spec_args$cancel <- random_choice(c(NA, abs(stats::rnorm(1L))))
+    spec_args$ub1 <- random_choice(c(NA, abs(stats::rnorm(1L))))
+    spec_args$ub2 <- random_choice(c(NA, abs(stats::rnorm(1L))))
+    spec_args$reducecv <- random_choice(c(NA, abs(stats::rnorm(1L))))
+    spec_args$ljungboxlimit <- random_choice(c(NA, abs(stats::rnorm(1L))))
+    spec_args$tsig <- random_choice(c(NA, abs(stats::rnorm(1L))))
+    spec_args$ubfinal <- random_choice(c(NA, abs(stats::rnorm(1L))))
+    spec_args$checkmu <- random_flag()
+    spec_args$mixed <- random_flag()
+    spec_args$balanced <- random_flag()
 
-    output <- do.call(rjd3toolkit::set_automodel, args)
+    output <- do.call(rjd3toolkit::set_automodel, spec_args)
     return(output)
 }
 
 #' @importFrom rjd3toolkit set_benchmarking
 random_set_benchmarking <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args$enabled <- random_flag()
-    args$target <- random_choice(c(
+    spec_args$enabled <- random_flag()
+    spec_args$target <- random_choice(c(
         NA_character_,
         "CalendarAdjusted",
         "Original"
     ))
-    args$rho <- random_numeric_or_null()
-    args$lambda <- random_numeric_or_null()
-    args$forecast <- random_flag()
-    args$bias <- random_choice(c("None", "Additive", "Multiplicative"))
+    spec_args$rho <- random_numeric_or_null()
+    spec_args$lambda <- random_numeric_or_null()
+    spec_args$forecast <- random_flag()
+    spec_args$bias <- random_choice(c("None", "Additive", "Multiplicative"))
 
-    output <- do.call(rjd3toolkit::set_benchmarking, args)
+    output <- do.call(rjd3toolkit::set_benchmarking, spec_args)
     return(output)
 }
 
 #' @importFrom rjd3toolkit add_ramp
 #' @importFrom stats rnorm
 random_add_ramp <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
     n <- sample.int(15L, size = 1L)
-    args$start <- sample.int(18000L, size = n)
-    args$end <- args$start + sample.int(2000L, size = n)
-    args$start <- as.character(as.Date(args$start))
-    args$end <- as.character(as.Date(args$end))
-    args$coef <- sample(c(rep(0.0, n), stats::rnorm(n)), size = n)
-    args$name <- sample(
+    spec_args$start <- sample.int(18000L, size = n)
+    spec_args$end <- spec_args$start + sample.int(2000L, size = n)
+    spec_args$start <- as.character(as.Date(spec_args$start))
+    spec_args$end <- as.character(as.Date(spec_args$end))
+    spec_args$coef <- sample(c(rep(0.0, n), stats::rnorm(n)), size = n)
+    spec_args$name <- sample(
         x = c(
-            paste0(args$type, " (", args$date, ")"),
+            paste0(spec_args$type, " (", spec_args$date, ")"),
             paste0("Ramp", seq_len(n), "_rnd")
         ),
         size = n
     )
 
-    output <- do.call(rjd3toolkit::add_ramp, args)
+    output <- do.call(rjd3toolkit::add_ramp, spec_args)
     return(output)
 }
 
 #' @importFrom rjd3toolkit set_basic
 random_set_basic <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args <- c(args, random_span())
-    args$preliminary.check <- random_flag()
-    args$preprocessing <- random_flag()
+    spec_args <- c(spec_args, random_span())
+    spec_args$preliminary.check <- random_flag()
+    spec_args$preprocessing <- random_flag()
 
-    output <- do.call(rjd3toolkit::set_basic, args)
+    output <- do.call(rjd3toolkit::set_basic, spec_args)
     return(output)
 }
 
 #' @importFrom stats runif
 #' @importFrom rjd3toolkit set_estimate
 random_set_estimate <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args <- c(args, random_span())
-    args$tol <- random_choice(list(NULL, NA_real_, abs(stats::runif(1L))))[[1L]]
-    args$exact.ml <- random_flag()
-    args$unit.root.limit <- random_flag()
+    spec_args <- c(spec_args, random_span())
+    spec_args$tol <- random_choice(list(NULL, NA_real_, abs(stats::runif(1L))))[[1L]]
+    spec_args$exact.ml <- random_flag()
+    spec_args$unit.root.limit <- random_flag()
 
-    output <- do.call(rjd3toolkit::set_estimate, args)
+    output <- do.call(rjd3toolkit::set_estimate, spec_args)
     return(output)
 }
 
 #' @importFrom stats rnorm
 #' @importFrom rjd3toolkit set_outlier
 random_set_outlier <- function(x) {
-    args <- list(x = x)
+    spec_args <- list(x = x)
 
-    args <- c(args, random_span())
-    args$span.type <- args$type
-    args$type <- NULL
-    args$outliers.type <- random_choice(list(
+    spec_args <- c(spec_args, random_span())
+    spec_args$span.type <- spec_args$type
+    spec_args$type <- NULL
+    spec_args$outliers.type <- random_choice(list(
         NA,
         sample(
             c("AO", "LS", "TC", "SO"),
@@ -354,22 +354,22 @@ random_set_outlier <- function(x) {
             replace = FALSE
         )
     ))[[1L]]
-    if (!anyNA(args$outliers.type)) {
-        args$critical.value <- random_choice(list(
+    if (!anyNA(spec_args$outliers.type)) {
+        spec_args$critical.value <- random_choice(list(
             NA,
             NULL,
-            abs(stats::rnorm(length(args$outliers.type)))
+            abs(stats::rnorm(length(spec_args$outliers.type)))
         ))[[1L]]
     }
-    args$tc.rate <- random_choice(c(
+    spec_args$tc.rate <- random_choice(c(
         NA,
         abs(random_choice(seq(0.1, 1.0, length.out = 200L)))
     ))
-    args$maxiter <- random_choice(c(NA, 1L:60L))
-    args$lsrun <- random_choice(c(NA, 0L:10L))
-    args$method <- random_choice(c(NA_character_, "AddOne", "AddAll"))
+    spec_args$maxiter <- random_choice(c(NA, 1L:60L))
+    spec_args$lsrun <- random_choice(c(NA, 0L:10L))
+    spec_args$method <- random_choice(c(NA_character_, "AddOne", "AddAll"))
 
-    output <- do.call(rjd3toolkit::set_outlier, args)
+    output <- do.call(rjd3toolkit::set_outlier, spec_args)
     return(output)
 }
 
@@ -380,12 +380,12 @@ random_add_usrdefvar <- function(x) {
 
     nb_usrdefvar <- random_choice(1L:10L)
     for (j in seq_len(nb_usrdefvar)) {
-        args <- list(x = output)
+        spec_args <- list(x = output)
 
-        args$group <- random_name(3L)
-        args$name <- random_name(4L)
-        args$lag <- random_choice(0L:20L)
-        args$regeffect <- random_choice(c(
+        spec_args$group <- random_name(3L)
+        spec_args$name <- random_name(4L)
+        spec_args$lag <- random_choice(0L:20L)
+        spec_args$regeffect <- random_choice(c(
             "Undefined",
             "Trend",
             "Seasonal",
@@ -394,10 +394,10 @@ random_add_usrdefvar <- function(x) {
             "SeasonallyAdjusted"
         ))
 
-        args$coef <- random_choice(list(NULL, stats::rnorm(1L)))[[1L]]
-        args$label <- random_choice(list(NULL, NA, random_name(5L)))[[1L]]
+        spec_args$coef <- random_choice(list(NULL, stats::rnorm(1L)))[[1L]]
+        spec_args$label <- random_choice(list(NULL, NA, random_name(5L)))[[1L]]
 
-        output <- do.call(rjd3toolkit::add_usrdefvar, args)
+        output <- do.call(rjd3toolkit::add_usrdefvar, spec_args)
     }
 
     return(output)

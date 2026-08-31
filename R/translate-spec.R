@@ -16,28 +16,28 @@ rev_add_outlier <- function(x) {
     if (is.null(x$regarima$regression$outliers)) {
         return(NULL)
     }
-    args <- list()
+    spec_args <- list()
     outliers <- x$regarima$regression$outliers
 
-    args$type <- vapply(
+    spec_args$type <- vapply(
         X = outliers,
         FUN = "[[",
         FUN.VALUE = character(1L),
         "code"
     )
-    args$date <- vapply(
+    spec_args$date <- vapply(
         X = outliers,
         FUN = "[[",
         FUN.VALUE = character(1L),
         "pos"
     )
-    args$name <- vapply(
+    spec_args$name <- vapply(
         X = outliers,
         FUN = "[[",
         FUN.VALUE = character(1L),
         "name"
     )
-    args$coef <- outliers |>
+    spec_args$coef <- outliers |>
         lapply(FUN = "[[", "coef") |>
         lapply(FUN = "[[", "value") |>
         lapply(FUN = \(coeff) {
@@ -50,7 +50,7 @@ rev_add_outlier <- function(x) {
 
     code <- paste0(
         "rjd3toolkit::add_outlier(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
@@ -60,28 +60,28 @@ rev_add_ramp <- function(x) {
     if (is.null(x$regarima$regression$ramps)) {
         return(NULL)
     }
-    args <- list()
+    spec_args <- list()
     ramps <- x$regarima$regression$ramps
 
-    args$start <- vapply(
+    spec_args$start <- vapply(
         X = ramps,
         FUN = "[[",
         FUN.VALUE = character(1L),
         "start"
     )
-    args$end <- vapply(
+    spec_args$end <- vapply(
         X = ramps,
         FUN = "[[",
         FUN.VALUE = character(1L),
         "end"
     )
-    args$name <- vapply(
+    spec_args$name <- vapply(
         X = ramps,
         FUN = "[[",
         FUN.VALUE = character(1L),
         "name"
     )
-    args$coef <- ramps |>
+    spec_args$coef <- ramps |>
         lapply(FUN = "[[", "coef") |>
         lapply(FUN = "[[", "value") |>
         lapply(FUN = \(coeff) {
@@ -94,27 +94,27 @@ rev_add_ramp <- function(x) {
 
     code <- paste0(
         "rjd3toolkit::add_ramp(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
-rev_one_usrdefvar <- function(args) {
-    args$label <- args$name
+rev_one_usrdefvar <- function(spec_args) {
+    spec_args$label <- spec_args$name
 
-    group_name <- strsplit(x = args$id, split = ".", fixed = TRUE)[[1L]]
-    args$group <- group_name[1L]
-    args$name <- group_name[2L]
-    args$id <- NULL
+    group_name <- strsplit(x = spec_args$id, split = ".", fixed = TRUE)[[1L]]
+    spec_args$group <- group_name[1L]
+    spec_args$name <- group_name[2L]
+    spec_args$id <- NULL
 
-    if (!is.null(args$coef)) {
-        args$coef <- args$coef$value
+    if (!is.null(spec_args$coef)) {
+        spec_args$coef <- spec_args$coef$value
     }
 
     code <- paste0(
         "rjd3toolkit::add_usrdefvar(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
@@ -134,204 +134,204 @@ rev_add_usrdefvar <- function(x) {
 }
 
 rev_set_x11 <- function(x) {
-    args <- x$x11
+    spec_args <- x$x11
 
-    args$lsigma <- args$lsig
-    args$lsig <- NULL
-    args$usigma <- args$usig
-    args$usig <- NULL
-    args$fcasts <- args$nfcasts
-    args$nfcasts <- NULL
-    args$bcasts <- args$nbcasts
-    args$nbcasts <- NULL
-    args$seasonal.comp <- args$seasonal
-    args$seasonal <- NULL
-    args$henderson.filter <- args$henderson
-    args$henderson <- NULL
-    args$seasonal.filter <- args$sfilters
-    args$sfilters <- NULL
-    args$calendar.sigma <- args$sigma
-    args$sigma <- NULL
-    args$sigma.vector <- args$vsigmas
-    args$vsigmas <- NULL
-    args$exclude.forecast <- args$excludefcasts
-    args$excludefcasts <- NULL
+    spec_args$lsigma <- spec_args$lsig
+    spec_args$lsig <- NULL
+    spec_args$usigma <- spec_args$usig
+    spec_args$usig <- NULL
+    spec_args$fcasts <- spec_args$nfcasts
+    spec_args$nfcasts <- NULL
+    spec_args$bcasts <- spec_args$nbcasts
+    spec_args$nbcasts <- NULL
+    spec_args$seasonal.comp <- spec_args$seasonal
+    spec_args$seasonal <- NULL
+    spec_args$henderson.filter <- spec_args$henderson
+    spec_args$henderson <- NULL
+    spec_args$seasonal.filter <- spec_args$sfilters
+    spec_args$sfilters <- NULL
+    spec_args$calendar.sigma <- spec_args$sigma
+    spec_args$sigma <- NULL
+    spec_args$sigma.vector <- spec_args$vsigmas
+    spec_args$vsigmas <- NULL
+    spec_args$exclude.forecast <- spec_args$excludefcasts
+    spec_args$excludefcasts <- NULL
 
-    args$mode <- switch(
-        args$mode,
+    spec_args$mode <- switch(
+        spec_args$mode,
         UNKNOWN = "UNDEFINED",
-        args$mode
+        spec_args$mode
     )
-    args$seasonal.filter <- gsub(
+    spec_args$seasonal.filter <- gsub(
         pattern = "FILTER_",
         replacement = "",
-        x = args$seasonal.filter,
+        x = spec_args$seasonal.filter,
         fixed = TRUE
     )
-    args$bias <- switch(
-        args$bias,
+    spec_args$bias <- switch(
+        spec_args$bias,
         RATIO = NA,
-        args$bias
+        spec_args$bias
     )
-    if (length(args$sigma.vector) == 0L) {
-        args$sigma.vector <- NULL
+    if (length(spec_args$sigma.vector) == 0L) {
+        spec_args$sigma.vector <- NULL
     }
 
     code <- paste0(
         "rjd3x13::set_x11(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
 rev_set_transform <- function(x) {
-    args <- x$regarima$transform
+    spec_args <- x$regarima$transform
 
-    args$fun <- switch(
-        args$fn,
+    spec_args$fun <- switch(
+        spec_args$fn,
         LEVEL = "NONE",
-        args$fn
+        spec_args$fn
     )
-    args$fn <- NULL
+    spec_args$fn <- NULL
     code <- paste0(
         "rjd3toolkit::set_transform(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
 rev_set_easter <- function(x) {
-    args <- x$regarima$regression$easter
-    args$enabled <- toupper(args$type) != "UNUSED"
-    if (args$type == "JULIAN") {
-        args$julian <- TRUE
+    spec_args <- x$regarima$regression$easter
+    spec_args$enabled <- toupper(spec_args$type) != "UNUSED"
+    if (spec_args$type == "JULIAN") {
+        spec_args$julian <- TRUE
     }
 
-    args$type <- NULL
+    spec_args$type <- NULL
 
-    if (!is.null(args$coefficient)) {
-        args$coef <- args$coefficient$value
-        args$coef.type <- args$coefficient$type
+    if (!is.null(spec_args$coefficient)) {
+        spec_args$coef <- spec_args$coefficient$value
+        spec_args$coef.type <- spec_args$coefficient$type
     }
-    args$coefficient <- NULL
+    spec_args$coefficient <- NULL
     code <- paste0(
         "rjd3toolkit::set_easter(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
 rev_set_basic <- function(x) {
-    args <- c(x$regarima$basic, x$regarima$basic$span)
-    args$span <- NULL
-    names(args)[names(args) == "preliminaryCheck"] <- "preliminary.check"
+    spec_args <- c(x$regarima$basic, x$regarima$basic$span)
+    spec_args$span <- NULL
+    names(spec_args)[names(spec_args) == "preliminaryCheck"] <- "preliminary.check"
     code <- paste0(
         "rjd3toolkit::set_basic(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
 rev_set_estimate <- function(x) {
-    args <- c(x$regarima$estimate, x$regarima$estimate$span)
-    args$span <- NULL
+    spec_args <- c(x$regarima$estimate, x$regarima$estimate$span)
+    spec_args$span <- NULL
     code <- paste0(
         "rjd3toolkit::set_estimate(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
 rev_set_automodel <- function(x) {
-    args <- x$regarima$automodel
-    args$acceptdefault <- args$acceptdef
-    args$acceptdef <- NULL
-    args$ljungboxlimit <- args$ljungbox
-    args$ljungbox <- NULL
-    args$reducecv <- args$predcv
-    args$predcv <- NULL
-    args$fct <- NULL
+    spec_args <- x$regarima$automodel
+    spec_args$acceptdefault <- spec_args$acceptdef
+    spec_args$acceptdef <- NULL
+    spec_args$ljungboxlimit <- spec_args$ljungbox
+    spec_args$ljungbox <- NULL
+    spec_args$reducecv <- spec_args$predcv
+    spec_args$predcv <- NULL
+    spec_args$fct <- NULL
     code <- paste0(
         "rjd3toolkit::set_automodel(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
 rev_set_arima <- function(x) {
-    args <- c(x$regarima$arima, x$regarima$regression$mean)
-    args$mean <- args$value
-    args$value <- NULL
-    args$mean.type <- args$type
-    args$type <- NULL
-    if ("phi" %in% names(args) && is.null(args$phi)) {
-        args$p <- NULL
-    } else if (is.null(args$phi)) {
-        args$p <- 0L
+    spec_args <- c(x$regarima$arima, x$regarima$regression$mean)
+    spec_args$mean <- spec_args$value
+    spec_args$value <- NULL
+    spec_args$mean.type <- spec_args$type
+    spec_args$type <- NULL
+    if ("phi" %in% names(spec_args) && is.null(spec_args$phi)) {
+        spec_args$p <- NULL
+    } else if (is.null(spec_args$phi)) {
+        spec_args$p <- 0L
     } else {
-        args$p <- ncol(args$phi)
-        args$coef <- c(args$coef, as.numeric(args$phi[1L, ]))
-        args$coef.type <- c(args$coef.type, as.character(args$phi[2L, ]))
+        spec_args$p <- ncol(spec_args$phi)
+        spec_args$coef <- c(spec_args$coef, as.numeric(spec_args$phi[1L, ]))
+        spec_args$coef.type <- c(spec_args$coef.type, as.character(spec_args$phi[2L, ]))
     }
-    if ("theta" %in% names(args) && is.null(args$theta)) {
-        args$q <- NULL
-    } else if (is.null(args$theta)) {
-        args$q <- 0L
+    if ("theta" %in% names(spec_args) && is.null(spec_args$theta)) {
+        spec_args$q <- NULL
+    } else if (is.null(spec_args$theta)) {
+        spec_args$q <- 0L
     } else {
-        args$q <- ncol(args$theta)
-        args$coef <- c(args$coef, as.numeric(args$theta[1L, ]))
-        args$coef.type <- c(args$coef.type, as.character(args$theta[2L, ]))
+        spec_args$q <- ncol(spec_args$theta)
+        spec_args$coef <- c(spec_args$coef, as.numeric(spec_args$theta[1L, ]))
+        spec_args$coef.type <- c(spec_args$coef.type, as.character(spec_args$theta[2L, ]))
     }
-    if ("bphi" %in% names(args) && is.null(args$bphi)) {
-        args$bp <- NULL
-    } else if (is.null(args$bphi)) {
-        args$bp <- 0L
+    if ("bphi" %in% names(spec_args) && is.null(spec_args$bphi)) {
+        spec_args$bp <- NULL
+    } else if (is.null(spec_args$bphi)) {
+        spec_args$bp <- 0L
     } else {
-        args$bp <- ncol(args$bphi)
-        args$coef <- c(args$coef, as.numeric(args$bphi[1L, ]))
-        args$coef.type <- c(args$coef.type, as.character(args$bphi[2L, ]))
+        spec_args$bp <- ncol(spec_args$bphi)
+        spec_args$coef <- c(spec_args$coef, as.numeric(spec_args$bphi[1L, ]))
+        spec_args$coef.type <- c(spec_args$coef.type, as.character(spec_args$bphi[2L, ]))
     }
-    if ("btheta" %in% names(args) && is.null(args$btheta)) {
-        args$bq <- NULL
-    } else if (is.null(args$btheta)) {
-        args$bq <- 0L
+    if ("btheta" %in% names(spec_args) && is.null(spec_args$btheta)) {
+        spec_args$bq <- NULL
+    } else if (is.null(spec_args$btheta)) {
+        spec_args$bq <- 0L
     } else {
-        args$bq <- ncol(args$btheta)
-        args$coef <- c(args$coef, as.numeric(args$btheta[1L, ]))
-        args$coef.type <- c(args$coef.type, as.character(args$btheta[2L, ]))
+        spec_args$bq <- ncol(spec_args$btheta)
+        spec_args$coef <- c(spec_args$coef, as.numeric(spec_args$btheta[1L, ]))
+        spec_args$coef.type <- c(spec_args$coef.type, as.character(spec_args$btheta[2L, ]))
     }
-    args$phi <- NULL
-    args$theta <- NULL
-    args$bphi <- NULL
-    args$btheta <- NULL
-    args$period <- NULL
+    spec_args$phi <- NULL
+    spec_args$theta <- NULL
+    spec_args$bphi <- NULL
+    spec_args$btheta <- NULL
+    spec_args$period <- NULL
     code <- paste0(
         "rjd3toolkit::set_arima(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
 rev_set_benchmarking <- function(x) {
-    args <- x$benchmarking
-    if (!is.null(args$target)) {
-        args$target <- switch(
-            args$target,
+    spec_args <- x$benchmarking
+    if (!is.null(spec_args$target)) {
+        spec_args$target <- switch(
+            spec_args$target,
             TARGET_CALENDARADJUSTED = "CALENDARADJUSTED",
             TARGET_ORIGINAL = "ORIGINAL",
             NA
         )
     }
-    if (!is.null(args$bias)) {
-        args$bias <- switch(
-            args$bias,
+    if (!is.null(spec_args$bias)) {
+        spec_args$bias <- switch(
+            spec_args$bias,
             BIAS_MULTIPLICATIVE = "MULTIPLICATIVE",
             BIAS_ADDITIVE = "ADDITIVE",
             BIAS_NONE = "NONE",
@@ -340,96 +340,96 @@ rev_set_benchmarking <- function(x) {
     }
     code <- paste0(
         "rjd3toolkit::set_benchmarking(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
 rev_set_outlier <- function(x) {
-    args <- c(x$regarima$outlier, x$regarima$outlier$span)
-    args$outliers.type <- vapply(
-        X = args$outliers,
+    spec_args <- c(x$regarima$outlier, x$regarima$outlier$span)
+    spec_args$outliers.type <- vapply(
+        X = spec_args$outliers,
         FUN = "[[",
         FUN.VALUE = character(1L),
         "type"
     )
-    args$critical.value <- vapply(
-        X = args$outliers,
+    spec_args$critical.value <- vapply(
+        X = spec_args$outliers,
         FUN = "[[",
         FUN.VALUE = numeric(1L),
         "va"
     )
-    args$outliers <- NULL
-    args$span <- NULL
-    args$tc.rate <- args$monthlytcrate
-    args$monthlytcrate <- NULL
-    args$defva <- NULL
-    args$span.type <- args$type
-    args$type <- NULL
+    spec_args$outliers <- NULL
+    spec_args$span <- NULL
+    spec_args$tc.rate <- spec_args$monthlytcrate
+    spec_args$monthlytcrate <- NULL
+    spec_args$defva <- NULL
+    spec_args$span.type <- spec_args$type
+    spec_args$type <- NULL
     code <- paste0(
         "rjd3toolkit::set_outlier(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)
 }
 
 rev_set_tradingdays <- function(x) {
-    args <- x$regarima$regression$td
+    spec_args <- x$regarima$regression$td
 
-    if (!is.null(args$lpcoefficient)) {
-        args$leapyear.coef <- args$lpcoefficient$value
-        args$leapyear.coef.type <- args$lpcoefficient$type
+    if (!is.null(spec_args$lpcoefficient)) {
+        spec_args$leapyear.coef <- spec_args$lpcoefficient$value
+        spec_args$leapyear.coef.type <- spec_args$lpcoefficient$type
     }
-    args$lpcoefficient <- NULL
+    spec_args$lpcoefficient <- NULL
 
-    if (!is.null(args$tdcoefficients)) {
-        args$coef <- as.numeric(args$tdcoefficients[1L, ])
-        if (!all(is.na(args$coef)) && all(args$coef == 0L)) {
-            args$coef <- NULL
+    if (!is.null(spec_args$tdcoefficients)) {
+        spec_args$coef <- as.numeric(spec_args$tdcoefficients[1L, ])
+        if (!all(is.na(spec_args$coef)) && all(spec_args$coef == 0L)) {
+            spec_args$coef <- NULL
         }
-        args$coef.type <- as.character(args$tdcoefficients[2L, ])
+        spec_args$coef.type <- as.character(spec_args$tdcoefficients[2L, ])
     }
-    args$tdcoefficients <- NULL
+    spec_args$tdcoefficients <- NULL
 
-    args$calendar.name <- args$holidays
-    args$holidays <- NULL
+    spec_args$calendar.name <- spec_args$holidays
+    spec_args$holidays <- NULL
 
-    args$automatic <- switch(
-        args$auto,
+    spec_args$automatic <- switch(
+        spec_args$auto,
         AUTO_NO = "UNUSED",
-        gsub(x = args$auto, pattern = "AUTO_", replacement = "", fixed = TRUE)
+        gsub(x = spec_args$auto, pattern = "AUTO_", replacement = "", fixed = TRUE)
     )
-    args$auto <- NULL
-    args$option <- switch(
-        args$td,
+    spec_args$auto <- NULL
+    spec_args$option <- switch(
+        spec_args$td,
         TD7 = "TradingDays",
         TD2 = "WorkingDays",
-        gsub(x = args$td, pattern = "TD_", replacement = "", fixed = TRUE)
+        gsub(x = spec_args$td, pattern = "TD_", replacement = "", fixed = TRUE)
     )
-    args$td <- NULL
-    args$leapyear <- args$lp
-    args$lp <- NULL
+    spec_args$td <- NULL
+    spec_args$leapyear <- spec_args$lp
+    spec_args$lp <- NULL
 
     if (
-        args$option == "NONE" &&
-            (length(args$users) == 0L || is.null(args$users)) &&
-            !nzchar(args$calendar.name) &&
-            is.null(args$coef)
+        spec_args$option == "NONE" &&
+            (length(spec_args$users) == 0L || is.null(spec_args$users)) &&
+            !nzchar(spec_args$calendar.name) &&
+            is.null(spec_args$coef)
     ) {
-        args$stocktd <- args$w
+        spec_args$stocktd <- spec_args$w
     }
-    args$w <- NULL
+    spec_args$w <- NULL
 
-    args$uservariable <- args$users
-    args$users <- NULL
-    args$ptest1 <- NULL
-    args$ptest2 <- NULL
+    spec_args$uservariable <- spec_args$users
+    spec_args$users <- NULL
+    spec_args$ptest1 <- NULL
+    spec_args$ptest2 <- NULL
 
     code <- paste0(
         "rjd3toolkit::set_tradingdays(\n\t",
-        paste(names(args), "=", keep_format(args), collapse = ",\n\t"),
+        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
         "\n)"
     )
     return(code)

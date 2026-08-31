@@ -63,13 +63,13 @@ retrieve_outliers <- function(
         outliers <- unique(regression_section[["outliers"]])
 
         if (!is.null(outliers)) {
-            type <- vapply(
+            outliers_type <- vapply(
                 X = outliers,
                 FUN = base::`[[`,
                 FUN.VALUE = character(1L),
                 "code"
             )
-            date <- vapply(
+            outliers_date <- vapply(
                 X = outliers,
                 FUN = base::`[[`,
                 FUN.VALUE = double(1L),
@@ -82,8 +82,8 @@ retrieve_outliers <- function(
                 ps_outliers,
                 data.frame(
                     series = series_name,
-                    type = type,
-                    date = date
+                    type = outliers_type,
+                    date = outliers_date
                 )
             )
         }

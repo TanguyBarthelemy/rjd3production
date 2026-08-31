@@ -128,7 +128,7 @@ get_LY_info <- function(mod, verbose = TRUE) {
     ud_var <- mod$result_spec$regarima$regression$td$users
     if (
         length(ud_var) == 0L ||
-        !any(grepl(pattern = ".LY", x = ud_var, fixed = TRUE))
+            !any(grepl(pattern = ".LY", x = ud_var, fixed = TRUE))
     ) {
         return(data.frame(LY_coeff = NA, LY_p_value = NA))
     }
@@ -203,18 +203,18 @@ one_diagnostic <- function(series, spec, context, verbose = TRUE) {
     # Plus la note est élevé, moins bine c'est.
     note <- sum((res_td < 0.05) * 2L:1L)
     aicc <- mod$result$preprocessing$estimation$likelihood$aicc
-    mode <- c("Additive", "Multiplicative")[
+    mode_decompo <- c("Additive", "Multiplicative")[
         mod$result$preprocessing$description$log + 1L
     ]
 
     LY_info <- get_LY_info(mod, verbose = verbose)
 
-    diag <- cbind(
-        data.frame(note = note, aicc = aicc, mode = mode),
+    diagnostic <- cbind(
+        data.frame(note = note, aicc = aicc, mode = mode_decompo),
         LY_info
     )
 
-    return(diag)
+    return(diagnostic)
 }
 
 #' @importFrom checkmate assert_class
@@ -232,12 +232,12 @@ all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
     checkmate::assert_set_equal(names(context), c("calendars", "variables"))
     checkmate::assert_flag(verbose)
 
-    diags <- lapply(X = seq_along(specs_set), FUN = function(k) {
+    diagnostics <- lapply(X = seq_along(specs_set), FUN = function(k) {
         spec <- specs_set[[k]]
         if (verbose) {
             cat("Computing spec", names(specs_set)[k], "...")
         }
-        diag <- one_diagnostic(
+        diagnostic <- one_diagnostic(
             series = series,
             spec = spec,
             context = context,
@@ -246,17 +246,17 @@ all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
         if (verbose) {
             cat("Done !\n")
         }
-        return(diag)
+        return(diagnostic)
     })
 
-    diags <- do.call(what = rbind, args = diags)
-    diags <- cbind(
+    diagnostics <- do.call(what = rbind, args = diagnostics)
+    diagnostics <- cbind(
         regs = names(specs_set),
-        diags
+        diagnostics
     )
-    rownames(diags) <- diags$regs
+    rownames(diagnostics) <- diagnostics$regs
 
-    return(diags)
+    return(diagnostics)
 }
 
 #' @importFrom checkmate assert_character
@@ -277,7 +277,7 @@ verif_LY <- function(jeu, diags) {
 
     LY_coeff <- diags[id_jeu, "LY_coeff"]
     LY_p_value <- diags[id_jeu, "LY_p_value"]
-    mode <- diags[id_jeu, "mode"]
+    mode_decompo <- diags[id_jeu, "mode"]
 
     if (jeu == "LY") {
         jeu_without_LY <- "No_TD"
@@ -298,7 +298,7 @@ verif_LY <- function(jeu, diags) {
         return(rownames(diags_jeu)[which.min(diags_jeu$note)])
     }
 
-    if (mode == "Multiplicatif") {
+    if (mode_decompo == "Multiplicatif") {
         LY_coeff <- 100.0 * LY_coeff
     }
     LY_coeff <- round(LY_coeff)
@@ -326,12 +326,12 @@ verif_LY <- function(jeu, diags) {
 #' @importFrom stats time
 #' @importFrom utils tail
 select_td_one_series <- function(
-        series,
-        name = "",
-        specs_set = NULL,
-        context = NULL,
-        ...,
-        verbose = TRUE
+    series,
+    name = "",
+    specs_set = NULL,
+    context = NULL,
+    ...,
+    verbose = TRUE
 ) {
     checkmate::assert_class(series, "ts")
     checkmate::assert_numeric(series)
@@ -458,56 +458,60 @@ select_td <- function(series, context = NULL, ..., verbose = TRUE) {
         colnames(series) <- "my_series"
     }
 
-    output <- sapply(X = seq_len(ncol(series)), FUN = function(k) {
-        series_name <- colnames(series)[k]
+    output <- vapply(
+        X = seq_len(ncol(series)),
+        FUN = function(k) {
+            series_name <- colnames(series)[k]
 
-        # if (with_outliers) {
-        #     # On récupère les outliers
-        #     sai_ref <- sap_ref |> RJDemetra::get_object(which(series_name_ref == series_name))
-        #     sai_mod <- sai_ref |> RJDemetra::get_model(workspace = ws_ref)
-        #     regressors <- sai_mod$regarima$regression.coefficients |> rownames()
-        #     regressors <- regressors[substr(regressors, 1, 2) %in% c("AO", "TC", "LS", "SO")]
-        #
-        #     if (length(regressors) > 0) {
-        #         outliers_type <- regressors |> substr(start = 1, stop = 2)
-        #         outliers_date <- regressors |>
-        #             substr(start = 5, stop = nchar(regressors) - 1) |>
-        #             paste0("01-", ... = _) |>
-        #             as.Date(format = "%d-%m-%Y")
-        #
-        #         outliers_type <- outliers_type[outliers_date >= as.Date(span_start)]
-        #         outliers_date <- outliers_date[outliers_date >= as.Date(span_start)]
-        #
-        #         if (length(outliers_date) > 0) {
-        #             outliers <- list(type = outliers_type,
-        #                              date = outliers_date)
-        #         }
-        #     }
-        # }
+            # if (with_outliers) {
+            #     # On récupère les outliers
+            #     sai_ref <- sap_ref |> RJDemetra::get_object(which(series_name_ref == series_name))
+            #     sai_mod <- sai_ref |> RJDemetra::get_model(workspace = ws_ref)
+            #     regressors <- sai_mod$regarima$regression.coefficients |> rownames()
+            #     regressors <- regressors[substr(regressors, 1, 2) %in% c("AO", "TC", "LS", "SO")]
+            #
+            #     if (length(regressors) > 0) {
+            #         outliers_type <- regressors |> substr(start = 1, stop = 2)
+            #         outliers_date <- regressors |>
+            #             substr(start = 5, stop = nchar(regressors) - 1) |>
+            #             paste0("01-", ... = _) |>
+            #             as.Date(format = "%d-%m-%Y")
+            #
+            #         outliers_type <- outliers_type[outliers_date >= as.Date(span_start)]
+            #         outliers_date <- outliers_date[outliers_date >= as.Date(span_start)]
+            #
+            #         if (length(outliers_date) > 0) {
+            #             outliers <- list(type = outliers_type,
+            #                              date = outliers_date)
+            #         }
+            #     }
+            # }
 
-        if (verbose) {
-            cat(
-                paste0(
-                    "\nS\u00e9rie ",
-                    series_name,
-                    " en cours... ",
-                    k,
-                    "/",
-                    ncol(series)
-                ),
-                "\n"
-            )
-        }
+            if (verbose) {
+                cat(
+                    paste0(
+                        "\nS\u00e9rie ",
+                        series_name,
+                        " en cours... ",
+                        k,
+                        "/",
+                        ncol(series)
+                    ),
+                    "\n"
+                )
+            }
 
-        return(select_td_one_series(
-            series = series[, k],
-            name = series_name,
-            specs_set = specs_set,
-            context = context,
-            ...,
-            verbose = verbose
-        ))
-    })
+            return(select_td_one_series(
+                series = series[, k],
+                name = series_name,
+                specs_set = specs_set,
+                context = context,
+                ...,
+                verbose = verbose
+            ))
+        },
+        FUN.VALUE = character(1L)
+    )
 
     output <- cbind(series = colnames(series), regs = output)
     return(as.data.frame(output))

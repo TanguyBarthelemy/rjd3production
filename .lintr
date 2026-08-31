@@ -7,12 +7,12 @@ linters: lintr::all_linters(
         namespace_linter = NULL,
         object_length_linter = NULL,
         object_name_linter = NULL,
-        commented_code_linter = NULL,
-        object_overwrite_linter = NULL
+        commented_code_linter = NULL
+        #object_overwrite_linter = NULL
     )
 encoding: "UTF-8"
 exclusions: list(
-    "vignettes/process-en.R" = list(
+    "vignettes/process-en.qmd" = list(
         unused_import_linter = Inf,
         undesirable_function_linter = Inf
     ),

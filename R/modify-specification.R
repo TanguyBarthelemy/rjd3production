@@ -250,14 +250,14 @@ set_minimum_span <- function(
 ) {
     if ((model_span || series_span) && without_outliers) {
         outliers <- spec$regarima$regression$outliers
-        date <- vapply(
+        outliers_date <- vapply(
             X = outliers,
             FUN = base::`[[`,
             FUN.VALUE = double(1L),
             "pos"
         ) |>
             as.Date()
-        cond <- date < as.Date(d0)
+        cond <- outliers_date < as.Date(d0)
         if (!is.null(outliers) && any(cond)) {
             spec$regarima$regression$outliers <- outliers[!cond]
         }
