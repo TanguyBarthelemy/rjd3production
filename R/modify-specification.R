@@ -124,6 +124,7 @@ remove_non_significant_outliers_jws <- function(
             cat("\U1F4CC SAI n\UB0", id_sai, "\n")
         }
         jsai <- rjd3workspace::jsap_sai(jsap, idx = id_sai)
+        sai <- read_sai(jsai)
         series_name <- rjd3workspace::sai_name(jsai)
 
         outliers_to_remove <- get_non_significant_outliers_jsai(
@@ -136,8 +137,8 @@ remove_non_significant_outliers_jws <- function(
             if (reference) {
                 new_referenceSpec <- rjd3toolkit::remove_outlier(
                     x = sai$referenceSpec,
-                    type = outlier$code,
-                    date = outlier$pos
+                    type = outliers_to_remove$type,
+                    date = outliers_to_remove$position
                 )
                 rjd3workspace::set_reference_specification(
                     jsap = jsap,
@@ -149,8 +150,8 @@ remove_non_significant_outliers_jws <- function(
             if (estimation) {
                 new_estimationSpec <- rjd3toolkit::remove_outlier(
                     x = sai$estimationSpec,
-                    type = outlier$code,
-                    date = outlier$pos
+                    type = outliers_to_remove$type,
+                    date = outliers_to_remove$position
                 )
                 rjd3workspace::set_specification(
                     jsap = jsap,
