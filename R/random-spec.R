@@ -66,7 +66,11 @@ random_add_outlier <- function(x) {
     spec_args <- list(x = x)
 
     n <- sample.int(15L, size = 1L)
-    spec_args$type <- sample(c("AO", "LS", "TC", "SO"), size = n, replace = TRUE)
+    spec_args$type <- sample(
+        c("AO", "LS", "TC", "SO"),
+        size = n,
+        replace = TRUE
+    )
     spec_args$date <- as.character(as.Date(sample.int(20000L, size = n)))
     spec_args$coef <- sample(c(rep(0.0, n), stats::rnorm(n)), size = n)
     spec_args$name <- sample(
@@ -111,7 +115,12 @@ random_set_x11 <- function(x) {
     spec_args$usigma <- stats::runif(n = 1L, 3.0, 10.0)
     spec_args$bcasts <- random_choice(0L:30L)
     spec_args$fcasts <- random_choice(0L:30L)
-    spec_args$calendar.sigma <- random_choice(c("None", "All", "Signif", "Select"))
+    spec_args$calendar.sigma <- random_choice(c(
+        "None",
+        "All",
+        "Signif",
+        "Select"
+    ))
     spec_args$exclude.forecast <- random_flag()
     spec_args$sigma.vector <- random_choice(list(NULL, 1L, 2L))[[1L]]
 
@@ -169,7 +178,9 @@ random_set_tradingdays <- function(x) {
         "UserDefined"
     ))
 
-    spec_args$coef <- random_choice(list(NULL, NA_real_, stats::runif(1L)))[[1L]]
+    spec_args$coef <- random_choice(list(NULL, NA_real_, stats::runif(1L)))[[
+        1L
+    ]]
     spec_args$leapyear.coef <- random_choice(list(
         NULL,
         NA_real_,
@@ -178,7 +189,13 @@ random_set_tradingdays <- function(x) {
     spec_args$test <- random_choice(c(NA_character_, "None", "Remove", "Add"))
 
     if (is.na(spec_args$option) || spec_args$option == "None") {
-        spec_args$stocktd <- random_choice(list(NA_integer_, NULL, 0L, 1L, 2L))[[1L]]
+        spec_args$stocktd <- random_choice(list(
+            NA_integer_,
+            NULL,
+            0L,
+            1L,
+            2L
+        ))[[1L]]
         spec_args$test <- "None"
         spec_args$coef <- NULL
     } else if (spec_args$option == "UserDefined") {
@@ -235,7 +252,13 @@ random_set_arima <- function(x) {
     spec_args$bq <- random_choice(c(NA_integer_, 0L:2L))
     spec_args$coef <- random_choice(list(
         NULL,
-        stats::rnorm(sum(spec_args$p, spec_args$q, spec_args$bp, spec_args$bq, na.rm = TRUE))
+        stats::rnorm(sum(
+            spec_args$p,
+            spec_args$q,
+            spec_args$bp,
+            spec_args$bq,
+            na.rm = TRUE
+        ))
     ))[[1L]]
     spec_args$coef.type <- random_choice(c(
         NA_character_,
@@ -330,7 +353,11 @@ random_set_estimate <- function(x) {
     spec_args <- list(x = x)
 
     spec_args <- c(spec_args, random_span())
-    spec_args$tol <- random_choice(list(NULL, NA_real_, abs(stats::runif(1L))))[[1L]]
+    spec_args$tol <- random_choice(list(
+        NULL,
+        NA_real_,
+        abs(stats::runif(1L))
+    ))[[1L]]
     spec_args$exact.ml <- random_flag()
     spec_args$unit.root.limit <- random_flag()
 

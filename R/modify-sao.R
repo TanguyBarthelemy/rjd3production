@@ -46,7 +46,10 @@
 #' jws <- make_ws_crunchable(jws)
 #'
 make_ws_crunchable <- function(jws, verbose = TRUE) {
-    data_dir <- file.path(tempdir(), paste0("ws-data-dir-", sample(10000, 1L)))
+    data_dir <- file.path(
+        tempdir(),
+        paste0("ws-data-dir-", sample.int(10000L, 1L))
+    )
     nb_sap <- rjd3workspace::ws_sap_count(jws)
     for (id_sap in seq_len(nb_sap)) {
         if (verbose) {
@@ -122,12 +125,12 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' @importFrom rjd3x13 x13_spec
 #' @export
 create_ws_from_data <- function(
-        x,
-        spec = rjd3x13::x13_spec(),
-        context = NULL,
-        sap_name = "SAP1",
-        path = NULL,
-        name_series = "my_series"
+    x,
+    spec = rjd3x13::x13_spec(),
+    context = NULL,
+    sap_name = "SAP1",
+    path = NULL,
+    name_series = "my_series"
 ) {
     jws <- rjd3workspace::jws_new()
     rjd3workspace::set_context(jws, modelling_context = context)

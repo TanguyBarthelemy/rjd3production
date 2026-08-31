@@ -50,7 +50,12 @@ rev_add_outlier <- function(x) {
 
     code <- paste0(
         "rjd3toolkit::add_outlier(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -94,7 +99,12 @@ rev_add_ramp <- function(x) {
 
     code <- paste0(
         "rjd3toolkit::add_ramp(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -114,7 +124,12 @@ rev_one_usrdefvar <- function(spec_args) {
 
     code <- paste0(
         "rjd3toolkit::add_usrdefvar(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -179,7 +194,12 @@ rev_set_x11 <- function(x) {
 
     code <- paste0(
         "rjd3x13::set_x11(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -196,7 +216,12 @@ rev_set_transform <- function(x) {
     spec_args$fn <- NULL
     code <- paste0(
         "rjd3toolkit::set_transform(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -218,7 +243,12 @@ rev_set_easter <- function(x) {
     spec_args$coefficient <- NULL
     code <- paste0(
         "rjd3toolkit::set_easter(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -227,10 +257,17 @@ rev_set_easter <- function(x) {
 rev_set_basic <- function(x) {
     spec_args <- c(x$regarima$basic, x$regarima$basic$span)
     spec_args$span <- NULL
-    names(spec_args)[names(spec_args) == "preliminaryCheck"] <- "preliminary.check"
+    names(spec_args)[
+        names(spec_args) == "preliminaryCheck"
+    ] <- "preliminary.check"
     code <- paste0(
         "rjd3toolkit::set_basic(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -241,7 +278,12 @@ rev_set_estimate <- function(x) {
     spec_args$span <- NULL
     code <- paste0(
         "rjd3toolkit::set_estimate(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -258,7 +300,12 @@ rev_set_automodel <- function(x) {
     spec_args$fct <- NULL
     code <- paste0(
         "rjd3toolkit::set_automodel(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -277,7 +324,10 @@ rev_set_arima <- function(x) {
     } else {
         spec_args$p <- ncol(spec_args$phi)
         spec_args$coef <- c(spec_args$coef, as.numeric(spec_args$phi[1L, ]))
-        spec_args$coef.type <- c(spec_args$coef.type, as.character(spec_args$phi[2L, ]))
+        spec_args$coef.type <- c(
+            spec_args$coef.type,
+            as.character(spec_args$phi[2L, ])
+        )
     }
     if ("theta" %in% names(spec_args) && is.null(spec_args$theta)) {
         spec_args$q <- NULL
@@ -286,7 +336,10 @@ rev_set_arima <- function(x) {
     } else {
         spec_args$q <- ncol(spec_args$theta)
         spec_args$coef <- c(spec_args$coef, as.numeric(spec_args$theta[1L, ]))
-        spec_args$coef.type <- c(spec_args$coef.type, as.character(spec_args$theta[2L, ]))
+        spec_args$coef.type <- c(
+            spec_args$coef.type,
+            as.character(spec_args$theta[2L, ])
+        )
     }
     if ("bphi" %in% names(spec_args) && is.null(spec_args$bphi)) {
         spec_args$bp <- NULL
@@ -295,7 +348,10 @@ rev_set_arima <- function(x) {
     } else {
         spec_args$bp <- ncol(spec_args$bphi)
         spec_args$coef <- c(spec_args$coef, as.numeric(spec_args$bphi[1L, ]))
-        spec_args$coef.type <- c(spec_args$coef.type, as.character(spec_args$bphi[2L, ]))
+        spec_args$coef.type <- c(
+            spec_args$coef.type,
+            as.character(spec_args$bphi[2L, ])
+        )
     }
     if ("btheta" %in% names(spec_args) && is.null(spec_args$btheta)) {
         spec_args$bq <- NULL
@@ -304,7 +360,10 @@ rev_set_arima <- function(x) {
     } else {
         spec_args$bq <- ncol(spec_args$btheta)
         spec_args$coef <- c(spec_args$coef, as.numeric(spec_args$btheta[1L, ]))
-        spec_args$coef.type <- c(spec_args$coef.type, as.character(spec_args$btheta[2L, ]))
+        spec_args$coef.type <- c(
+            spec_args$coef.type,
+            as.character(spec_args$btheta[2L, ])
+        )
     }
     spec_args$phi <- NULL
     spec_args$theta <- NULL
@@ -313,7 +372,12 @@ rev_set_arima <- function(x) {
     spec_args$period <- NULL
     code <- paste0(
         "rjd3toolkit::set_arima(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -340,7 +404,12 @@ rev_set_benchmarking <- function(x) {
     }
     code <- paste0(
         "rjd3toolkit::set_benchmarking(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -369,7 +438,12 @@ rev_set_outlier <- function(x) {
     spec_args$type <- NULL
     code <- paste0(
         "rjd3toolkit::set_outlier(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)
@@ -399,7 +473,12 @@ rev_set_tradingdays <- function(x) {
     spec_args$automatic <- switch(
         spec_args$auto,
         AUTO_NO = "UNUSED",
-        gsub(x = spec_args$auto, pattern = "AUTO_", replacement = "", fixed = TRUE)
+        gsub(
+            x = spec_args$auto,
+            pattern = "AUTO_",
+            replacement = "",
+            fixed = TRUE
+        )
     )
     spec_args$auto <- NULL
     spec_args$option <- switch(
@@ -429,7 +508,12 @@ rev_set_tradingdays <- function(x) {
 
     code <- paste0(
         "rjd3toolkit::set_tradingdays(\n\t",
-        paste(names(spec_args), "=", keep_format(spec_args), collapse = ",\n\t"),
+        paste(
+            names(spec_args),
+            "=",
+            keep_format(spec_args),
+            collapse = ",\n\t"
+        ),
         "\n)"
     )
     return(code)

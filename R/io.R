@@ -8,7 +8,7 @@ prepare_path <- function(path = NULL, object = "outliers") {
         }
         path <- file.path(
             path_dir,
-            paste0(object, "-", sample(10000L, size = 1L), ".yaml")
+            paste0(object, "-", sample.int(10000L, size = 1L), ".yaml")
         )
         warning(
             "The path is missing. ",
@@ -19,7 +19,7 @@ prepare_path <- function(path = NULL, object = "outliers") {
     } else if (dir.exists(path)) {
         path <- file.path(
             path,
-            paste0(object, "-", sample(10000L, size = 1L), ".yaml")
+            paste0(object, "-", sample.int(10000L, size = 1L), ".yaml")
         )
     } else if (file.exists(path)) {
         path <- normalizePath(path)
@@ -57,7 +57,7 @@ prepare_path <- function(path = NULL, object = "outliers") {
         dir.create(path, showWarnings = FALSE, recursive = TRUE)
         path <- file.path(
             path,
-            paste0(object, "-", sample(10000L, size = 1L), ".yaml")
+            paste0(object, "-", sample.int(10000L, size = 1L), ".yaml")
         )
     }
     return(path)
