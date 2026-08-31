@@ -82,4 +82,4 @@ for (id_series in seq_len(ncol(ABS))) {
     set_specification(jsap, idx = id_series, spec = espec)
 }
 
-save_workspace(jws, file = "inst/workspaces/ws_example.xml")
+save_workspace(jws, file = file.path("inst", "workspaces", "ws_example.xml"))

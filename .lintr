@@ -10,8 +10,7 @@ linters: lintr::all_linters(
         commented_code_linter = NULL
         #object_overwrite_linter = NULL,
         #nonportable_path_linter = NULL,
-        #undesirable_function_linter = NULL,
-        #condition_call_linter = NULL
+        #undesirable_function_linter = NULL
     )
 encoding: "UTF-8"
 exclusions: list(
