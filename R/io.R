@@ -6,10 +6,9 @@ prepare_path <- function(path = NULL, object = "outliers") {
         if (!dir.exists(path_dir)) {
             dir.create(path_dir, showWarnings = FALSE)
         }
-        path <- tempfile(
-            pattern = object,
-            tmpdir = path_dir,
-            fileext = ".yaml"
+        path <- file.path(
+            path_dir,
+            paste0(object, "-", sample(10000L, size = 1L), ".yaml")
         )
         warning(
             "The path is missing. ",
@@ -18,10 +17,9 @@ prepare_path <- function(path = NULL, object = "outliers") {
             call. = FALSE
         )
     } else if (dir.exists(path)) {
-        path <- tempfile(
-            pattern = "td_",
-            tmpdir = path,
-            fileext = ".yaml"
+        path <- file.path(
+            path,
+            paste0(object, "-", sample(10000L, size = 1L), ".yaml")
         )
     } else if (file.exists(path)) {
         path <- normalizePath(path)
@@ -57,10 +55,9 @@ prepare_path <- function(path = NULL, object = "outliers") {
         }
     } else {
         dir.create(path, showWarnings = FALSE, recursive = TRUE)
-        path <- tempfile(
-            pattern = object,
-            tmpdir = path,
-            fileext = ".yaml"
+        path <- file.path(
+            path,
+            paste0(object, "-", sample(10000L, size = 1L), ".yaml")
         )
     }
     return(path)
