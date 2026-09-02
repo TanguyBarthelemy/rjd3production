@@ -160,10 +160,19 @@ random_set_easter <- function(x) {
     spec_args$test <- random_choice(c("Add", "Remove", "None"))
     spec_args$coef <- random_numeric_or_null()
 
-    if (spec_args$test %in% c("Add", "Remove") && !is.na(spec_args$coef) && !is.null(spec_args$coef)) {
+    if (
+        spec_args$test %in%
+            c("Add", "Remove") &&
+            !is.na(spec_args$coef) &&
+            !is.null(spec_args$coef)
+    ) {
         spec_args$coef.type <- "Estimated"
     } else {
-        spec_args$coef.type <- random_choice(c(NA_character_, "Estimated", "Fixed"))
+        spec_args$coef.type <- random_choice(c(
+            NA_character_,
+            "Estimated",
+            "Fixed"
+        ))
     }
 
     output <- do.call(rjd3toolkit::set_easter, spec_args)
@@ -210,9 +219,17 @@ random_set_tradingdays <- function(x) {
         spec_args$calendar.name <- NA_character_
     } else if (spec_args$option == "UserDefined") {
         spec_args$uservariable <- random_name(6L)
-        spec_args$calendar.name <- random_choice(c(NA_character_, "calA", "calB"))
+        spec_args$calendar.name <- random_choice(c(
+            NA_character_,
+            "calA",
+            "calB"
+        ))
     } else {
-        spec_args$calendar.name <- random_choice(c(NA_character_, "calA", "calB"))
+        spec_args$calendar.name <- random_choice(c(
+            NA_character_,
+            "calA",
+            "calB"
+        ))
     }
 
     if (!is.null(spec_args$coef) || !is.null(spec_args$leapyear.coef)) {
@@ -290,10 +307,16 @@ random_set_automodel <- function(x) {
 
     spec_args$enabled <- random_flag()
     spec_args$acceptdefault <- random_flag()
-    spec_args$cancel <- random_choice(c(NA, stats::runif(n = 1L, min = 0.0, max = 0.2)))
+    spec_args$cancel <- random_choice(c(
+        NA,
+        stats::runif(n = 1L, min = 0.0, max = 0.2)
+    ))
     spec_args$ub1 <- random_choice(c(NA, 1.0 + abs(stats::rnorm(1L))))
     spec_args$ub2 <- random_choice(c(NA, 1.0 + abs(stats::rnorm(1L))))
-    spec_args$reducecv <- random_choice(c(NA, stats::runif(n = 1L, min = 0.05, max = 0.3)))
+    spec_args$reducecv <- random_choice(c(
+        NA,
+        stats::runif(n = 1L, min = 0.05, max = 0.3)
+    ))
     spec_args$ljungboxlimit <- random_choice(c(NA, abs(stats::rnorm(1L))))
     spec_args$tsig <- random_choice(c(NA, 0.5 + abs(stats::rnorm(1L))))
     spec_args$ubfinal <- random_choice(c(NA, 1.0 + abs(stats::rnorm(1L))))
