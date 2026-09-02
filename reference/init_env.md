@@ -36,15 +36,15 @@ project_path <- tempfile(pattern = "my-project")
 # \donttest{
 # Create a new project
 init_env(path = project_path)
-#> ✔ Setting active project to "/tmp/Rtmprymd0k/my-project2262235f3b8d".
+#> ✔ Setting active project to "/tmp/Rtmpp2JucH/my-project2260549a676f".
 #> ✔ Creating R/.
-#> ✔ Writing my-project2262235f3b8d.Rproj.
+#> ✔ Writing my-project2260549a676f.Rproj.
 #> ✔ Adding ".Rproj.user" to .gitignore.
 #> ✔ Setting active project to "<no active project>".
-#> ✔ Setting active project to "/tmp/Rtmprymd0k/my-project2262235f3b8d".
+#> ✔ Setting active project to "/tmp/Rtmpp2JucH/my-project2260549a676f".
 #> ✔ Writing DESCRIPTION.
 #> Type: Project
-#> Package: my-project2262235f3b8d
+#> Package: my-project2260549a676f
 #> Title: What the Package Does (One Line, Title Case)
 #> Version: 0.0.0.9000
 #> Authors@R (parsed):
