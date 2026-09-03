@@ -100,6 +100,7 @@ exclusions: list(\"renv\", \"packrat\")
     dir.create(file.path(path, "output"))
     dir.create(file.path(path, "specs"))
     dir.create(file.path(path, "BQ"))
+    dir.create(file.path(path, "BQ", "ARCHIVES"))
 
     file.create(file.path(path, ".Renviron"))
     file.create(file.path(path, ".Rprofile"))
