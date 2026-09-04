@@ -4,7 +4,13 @@
 \alias{select_td}
 \title{Select Calendar Regressors for One or Multiple Series}
 \usage{
-select_td(series, context = NULL, ..., verbose = TRUE)
+select_td(
+  series,
+  context = NULL,
+  ...,
+  thresholds = getOption("rjd3production.thresholds"),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{series}{[\link[stats]{ts} or mts or matrix or \link[base]{data.frame}]
@@ -23,6 +29,10 @@ of types, e.g., "AO", "LS", "TC") and \code{date} (vector of dates).}
 \code{"YYYY-MM-DD"}).}
 \item{...}{Other arguments accepted by \code{\link[=create_specs_set]{create_specs_set()}}.}
 }}
+
+\item{thresholds}{The thresholds used to compare the different model and
+set a grade to an adjustment based on the td residuals p-value and leap
+year significancy.}
 
 \item{verbose}{Boolean indicating whether to print additional information.
 Default is \code{TRUE}.}

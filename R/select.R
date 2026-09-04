@@ -75,6 +75,9 @@ is_compatible <- function(series, reg) {
 #'     `"YYYY-MM-DD"`).}
 #'     \item{...}{Other arguments accepted by [create_specs_set()].}
 #'   }
+#' @param thresholds The thresholds used to compare the different model and
+#'   set a grade to an adjustment based on the td residuals p-value and leap
+#'   year significancy.
 #' @inheritParams make_ws_crunchable
 #'
 #' @returns
@@ -161,7 +164,13 @@ get_LY_info <- function(mod, verbose = TRUE) {
 #' @importFrom checkmate assert_named
 #' @importFrom checkmate assert_set_equal
 #' @importFrom rjd3x13 x13
-one_diagnostic <- function(series, spec, context, verbose = TRUE) {
+one_diagnostic <- function(
+    series,
+    spec,
+    context,
+    thresholds = getOption("rjd3production.thresholds"),
+    verbose = TRUE
+) {
     checkmate::assert_class(series, "ts")
     checkmate::assert_numeric(series)
     checkmate::assert_class(spec, "JD3_X13_SPEC")
@@ -202,8 +211,18 @@ one_diagnostic <- function(series, spec, context, verbose = TRUE) {
         FUN.VALUE = double(1L)
     )
 
-    # Plus la note est élevé, moins bine c'est.
-    note <- sum((res_td < 0.05) * 2L:1L)
+    # Plus la note est élevé, moins bien c'est.
+    modalities <- cut(
+        x = res_td,
+        breaks = c(-Inf, thresholds$res_td),
+        labels = names(thresholds$res_td),
+        right = FALSE,
+        include.lowest = TRUE,
+        ordered_result = TRUE
+    ) |>
+        as.character()
+    res_weights <- thresholds$weights[c("res_td_sa_all", "res_td_i_all")]
+    note <- sum(thresholds$grade[modalities] * res_weights)
     aicc <- mod$result$preprocessing$estimation$likelihood$aicc
     mode_decompo <- c("Additive", "Multiplicative")[
         mod$result$preprocessing$description$log + 1L
@@ -225,7 +244,13 @@ one_diagnostic <- function(series, spec, context, verbose = TRUE) {
 #' @importFrom checkmate assert_list
 #' @importFrom checkmate assert_named
 #' @importFrom checkmate assert_set_equal
-all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
+all_diagnostics <- function(
+    series,
+    specs_set,
+    context,
+    thresholds = getOption("rjd3production.thresholds"),
+    verbose = TRUE
+) {
     checkmate::assert_class(series, "ts")
     checkmate::assert_numeric(series)
     checkmate::assert_list(specs_set)
@@ -243,6 +268,7 @@ all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
             series = series,
             spec = spec,
             context = context,
+            thresholds = thresholds,
             verbose = verbose
         )
         if (verbose) {
@@ -264,7 +290,11 @@ all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
 #' @importFrom checkmate assert_character
 #' @importFrom checkmate assert_data_frame
 #' @importFrom checkmate assert_set_equal
-verif_LY <- function(jeu, diags) {
+verif_LY <- function(
+    jeu,
+    diags,
+    thresholds = getOption("rjd3production.thresholds")
+) {
     checkmate::assert_character(jeu)
     checkmate::assert_data_frame(diags)
     checkmate::assert_set_equal(
@@ -308,7 +338,7 @@ verif_LY <- function(jeu, diags) {
     # On considere le coeff LY incoherent si negatif ou superieur à 12
     coef_incoherent <- (LY_coeff <= 0.0) | (LY_coeff > 12.0)
     # Coeff non signif si pvalue > 10%
-    coef_non_signif <- LY_p_value > 0.1
+    coef_non_signif <- LY_p_value > as.double(thresholds$ly_signif["Signif"])
 
     jeu_final <- ifelse(
         test = coef_incoherent | coef_non_signif,
@@ -333,6 +363,7 @@ select_td_one_series <- function(
     specs_set = NULL,
     context = NULL,
     ...,
+    thresholds = getOption("rjd3production.thresholds"),
     verbose = TRUE
 ) {
     checkmate::assert_class(series, "ts")
@@ -356,6 +387,7 @@ select_td_one_series <- function(
             series = series,
             spec = specs_set$No_TD,
             context = context,
+            thresholds = thresholds,
             verbose = TRUE
         )
         # Note de 0 = note parfaite
@@ -368,6 +400,7 @@ select_td_one_series <- function(
         series,
         specs_set = specs_set,
         context = context,
+        thresholds = thresholds,
         verbose = verbose
     )
     diags_wo_na <- diags[!is.na(diags$note) & !is.na(diags$aicc), ]
@@ -383,7 +416,11 @@ select_td_one_series <- function(
 
     best_regs <- diags_wo_na[order(diags_wo_na$note, diags_wo_na$aicc), ]
 
-    return(verif_LY(jeu = best_regs[1L, "regs"], diags = diags))
+    return(verif_LY(
+        jeu = best_regs[1L, "regs"],
+        diags = diags,
+        thresholds = thresholds
+    ))
 }
 
 #' @title Select Calendar Regressors for One or Multiple Series
@@ -434,7 +471,13 @@ select_td_one_series <- function(
 #' @importFrom checkmate assert_list
 #' @importFrom checkmate assert_named
 #' @importFrom checkmate assert_set_equal
-select_td <- function(series, context = NULL, ..., verbose = TRUE) {
+select_td <- function(
+    series,
+    context = NULL,
+    ...,
+    thresholds = getOption("rjd3production.thresholds"),
+    verbose = TRUE
+) {
     cond_series <- isTRUE(checkmate::check_class(series, "ts")) ||
         isTRUE(checkmate::check_data_frame(series))
     if (!cond_series) {
@@ -509,6 +552,7 @@ select_td <- function(series, context = NULL, ..., verbose = TRUE) {
                 specs_set = specs_set,
                 context = context,
                 ...,
+                thresholds = thresholds,
                 verbose = verbose
             ))
         },
