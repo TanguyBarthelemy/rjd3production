@@ -132,7 +132,7 @@ remove_non_significant_outliers_jws <- function(
                 new_referenceSpec <- rjd3toolkit::remove_outlier(
                     x = sai$referenceSpec,
                     type = outliers_to_remove$type,
-                    date = outliers_to_remove$position
+                    date = outliers_to_remove$date
                 )
                 rjd3workspace::set_reference_specification(
                     jsap = jsap,
@@ -145,7 +145,7 @@ remove_non_significant_outliers_jws <- function(
                 new_estimationSpec <- rjd3toolkit::remove_outlier(
                     x = sai$estimationSpec,
                     type = outliers_to_remove$type,
-                    date = outliers_to_remove$position
+                    date = outliers_to_remove$date
                 )
                 rjd3workspace::set_specification(
                     jsap = jsap,
@@ -172,7 +172,7 @@ get_non_significant_outliers_jsai <- function(
         series = character(),
         name = character(),
         type = character(),
-        position = character(),
+        date = character(),
         stringsAsFactors = FALSE
     )
 
@@ -196,7 +196,7 @@ get_non_significant_outliers_jsai <- function(
                     series = series_name,
                     name = outlier_name,
                     type = outlier$code,
-                    position = outlier$pos
+                    date = outlier$pos
                 )
             )
         }

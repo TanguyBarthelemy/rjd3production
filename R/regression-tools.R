@@ -25,6 +25,9 @@
 #' @param result Boolean indicating if outliers should be extracted
 #' from the result specification.
 #'
+#' @param spec_type Character. Indicating the type of spec where the outliers
+#' whould be extracted. Accepted values : "Reference", "Estimation" or "Result".
+#'
 #' @details
 #'
 #' Two types of regression components are currently supported:
@@ -39,7 +42,8 @@
 #' Outliers are represented by a `data.frame` with **three columns**:
 #'
 #' - `series` : name of the series in the workspace.
-#' - `type` : type of outlier (`AO`, `LS`, `TC` or `SO`).
+#' - `name` : name of the outlier (by default "type date").
+#' - `type` : type of the outlier (`AO`, `LS`, `TC` or `SO`).
 #' - `date` : date of the outlier in `YYYY-MM-DD` format.
 #'
 #' These tables are typically created with [retrieve_outliers()] or

@@ -25,13 +25,7 @@ export_td(td, path = NULL, verbose = TRUE)
 
 import_td(path, verbose = TRUE)
 
-retrieve_outliers(
-  jws,
-  reference = TRUE,
-  estimation = FALSE,
-  result = FALSE,
-  verbose = TRUE
-)
+retrieve_outliers(jws, spec_type = NULL, verbose = TRUE)
 
 retrieve_td(
   jws,
@@ -57,6 +51,9 @@ or \link{import_td}. See Format section for more information about the format
 of this argument.}
 
 \item{path}{\link{character} Path to a YAML file to read or write a table.}
+
+\item{spec_type}{Character. Indicating the type of spec where the outliers
+whould be extracted. Accepted values : "Reference", "Estimation" or "Result".}
 
 \item{reference}{Boolean indicating if outliers should be extracted from
 the reference specification.}
@@ -97,7 +94,8 @@ Two types of regression components are currently supported:
 Outliers are represented by a \code{data.frame} with \strong{three columns}:
 \itemize{
 \item \code{series} : name of the series in the workspace.
-\item \code{type} : type of outlier (\code{AO}, \code{LS}, \code{TC} or \code{SO}).
+\item \code{name} : name of the outlier (by default "type date").
+\item \code{type} : type of the outlier (\code{AO}, \code{LS}, \code{TC} or \code{SO}).
 \item \code{date} : date of the outlier in \code{YYYY-MM-DD} format.
 }
 

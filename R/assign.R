@@ -70,11 +70,13 @@ assign_outliers <- function(jws, outliers, verbose = TRUE) {
 
             new_referenceSpec <- rjd3toolkit::add_outlier(
                 x = referenceSpec,
+                name = outliers_series$name,
                 type = outliers_series$type,
                 date = outliers_series$date
             )
             new_estimationSpec <- rjd3toolkit::add_outlier(
                 x = estimationSpec,
+                name = outliers_series$name,
                 type = outliers_series$type,
                 date = outliers_series$date
             )
