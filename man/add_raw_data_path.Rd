@@ -41,7 +41,9 @@ library("rjd3x13")
 library("rjd3toolkit")
 
 my_data <- ABS
+colnames(my_data) <- substr(colnames(my_data), start = 2L, stop = 12L)
 path_ABS <- system.file("extdata", "ABS.csv", package = "rjd3providers")
+
 \donttest{
 jws <- create_ws_from_data(my_data)
 add_raw_data_path(jws, path_ABS, delimiter = "COMMA")
