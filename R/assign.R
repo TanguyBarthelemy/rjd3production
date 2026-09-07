@@ -41,7 +41,11 @@ merge_contexts <- function(context1 = NULL, context2 = NULL, verbose = TRUE) {
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
-assign_outliers <- function(jws, outliers, verbose = TRUE) {
+assign_outliers <- function(jws, outliers, spec_type = NULL, verbose = TRUE) {
+    checkmate::assert_character(spec_type)
+    spec_type <- tolower(spec_type)
+    stopifnot(all(spec_type %in% c("reference", "estimation")))
+
     jsap <- rjd3workspace::jws_sap(jws, 1L)
 
     for (id_sai in seq_len(rjd3workspace::sap_sai_count(jsap))) {
@@ -63,34 +67,34 @@ assign_outliers <- function(jws, outliers, verbose = TRUE) {
         outliers_series <- outliers[outliers$series == "RF1011", , drop = FALSE]
 
         if (nrow(outliers_series) > 0L) {
-            # Création de la spec
             sai <- rjd3workspace::read_sai(jsai)
-            new_estimationSpec <- estimationSpec <- sai$estimationSpec
-            new_referenceSpec <- referenceSpec <- sai$referenceSpec
 
-            new_referenceSpec <- rjd3toolkit::add_outlier(
-                x = referenceSpec,
-                name = outliers_series$name,
-                type = outliers_series$type,
-                date = outliers_series$date
-            )
-            new_estimationSpec <- rjd3toolkit::add_outlier(
-                x = estimationSpec,
-                name = outliers_series$name,
-                type = outliers_series$type,
-                date = outliers_series$date
-            )
-
-            rjd3workspace::set_specification(
-                jsap = jsap,
-                idx = id_sai,
-                spec = new_estimationSpec
-            )
-            rjd3workspace::set_reference_specification(
-                jsap = jsap,
-                idx = id_sai,
-                spec = new_referenceSpec
-            )
+            if ("reference" %in% spec_type) {
+                new_referenceSpec <- sai$referenceSpec |>
+                    rjd3toolkit::add_outlier(
+                        name = outliers_series$name,
+                        type = outliers_series$type,
+                        date = outliers_series$date
+                    )
+                rjd3workspace::set_reference_specification(
+                    jsap = jsap,
+                    idx = id_sai,
+                    spec = new_referenceSpec
+                )
+            }
+            if ("estimation" %in% spec_type) {
+                new_estimationSpec <- sai$estimationSpec |>
+                    rjd3toolkit::add_outlier(
+                        name = outliers_series$name,
+                        type = outliers_series$type,
+                        date = outliers_series$date
+                    )
+                rjd3workspace::set_specification(
+                    jsap = jsap,
+                    idx = id_sai,
+                    spec = new_estimationSpec
+                )
+            }
             rjd3workspace::set_name(jsap, idx = id_sai, name = series_name)
         }
     }
@@ -104,7 +108,11 @@ assign_outliers <- function(jws, outliers, verbose = TRUE) {
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
-assign_td <- function(jws, td, verbose = TRUE) {
+assign_td <- function(jws, td, spec_type = NULL, verbose = TRUE) {
+    checkmate::assert_character(spec_type)
+    spec_type <- tolower(spec_type)
+    stopifnot(all(spec_type %in% c("reference", "estimation")))
+
     if (nrow(td) == 0L) {
         return(invisible(jws))
     }
@@ -141,30 +149,33 @@ assign_td <- function(jws, td, verbose = TRUE) {
             td_variables <- var_names[[chosen_set]]
 
             sai <- rjd3workspace::read_sai(jsai)
-            new_estimationSpec <- estimationSpec <- sai$estimationSpec
-            new_referenceSpec <- referenceSpec <- sai$referenceSpec
-            new_referenceSpec <- rjd3toolkit::set_tradingdays(
-                x = referenceSpec,
-                option = "UserDefined",
-                uservariable = td_variables,
-                test = "None"
-            )
-            new_estimationSpec <- rjd3toolkit::set_tradingdays(
-                x = estimationSpec,
-                option = "UserDefined",
-                uservariable = td_variables,
-                test = "None"
-            )
-            rjd3workspace::set_specification(
-                jsap = jsap,
-                idx = id_sai,
-                spec = new_estimationSpec
-            )
-            rjd3workspace::set_reference_specification(
-                jsap = jsap,
-                idx = id_sai,
-                spec = new_referenceSpec
-            )
+
+            if ("reference" %in% spec_type) {
+                new_referenceSpec <- sai$referenceSpec |>
+                    rjd3toolkit::set_tradingdays(
+                        option = "UserDefined",
+                        uservariable = td_variables,
+                        test = "None"
+                    )
+                rjd3workspace::set_reference_specification(
+                    jsap = jsap,
+                    idx = id_sai,
+                    spec = new_referenceSpec
+                )
+            }
+            if ("estimation" %in% spec_type) {
+                new_estimationSpec <- sai$estimationSpec |>
+                    rjd3toolkit::set_tradingdays(
+                        option = "UserDefined",
+                        uservariable = td_variables,
+                        test = "None"
+                    )
+                rjd3workspace::set_specification(
+                    jsap = jsap,
+                    idx = id_sai,
+                    spec = new_estimationSpec
+                )
+            }
             rjd3workspace::set_name(jsap, idx = id_sai, name = series_name)
         }
     }

@@ -12,10 +12,9 @@ retrieve_outliers <- function(
     stopifnot(all(spec_type %in% c("reference", "estimation", "result")))
 
     if ("result" %in% spec_type) {
-        ws <- rjd3workspace::read_workspace(jws, compute = TRUE)
-    } else {
-        ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
+        jws_compute(jws)
     }
+    ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
 
     sap <- ws[["processing"]][[1L]]
     ps_outliers <- data.frame(
@@ -161,16 +160,14 @@ extract_td <- function(spec) {
 #' @export
 retrieve_td <- function(
     jws,
-    reference = TRUE,
-    estimation = FALSE,
-    result = FALSE,
+    spec_type = NULL,
     verbose = TRUE
 ) {
-    if (reference + result + estimation != 1L) {
-        stop("You have to choose one specification.", call. = FALSE)
-    }
+    checkmate::assert_character(spec_type, len = 1L)
+    spec_type <- tolower(spec_type)
+    stopifnot(spec_type %in% c("reference", "estimation", "result"))
 
-    if (result) {
+    if (spec_type == "result") {
         jws_compute(jws)
     }
     ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
@@ -198,11 +195,11 @@ retrieve_td <- function(
 
         sai <- sap[[id_sai]]
 
-        if (reference) {
+        if (spec_type == "reference") {
             spec <- sai[["referenceSpec"]]
-        } else if (estimation) {
+        } else if (spec_type == "estimation") {
             spec <- sai[["estimationSpec"]]
-        } else if (result) {
+        } else if (spec_type == "result") {
             spec <- sai[["resultSpec"]]
         }
 

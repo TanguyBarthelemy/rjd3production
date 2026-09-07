@@ -5,28 +5,16 @@
 #' regression components used in JDemetra+ workspaces.
 #'
 #' @inheritParams make_ws_crunchable
-#'
 #' @param outliers [\link[base]{data.frame}] A data.frame created with
-#' [retrieve_outliers] or [import_outliers]. See Format section for more
-#' information about the format of this argument.
-#'
+#'   [retrieve_outliers] or [import_outliers]. See Format section for more
+#'   information about the format of this argument.
 #' @param td [\link[base]{data.frame}] A data.frame created by [retrieve_td]
-#' or [import_td]. See Format section for more information about the format
-#' of this argument.
-#'
+#'   or [import_td]. See Format section for more information about the format
+#'   of this argument.
 #' @param path [character] Path to a YAML file to read or write a table.
-#'
-#' @param reference Boolean indicating if outliers should be extracted from
-#' the reference specification.
-#'
-#' @param estimation Boolean indicating if outliers should be extracted
-#' from the estimation specification.
-#'
-#' @param result Boolean indicating if outliers should be extracted
-#' from the result specification.
-#'
 #' @param spec_type Character. Indicating the type of spec where the outliers
-#' whould be extracted. Accepted values : "Reference", "Estimation" or "Result".
+#'   whould be extracted. Accepted values : "Reference", "Estimation" or
+#'   "Result".
 #'
 #' @details
 #'
@@ -105,7 +93,7 @@
 #' ## Outliers
 #'
 #' # Read all the outliers from a workspace
-#' outs <- retrieve_outliers(jws, result = TRUE, reference = FALSE)
+#' outs <- retrieve_outliers(jws, spec_type = "Result")
 #'
 #' # Export outliers
 #' path_outs <- tempfile(pattern = "outliers-table", fileext = ".yaml")
@@ -115,7 +103,7 @@
 #' outs2 <- import_outliers(path_outs)
 #'
 #' # Assign the outliers to a WS
-#' assign_outliers(jws = jws, outliers = outs2)
+#' assign_outliers(jws = jws, outliers = outs2, spec_type = "Reference")
 #'
 #'
 #' ## Trading day workflow
@@ -134,7 +122,7 @@
 #' td3 <- select_td(my_data)
 #'
 #' # Assign the td variables to a WS
-#' assign_td(jws = jws, td = td3)
+#' assign_td(jws = jws, td = td3, spec_type = "Estimation")
 #' }
 #'
 #' @name regression_tools

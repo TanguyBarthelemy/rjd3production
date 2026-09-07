@@ -13,9 +13,9 @@
 \alias{retrieve_td}
 \title{Manage regression components in JDemetra+ workspaces}
 \usage{
-assign_outliers(jws, outliers, verbose = TRUE)
+assign_outliers(jws, outliers, spec_type = NULL, verbose = TRUE)
 
-assign_td(jws, td, verbose = TRUE)
+assign_td(jws, td, spec_type = NULL, verbose = TRUE)
 
 export_outliers(outliers, path = NULL, verbose = TRUE)
 
@@ -27,13 +27,7 @@ import_td(path, verbose = TRUE)
 
 retrieve_outliers(jws, spec_type = NULL, verbose = TRUE)
 
-retrieve_td(
-  jws,
-  reference = TRUE,
-  estimation = FALSE,
-  result = FALSE,
-  verbose = TRUE
-)
+retrieve_td(jws, spec_type = NULL, verbose = TRUE)
 }
 \arguments{
 \item{jws}{A Java Workspace object, as returned by
@@ -43,6 +37,10 @@ retrieve_td(
 \link{retrieve_outliers} or \link{import_outliers}. See Format section for more
 information about the format of this argument.}
 
+\item{spec_type}{Character. Indicating the type of spec where the outliers
+whould be extracted. Accepted values : "Reference", "Estimation" or
+"Result".}
+
 \item{verbose}{Boolean indicating whether to print additional information.
 Default is \code{TRUE}.}
 
@@ -51,18 +49,6 @@ or \link{import_td}. See Format section for more information about the format
 of this argument.}
 
 \item{path}{\link{character} Path to a YAML file to read or write a table.}
-
-\item{spec_type}{Character. Indicating the type of spec where the outliers
-whould be extracted. Accepted values : "Reference", "Estimation" or "Result".}
-
-\item{reference}{Boolean indicating if outliers should be extracted from
-the reference specification.}
-
-\item{estimation}{Boolean indicating if outliers should be extracted
-from the estimation specification.}
-
-\item{result}{Boolean indicating if outliers should be extracted
-from the result specification.}
 }
 \value{
 \itemize{
@@ -156,7 +142,7 @@ set_context(jws, create_insee_context(start = c(2015L, 1L)))
 ## Outliers
 
 # Read all the outliers from a workspace
-outs <- retrieve_outliers(jws, result = TRUE, reference = FALSE)
+outs <- retrieve_outliers(jws, spec_type = "Result")
 
 # Export outliers
 path_outs <- tempfile(pattern = "outliers-table", fileext = ".yaml")
@@ -166,7 +152,7 @@ export_outliers(outs, path_outs)
 outs2 <- import_outliers(path_outs)
 
 # Assign the outliers to a WS
-assign_outliers(jws = jws, outliers = outs2)
+assign_outliers(jws = jws, outliers = outs2, spec_type = "Reference")
 
 
 ## Trading day workflow
@@ -185,7 +171,7 @@ td2 <- import_td(path_td)
 td3 <- select_td(my_data)
 
 # Assign the td variables to a WS
-assign_td(jws = jws, td = td3)
+assign_td(jws = jws, td = td3, spec_type = "Estimation")
 }
 \dontshow{\}) # examplesIf}
 }
