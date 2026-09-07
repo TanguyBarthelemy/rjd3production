@@ -79,9 +79,9 @@ au format `.yaml` et le réimporter ultérieurement :
 
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at /tmp/RtmpZXLpy3/td-table225f2e47f28.yaml
+#> The td table will be written at /tmp/RtmpbvhB8v/td-table21da3fb31201.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/RtmpZXLpy3/td-table225f2e47f28.yaml
+#> The td table will be read at  /tmp/RtmpbvhB8v/td-table21da3fb31201.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
@@ -97,7 +97,7 @@ pouvez utiliser la fonction
 
 library("rjd3workspace")
 my_ws <- jws_open("my_workspace")
-assign_td(td_table, my_ws)
+assign_td(td_table, my_ws, spec_type = c("Estimation", "Reference"))
 ```
 
 ### Sélection avancée

@@ -78,9 +78,9 @@ Once the regressors have been selected, you can export the table in
 
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at /tmp/Rtmp0kMcgG/td-table222947776ade.yaml
+#> The td table will be written at /tmp/RtmpmPPN3R/td-table21a439068164.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/Rtmp0kMcgG/td-table222947776ade.yaml
+#> The td table will be read at  /tmp/RtmpmPPN3R/td-table21a439068164.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
@@ -95,7 +95,7 @@ function:
 
 library("rjd3workspace")
 my_ws <- jws_open("my_workspace")
-assign_td(td_table, my_ws)
+assign_td(td_table, my_ws, spec_type = c("Estimation", "Reference"))
 ```
 
 ### Advanced selection
