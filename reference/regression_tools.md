@@ -155,11 +155,11 @@ outs <- retrieve_outliers(jws, spec_type = "Result")
 # Export outliers
 path_outs <- tempfile(pattern = "outliers-table", fileext = ".yaml")
 export_outliers(outs, path_outs)
-#> The outliers table will be written at  /tmp/RtmpoyjNgG/outliers-table1edb42e89c7c.yaml 
+#> The outliers table will be written at  /tmp/Rtmpibo1Hn/outliers-table1f12c89bae2.yaml 
 
 # Import outliers from a file
 outs2 <- import_outliers(path_outs)
-#> The outliers table will be read at  /tmp/RtmpoyjNgG/outliers-table1edb42e89c7c.yaml 
+#> The outliers table will be read at  /tmp/Rtmpibo1Hn/outliers-table1f12c89bae2.yaml 
 
 # Assign the outliers to a WS
 assign_outliers(jws = jws, outliers = outs2, spec_type = "Reference")
@@ -179,11 +179,11 @@ td <- retrieve_td(jws, spec_type = "Estimation")
 # Export td variables
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td, path_td)
-#> The td table will be written at /tmp/RtmpoyjNgG/td-table1edb14990193.yaml 
+#> The td table will be written at /tmp/Rtmpibo1Hn/td-table1f12579d9c45.yaml 
 
 # Import td variable from a file
 td2 <- import_td(path_td)
-#> The td table will be read at  /tmp/RtmpoyjNgG/td-table1edb14990193.yaml 
+#> The td table will be read at  /tmp/Rtmpibo1Hn/td-table1f12579d9c45.yaml 
 
 # Select td
 td3 <- select_td(my_data)
