@@ -9,7 +9,7 @@ retrieve_outliers <- function(
 ) {
     checkmate::assert_character(spec_type)
     spec_type <- tolower(spec_type)
-    stopifnot(all(spec_type %in% c("reference", "estimation", "result")))
+    stopifnot(spec_type %in% c("reference", "estimation", "result"))
 
     if ("result" %in% spec_type) {
         jws_compute(jws)
@@ -46,13 +46,17 @@ retrieve_outliers <- function(
         if ("reference" %in% spec_type) {
             outliers <- c(
                 outliers,
-                sai[["referenceSpec"]][["regarima"]][["regression"]][["outliers"]]
+                sai[["referenceSpec"]][["regarima"]][["regression"]][[
+                    "outliers"
+                ]]
             )
         }
         if ("estimation" %in% spec_type) {
             outliers <- c(
                 outliers,
-                sai[["estimationSpec"]][["regarima"]][["regression"]][["outliers"]]
+                sai[["estimationSpec"]][["regarima"]][["regression"]][[
+                    "outliers"
+                ]]
             )
         }
         if ("result" %in% spec_type) {
@@ -194,15 +198,7 @@ retrieve_td <- function(
         }
 
         sai <- sap[[id_sai]]
-
-        if (spec_type == "reference") {
-            spec <- sai[["referenceSpec"]]
-        } else if (spec_type == "estimation") {
-            spec <- sai[["estimationSpec"]]
-        } else if (spec_type == "result") {
-            spec <- sai[["resultSpec"]]
-        }
-
+        spec <- sai[[paste0(spec_type, "Spec")]]
         td[id_sai, "regs"] <- extract_td(spec)
     }
 

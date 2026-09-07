@@ -44,7 +44,7 @@ merge_contexts <- function(context1 = NULL, context2 = NULL, verbose = TRUE) {
 assign_outliers <- function(jws, outliers, spec_type = NULL, verbose = TRUE) {
     checkmate::assert_character(spec_type)
     spec_type <- tolower(spec_type)
-    stopifnot(all(spec_type %in% c("reference", "estimation")))
+    stopifnot(spec_type %in% c("reference", "estimation"))
 
     jsap <- rjd3workspace::jws_sap(jws, 1L)
 
@@ -70,12 +70,12 @@ assign_outliers <- function(jws, outliers, spec_type = NULL, verbose = TRUE) {
             sai <- rjd3workspace::read_sai(jsai)
 
             if ("reference" %in% spec_type) {
-                new_referenceSpec <- sai$referenceSpec |>
-                    rjd3toolkit::add_outlier(
-                        name = outliers_series$name,
-                        type = outliers_series$type,
-                        date = outliers_series$date
-                    )
+                new_referenceSpec <- rjd3toolkit::add_outlier(
+                    x = sai$referenceSpec,
+                    name = outliers_series$name,
+                    type = outliers_series$type,
+                    date = outliers_series$date
+                )
                 rjd3workspace::set_reference_specification(
                     jsap = jsap,
                     idx = id_sai,
@@ -83,12 +83,12 @@ assign_outliers <- function(jws, outliers, spec_type = NULL, verbose = TRUE) {
                 )
             }
             if ("estimation" %in% spec_type) {
-                new_estimationSpec <- sai$estimationSpec |>
-                    rjd3toolkit::add_outlier(
-                        name = outliers_series$name,
-                        type = outliers_series$type,
-                        date = outliers_series$date
-                    )
+                new_estimationSpec <- rjd3toolkit::add_outlier(
+                    x = sai$estimationSpec,
+                    name = outliers_series$name,
+                    type = outliers_series$type,
+                    date = outliers_series$date
+                )
                 rjd3workspace::set_specification(
                     jsap = jsap,
                     idx = id_sai,
@@ -111,7 +111,7 @@ assign_outliers <- function(jws, outliers, spec_type = NULL, verbose = TRUE) {
 assign_td <- function(jws, td, spec_type = NULL, verbose = TRUE) {
     checkmate::assert_character(spec_type)
     spec_type <- tolower(spec_type)
-    stopifnot(all(spec_type %in% c("reference", "estimation")))
+    stopifnot(spec_type %in% c("reference", "estimation"))
 
     if (nrow(td) == 0L) {
         return(invisible(jws))
@@ -151,12 +151,12 @@ assign_td <- function(jws, td, spec_type = NULL, verbose = TRUE) {
             sai <- rjd3workspace::read_sai(jsai)
 
             if ("reference" %in% spec_type) {
-                new_referenceSpec <- sai$referenceSpec |>
-                    rjd3toolkit::set_tradingdays(
-                        option = "UserDefined",
-                        uservariable = td_variables,
-                        test = "None"
-                    )
+                new_referenceSpec <- rjd3toolkit::set_tradingdays(
+                    x = sai$referenceSpec,
+                    option = "UserDefined",
+                    uservariable = td_variables,
+                    test = "None"
+                )
                 rjd3workspace::set_reference_specification(
                     jsap = jsap,
                     idx = id_sai,
@@ -164,12 +164,12 @@ assign_td <- function(jws, td, spec_type = NULL, verbose = TRUE) {
                 )
             }
             if ("estimation" %in% spec_type) {
-                new_estimationSpec <- sai$estimationSpec |>
-                    rjd3toolkit::set_tradingdays(
-                        option = "UserDefined",
-                        uservariable = td_variables,
-                        test = "None"
-                    )
+                new_estimationSpec <- rjd3toolkit::set_tradingdays(
+                    x = sai$estimationSpec,
+                    option = "UserDefined",
+                    uservariable = td_variables,
+                    test = "None"
+                )
                 rjd3workspace::set_specification(
                     jsap = jsap,
                     idx = id_sai,
