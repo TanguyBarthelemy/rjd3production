@@ -109,7 +109,7 @@
 #' ## Trading day workflow
 #'
 #' # Read all the td variables from a workspace
-#' td <- retrieve_td(jws)
+#' td <- retrieve_td(jws, spec_type = "Estimation")
 #'
 #' # Export td variables
 #' path_td <- tempfile(pattern = "td-table", fileext = ".yaml")

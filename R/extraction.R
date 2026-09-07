@@ -97,8 +97,17 @@ get_series.JD3_X13_RSLTS <- function(x, name, ...) {
         stop("Please compute your workspace.", call. = FALSE)
     }
     output <- NULL
-    all_series <- c(x$preadjust, x$decomposition, x$final)
-    for (s in names(all_series)) {
+    all_series <- c(
+        x$preadjust,
+        x$decomposition,
+        x$final
+    )
+    series_name <- setdiff(
+        names(all_series),
+        c("final_seasonal", "final_henderson")
+    )
+    for (s in series_name) {
+        print(s)
         series <- all_series[[s]]
         if (!is.null(series)) {
             output <- rbind(
