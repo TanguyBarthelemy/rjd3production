@@ -16,6 +16,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * `create_ws_from_data` has new arguments to personnalize the workspace: context, sap_name and path
 * `create_insee_regressors` gives new names for calendar regressors : "REG2_week" instead of "REG2_group1" etc.
 * `init_env()` creates a project with DESCRIPTION file with `Type: Project` and {rjd3qr} as dependency  [#83](https://github.com/InseeFr/rjd3production/issues/83)
+* `retrieve_XXX` and `assign_XXX` functions now takes a `spec_type` argument to specify nthe specification used to retrieve information or assign information [#59](https://github.com/InseeFr/rjd3production/issues/59) and [#31](https://github.com/InseeFr/rjd3production/issues/31)
 
 ### Fixed
 

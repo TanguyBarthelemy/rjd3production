@@ -143,7 +143,7 @@ If we have any, we need to assign calendar regressors to each series:
 #| label: assign-td
 
 jws_compute(jws)
-assign_td(td = td, jws = jws)
+assign_td(td = td, jws = jws, spec_type = c("Estimation", "Reference"))
 ```
 
 Don’t forget to update the metadata for our workspace with the path to our raw data:
