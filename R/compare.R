@@ -3,7 +3,7 @@ basename_n <- function(x, n) {
         return(basename(x))
     }
     if (identical(dirname(x), x)) {
-        stop("You are at root...")
+        stop("You are at root...", call. = FALSE)
     }
     return(file.path(basename_n(dirname(x), n - 1L), basename(x)))
 }
@@ -56,7 +56,7 @@ compare <- function(..., series_names) {
         do.call(what = c)
 
     if (length(ws_paths) == 0L) {
-        stop("There are no paths provided")
+        stop("There are no paths provided", call. = FALSE)
     }
 
     ws_names <- basename_n(ws_paths, n = 1L)

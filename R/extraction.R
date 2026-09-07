@@ -63,7 +63,7 @@ get_series <- function(x, ...) {
 #' @importFrom stats time
 get_series.JD3_TRAMOSEATS_RSLTS <- function(x, name, ...) {
     if (is.null(x)) {
-        stop("Please compute your workspace")
+        stop("Please compute your workspace.", call. = FALSE)
     }
     output <- NULL
     all_series <- regroup_ts(list(
@@ -94,7 +94,7 @@ get_series.JD3_TRAMOSEATS_RSLTS <- function(x, name, ...) {
 #' @importFrom stats time
 get_series.JD3_X13_RSLTS <- function(x, name, ...) {
     if (is.null(x)) {
-        stop("Please compute your workspace")
+        stop("Please compute your workspace.", call. = FALSE)
     }
     output <- NULL
     all_series <- c(x$preadjust, x$decomposition, x$final)
@@ -160,10 +160,10 @@ get_jsai_by_name <- function(jws, series_name) {
     sai_names <- rjd3workspace::sap_sai_names(jsap)
     id <- which(sai_names == series_name)
     if (length(id) == 0L) {
-        stop("No SAI are named after ", series_name)
+        stop("No SAI are named after ", series_name, call. = FALSE)
     }
     if (length(id) > 1L) {
-        stop("More than one SAI is named after ", series_name)
+        stop("More than one SAI is named after ", series_name, call. = FALSE)
     }
     return(rjd3workspace::jsap_sai(jsap, idx = id))
 }

@@ -46,6 +46,11 @@
 #' jws <- make_ws_crunchable(jws)
 #'
 make_ws_crunchable <- function(jws, verbose = TRUE) {
+    data_dir <- file.path(
+        tempdir(),
+        paste0("ws-data-dir-", sample.int(10000L, 1L))
+    )
+    dir.create(data_dir)
     nb_sap <- rjd3workspace::ws_sap_count(jws)
     for (id_sap in seq_len(nb_sap)) {
         if (verbose) {
@@ -68,7 +73,10 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
             )
             data_sai <- date4ts::ts2df(rjd3workspace::get_ts(jsai)$data)
             colnames(data_sai) <- c("date", name)
-            data_path <- tempfile(fileext = ".csv")
+            data_path <- file.path(
+                data_dir,
+                paste0("data-", id_sap, "-", id_sai, ".csv")
+            )
             TBox::write_data(data = data_sai, path = data_path)
             ts_obj <- rjd3providers::txt_series(
                 data_path,
@@ -96,7 +104,10 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' @param spec A JDemetra+ specification. Defaults to `rjd3x13::x13_spec()`.
 #' @param context A modelling context for a Workspace. Defaults to NULL.
 #' @param sap_name Name of the SA-Processing created. Defaults to "SAP1"
-#' @param path Path leading to an input data file with metadata. If not NULL, the ts metadata are completed with the input file.
+#' @param path Path leading to an input data file with metadata. If not NULL,
+#'   the ts metadata are completed with the input file.
+#' @param name_series Name of the series. Only used with univariate time series
+#'   (with no colnames).
 #'
 #' @details
 #' All series share the same specification (`spec`).
@@ -114,17 +125,31 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' @importFrom rjd3workspace jws_new add_sa_item jws_sap_new
 #' @importFrom rjd3x13 x13_spec
 #' @export
-create_ws_from_data <- function(x, spec = rjd3x13::x13_spec(), context = NULL, sap_name = "SAP1", path = NULL) {
+create_ws_from_data <- function(
+    x,
+    spec = rjd3x13::x13_spec(),
+    context = NULL,
+    sap_name = "SAP1",
+    path = NULL,
+    name_series = "my_series"
+) {
     jws <- rjd3workspace::jws_new()
     rjd3workspace::set_context(jws, modelling_context = context)
-    if (!is.null(path)){
+    if (!is.null(path)) {
         add_raw_data_path(jws, path)
     }
     jsap <- rjd3workspace::jws_sap_new(jws, sap_name)
+
+    if (stats::is.ts(x) && !stats::is.mts(x)) {
+        attr(x, "dim") <- c(length(x), 1L)
+        attr(x, "class") <- c("mts", "ts", "matrix", "array")
+        colnames(x) <- name_series
+    }
+
     for (k in seq_len(ncol(x))) {
         series <- x[, k]
         rjd3workspace::add_sa_item(
-            jsap,
+            jsap = jsap,
             name = colnames(x)[k],
             x = series,
             spec = spec

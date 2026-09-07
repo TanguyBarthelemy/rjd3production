@@ -7,6 +7,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+* Set a new option `rjd3production.thresholds` with the new thresholds to fit the td regressors in `select_td`. [#7](https://github.com/InseeFr/rjd3production/issues/7)
+
 ### Changed
 
 * `create_ws_from_data` has new arguments to personnalize the workspace: context, sap_name and path

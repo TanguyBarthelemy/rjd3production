@@ -37,6 +37,10 @@ of types, e.g., "AO", "LS", "TC") and \code{date} (vector of dates).}
 \code{"YYYY-MM-DD"}).}
 \item{...}{Other arguments accepted by \code{\link[=create_specs_set]{create_specs_set()}}.}
 }}
+
+\item{thresholds}{The thresholds used to compare the different model and
+set a grade to an adjustment based on the td residuals p-value and leap
+year significancy.}
 }
 \value{
 \itemize{

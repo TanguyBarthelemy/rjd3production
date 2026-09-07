@@ -146,6 +146,7 @@ importFrom(usethis,
   use_readme_rmd
 )
 importFrom(utils,
+  head,
   tail,
   write.csv
 )

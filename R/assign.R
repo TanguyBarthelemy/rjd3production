@@ -114,7 +114,8 @@ assign_td <- function(jws, td, verbose = TRUE) {
             setdiff(td$regs, c("No_TD", names(var_names))),
             " variables are not present in the WS.",
             " Please use the function `merge_contexts()` ",
-            "to update your modelling context."
+            "to update your modelling context.",
+            call. = FALSE
         )
     }
     jsap <- rjd3workspace::jws_sap(jws, 1L)
