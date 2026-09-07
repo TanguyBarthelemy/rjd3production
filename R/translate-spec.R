@@ -89,7 +89,7 @@ rev_add_ramp <- function(x) {
     spec_args$coef <- ramps |>
         lapply(FUN = "[[", "coef") |>
         lapply(FUN = "[[", "value") |>
-        lapply(FUN = (coeff) {
+        lapply(FUN = function(coeff) {
             if (is.null(coeff)) {
                 coeff <- 0L
             }
