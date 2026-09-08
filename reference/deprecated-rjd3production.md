@@ -47,7 +47,7 @@ save_workspace(jws, file = path_ws)
 # Remove non-significant outliers (p > 0.3) from a workspace
 remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE)
 #> 
-#> 🏷 WS  ws1f1274f45ec8 
+#> 🏷 WS  ws1f2868e31b33 
 #> 📌 SAI n° 1 
 #> 💾 Saving WS file
 # }
