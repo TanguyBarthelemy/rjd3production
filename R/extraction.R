@@ -62,9 +62,6 @@ get_series <- function(x, ...) {
 #' @export
 #' @importFrom stats time
 get_series.JD3_TRAMOSEATS_RSLTS <- function(x, name, ...) {
-    if (is.null(x)) {
-        stop("Please compute your workspace.", call. = FALSE)
-    }
     output <- NULL
     all_series <- regroup_ts(list(
         stochastics = x$decomposition$stochastics,
@@ -93,12 +90,17 @@ get_series.JD3_TRAMOSEATS_RSLTS <- function(x, name, ...) {
 #' @export
 #' @importFrom stats time
 get_series.JD3_X13_RSLTS <- function(x, name, ...) {
-    if (is.null(x)) {
-        stop("Please compute your workspace.", call. = FALSE)
-    }
     output <- NULL
-    all_series <- c(x$preadjust, x$decomposition, x$final)
-    for (s in names(all_series)) {
+    all_series <- c(
+        x$preadjust,
+        x$decomposition,
+        x$final
+    )
+    series_name <- setdiff(
+        names(all_series),
+        c("final_seasonal", "final_henderson")
+    )
+    for (s in series_name) {
         series <- all_series[[s]]
         if (!is.null(series)) {
             output <- rbind(
@@ -119,8 +121,12 @@ get_series.JD3_X13_RSLTS <- function(x, name, ...) {
 #' @method get_series jobjRef
 #' @export
 get_series.jobjRef <- function(x, ...) {
+    results <- (rjd3workspace::read_sai(x))$results
+    if (is.null(results)) {
+        stop("Please compute your workspace.", call. = FALSE)
+    }
     output <- get_series(
-        x = (rjd3workspace::read_sai(x))$results,
+        x = results,
         name = rjd3workspace::sai_name(x)
     )
     return(output)

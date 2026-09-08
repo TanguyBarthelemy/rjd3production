@@ -27,6 +27,7 @@
 #' @importFrom rjd3workspace get_ts
 #' @importFrom rjd3workspace set_ts
 #' @importFrom rjd3providers txt_series
+#' @importFrom checkmate assert_flag
 #'
 #' @export
 #'
@@ -46,6 +47,8 @@
 #' jws <- make_ws_crunchable(jws)
 #'
 make_ws_crunchable <- function(jws, verbose = TRUE) {
+    checkmate::assert_flag(verbose)
+
     data_dir <- file.path(
         tempdir(),
         paste0("ws-data-dir-", sample.int(10000L, 1L))
@@ -189,7 +192,9 @@ create_ws_from_data <- function(
 #' library("rjd3toolkit")
 #'
 #' my_data <- ABS
+#' colnames(my_data) <- substr(colnames(my_data), start = 2L, stop = 12L)
 #' path_ABS <- system.file("extdata", "ABS.csv", package = "rjd3providers")
+#'
 #' \donttest{
 #' jws <- create_ws_from_data(my_data)
 #' add_raw_data_path(jws, path_ABS, delimiter = "COMMA")

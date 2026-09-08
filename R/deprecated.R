@@ -31,6 +31,7 @@
 NULL
 
 #' @rdname deprecated-rjd3production
+#' @importFrom checkmate assert_flag
 #' @export
 remove_non_significative_outliers <- function(
     ws_path,

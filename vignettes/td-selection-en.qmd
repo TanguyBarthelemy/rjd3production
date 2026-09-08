@@ -69,7 +69,7 @@ Finally, to assign calendar regressors to a workspace, you can use the `assign_t
 
 library("rjd3workspace")
 my_ws <- jws_open("my_workspace")
-assign_td(td_table, my_ws)
+assign_td(td_table, my_ws, spec_type = c("Estimation", "Reference"))
 ```
 
 ### Advanced selection
