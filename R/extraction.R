@@ -107,7 +107,6 @@ get_series.JD3_X13_RSLTS <- function(x, name, ...) {
         c("final_seasonal", "final_henderson")
     )
     for (s in series_name) {
-        print(s)
         series <- all_series[[s]]
         if (!is.null(series)) {
             output <- rbind(
