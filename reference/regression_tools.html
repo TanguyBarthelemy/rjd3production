@@ -20,18 +20,23 @@ mermaid.initialize({ startOnLoad: true }); }); </script></head><body>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fa-home fa-lg"></span></a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Package functions</a></li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/process-en.html">Setup a production chain with JDemetra+</a></li>
-    <li><a class="dropdown-item" href="../articles/process-fr.html">Mise en place d'une chaîne de production</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignette" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignette</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-vignette"><li><a class="dropdown-item" href="../articles/process-en.html">Setup a production chain with {rjd3production}</a></li>
+    <li><a class="dropdown-item" href="../articles/process-fr.html">Mise en place d'une chaîne de production avec {rjd3production}</a></li>
     <li><a class="dropdown-item" href="../articles/td-selection-en.html">Selection of calendar td regressors</a></li>
-    <li><a class="dropdown-item" href="../articles/td-selection-fr.html">Selection des régresseurs de calendriers</a></li>
+    <li><a class="dropdown-item" href="../articles/td-selection-fr.html">Sélection des régresseurs de calendriers</a></li>
   </ul></li>
-<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
- <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/InseeFr/rjd3production/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-jdemetra-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">JDemetra+</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-jdemetra-"><li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdemetra-app/releases">To download JDemetra+</a></li>
+    <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jwsacruncher/releases">To download the JDemetra+ cruncher</a></li>
+    <li><a class="external-link dropdown-item" href="https://github.com/InseeFr/rjd3qr/wiki/Installation-&amp;-configuration#installation-de-jdemetra-fr">Set up with a portable version of Java</a></li>
+  </ul></li>
+      </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/InseeFr/rjd3production" aria-label="GitHub"><span class="fa fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -194,11 +199,11 @@ the resultSpec, estimationSpec or referenceSpec, while the assignment step
 <span class="r-in"><span><span class="co"># Export outliers</span></span></span>
 <span class="r-in"><span><span class="va">path_outs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"outliers-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">export_outliers</span><span class="op">(</span><span class="va">outs</span>, <span class="va">path_outs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be written at  /tmp/RtmpKoG0Nc/outliers-table1f5567050f27.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be written at  /tmp/RtmpG7HT7c/outliers-table1f1214639eef.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import outliers from a file</span></span></span>
 <span class="r-in"><span><span class="va">outs2</span> <span class="op">&lt;-</span> <span class="fu">import_outliers</span><span class="op">(</span><span class="va">path_outs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be read at  /tmp/RtmpKoG0Nc/outliers-table1f5567050f27.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The outliers table will be read at  /tmp/RtmpG7HT7c/outliers-table1f1214639eef.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign the outliers to a WS</span></span></span>
 <span class="r-in"><span><span class="fu">assign_outliers</span><span class="op">(</span>jws <span class="op">=</span> <span class="va">jws</span>, outliers <span class="op">=</span> <span class="va">outs2</span>, spec_type <span class="op">=</span> <span class="st">"Reference"</span><span class="op">)</span></span></span>
@@ -218,11 +223,11 @@ the resultSpec, estimationSpec or referenceSpec, while the assignment step
 <span class="r-in"><span><span class="co"># Export td variables</span></span></span>
 <span class="r-in"><span><span class="va">path_td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"td-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">export_td</span><span class="op">(</span><span class="va">td</span>, <span class="va">path_td</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be written at /tmp/RtmpKoG0Nc/td-table1f553df2d723.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be written at /tmp/RtmpG7HT7c/td-table1f1254de7bd9.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Import td variable from a file</span></span></span>
 <span class="r-in"><span><span class="va">td2</span> <span class="op">&lt;-</span> <span class="fu">import_td</span><span class="op">(</span><span class="va">path_td</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be read at  /tmp/RtmpKoG0Nc/td-table1f553df2d723.yaml </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The td table will be read at  /tmp/RtmpG7HT7c/td-table1f1254de7bd9.yaml </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Select td</span></span></span>
 <span class="r-in"><span><span class="va">td3</span> <span class="op">&lt;-</span> <span class="fu"><a href="select_td.html">select_td</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span></span></span>
