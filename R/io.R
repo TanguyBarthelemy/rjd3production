@@ -63,11 +63,14 @@ prepare_path <- function(path = NULL, object = "outliers") {
     return(path)
 }
 
+#' @importFrom checkmate assert_flag
 #' @importFrom yaml write_yaml
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
 export_outliers <- function(outliers, path = NULL, verbose = TRUE) {
+    checkmate::assert_flag(verbose)
+
     path <- prepare_path(path, "outliers")
     if (verbose) {
         cat("The outliers table will be written at ", path, "\n")
@@ -76,12 +79,15 @@ export_outliers <- function(outliers, path = NULL, verbose = TRUE) {
     return(invisible(path))
 }
 
+#' @importFrom checkmate assert_flag
 #' @importFrom yaml read_yaml
 #' @importFrom tools file_ext
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
 import_outliers <- function(path, verbose = TRUE) {
+    checkmate::assert_flag(verbose)
+
     if (!file.exists(path)) {
         stop("The file ", path, " doesn't exist.", call. = FALSE)
     }
@@ -95,11 +101,14 @@ import_outliers <- function(path, verbose = TRUE) {
     return(outliers)
 }
 
+#' @importFrom checkmate assert_flag
 #' @importFrom yaml write_yaml
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
 export_td <- function(td, path = NULL, verbose = TRUE) {
+    checkmate::assert_flag(verbose)
+
     path <- prepare_path(path, "td")
     if (verbose) {
         cat("The td table will be written at", path, "\n")
@@ -108,12 +117,15 @@ export_td <- function(td, path = NULL, verbose = TRUE) {
     return(invisible(path))
 }
 
+#' @importFrom checkmate assert_flag
 #' @importFrom yaml read_yaml
 #' @importFrom tools file_ext
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
 import_td <- function(path, verbose = TRUE) {
+    checkmate::assert_flag(verbose)
+
     if (!file.exists(path)) {
         stop("The file ", path, " doesn't exist.", call. = FALSE)
     }

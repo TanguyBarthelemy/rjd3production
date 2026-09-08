@@ -1,4 +1,13 @@
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_list
 merge_lists <- function(list1, list2, verbose = TRUE) {
+    checkmate::assert_named(list1)
+    checkmate::assert_list(list1)
+    checkmate::assert_named(list2)
+    checkmate::assert_list(list2)
+    checkmate::assert_flag(verbose)
+
     intersect_elts <- intersect(names(list1), names(list2))
     if (length(intersect_elts) > 0L && verbose) {
         message(
@@ -16,6 +25,9 @@ merge_lists <- function(list1, list2, verbose = TRUE) {
     return(c(list1, list2[setdiff_elts]))
 }
 
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_list
 #' @importFrom rjd3toolkit modelling_context
 merge_contexts <- function(context1 = NULL, context2 = NULL, verbose = TRUE) {
     if (is.null(context2)) {
@@ -23,6 +35,14 @@ merge_contexts <- function(context1 = NULL, context2 = NULL, verbose = TRUE) {
     } else if (is.null(context1)) {
         return(context2)
     }
+
+    checkmate::assert_named(context1)
+    checkmate::assert_list(context1)
+    stopifnot(names(context1) %in% c("variables", "calendars"))
+    checkmate::assert_named(context2)
+    checkmate::assert_list(context2)
+    stopifnot(names(context2) %in% c("variables", "calendars"))
+    checkmate::assert_flag(verbose)
 
     new_context <- rjd3toolkit::modelling_context(
         calendars = merge_lists(
@@ -38,6 +58,8 @@ merge_contexts <- function(context1 = NULL, context2 = NULL, verbose = TRUE) {
 #' @importFrom rjd3workspace jws_sap sap_sai_count jsap_sai sai_name read_sai
 #' @importFrom rjd3workspace set_specification set_reference_specification set_name
 #' @importFrom rjd3toolkit add_outlier
+#' @importFrom checkmate assert_character
+#' @importFrom checkmate assert_flag
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
@@ -45,6 +67,7 @@ assign_outliers <- function(jws, outliers, spec_type = NULL, verbose = TRUE) {
     checkmate::assert_character(spec_type)
     spec_type <- tolower(spec_type)
     stopifnot(spec_type %in% c("reference", "estimation"))
+    checkmate::assert_flag(verbose)
 
     jsap <- rjd3workspace::jws_sap(jws, 1L)
 
@@ -101,6 +124,7 @@ assign_outliers <- function(jws, outliers, spec_type = NULL, verbose = TRUE) {
     return(invisible(jws))
 }
 
+#' @importFrom checkmate assert_flag
 #' @importFrom rjd3workspace jws_sap sap_sai_count jsap_sai sai_name read_sai
 #' @importFrom rjd3workspace set_specification set_reference_specification set_name
 #' @importFrom rjd3workspace get_context
@@ -112,6 +136,7 @@ assign_td <- function(jws, td, spec_type = NULL, verbose = TRUE) {
     checkmate::assert_character(spec_type)
     spec_type <- tolower(spec_type)
     stopifnot(spec_type %in% c("reference", "estimation"))
+    checkmate::assert_flag(verbose)
 
     if (nrow(td) == 0L) {
         return(invisible(jws))

@@ -52,6 +52,7 @@
 #' remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE)
 #' }
 #'
+#' @importFrom checkmate assert_flag
 #' @importFrom rjd3workspace jws_open jws_compute jws_sap sap_sai_count jsap_sai
 #' @importFrom rjd3workspace read_sai sai_name set_specification
 #' @importFrom rjd3workspace set_reference_specification set_name save_workspace
@@ -65,6 +66,8 @@ remove_non_significant_outliers <- function(
     estimation = FALSE,
     verbose = TRUE
 ) {
+    checkmate::assert_flag(verbose)
+
     if (!reference && !estimation) {
         warning(
             "No SA-Items will be modified if neither referenceSpec",
@@ -94,6 +97,7 @@ remove_non_significant_outliers <- function(
     )
 }
 
+#' @importFrom checkmate assert_flag
 remove_non_significant_outliers_jws <- function(
     jws,
     threshold = 0.3,
@@ -101,6 +105,8 @@ remove_non_significant_outliers_jws <- function(
     estimation = FALSE,
     verbose = TRUE
 ) {
+    checkmate::assert_flag(verbose)
+
     if (!reference && !estimation) {
         warning(
             "No SA-Items will be modified if neither referenceSpec",
@@ -160,11 +166,14 @@ remove_non_significant_outliers_jws <- function(
     return(jws)
 }
 
+#' @importFrom checkmate assert_flag
 get_non_significant_outliers_jsai <- function(
     jsai,
     threshold = 0.3,
     verbose = TRUE
 ) {
+    checkmate::assert_flag(verbose)
+
     sai <- rjd3workspace::read_sai(jsai)
     series_name <- rjd3workspace::sai_name(jsai)
 

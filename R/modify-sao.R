@@ -27,6 +27,7 @@
 #' @importFrom rjd3workspace get_ts
 #' @importFrom rjd3workspace set_ts
 #' @importFrom rjd3providers txt_series
+#' @importFrom checkmate assert_flag
 #'
 #' @export
 #'
@@ -46,6 +47,8 @@
 #' jws <- make_ws_crunchable(jws)
 #'
 make_ws_crunchable <- function(jws, verbose = TRUE) {
+    checkmate::assert_flag(verbose)
+
     data_dir <- file.path(
         tempdir(),
         paste0("ws-data-dir-", sample.int(10000L, 1L))

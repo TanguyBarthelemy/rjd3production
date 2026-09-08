@@ -388,7 +388,7 @@ select_td_one_series <- function(
             spec = specs_set$No_TD,
             context = context,
             thresholds = thresholds,
-            verbose = TRUE
+            verbose = verbose
         )
         # Note de 0 = note parfaite
         if (diag_no_td$note == 0L) {

@@ -1,3 +1,4 @@
+#' @importFrom checkmate assert_flag
 #' @importFrom rjd3workspace read_workspace
 #' @family regression tools
 #' @rdname regression_tools
@@ -10,6 +11,7 @@ retrieve_outliers <- function(
     checkmate::assert_character(spec_type)
     spec_type <- tolower(spec_type)
     stopifnot(spec_type %in% c("reference", "estimation", "result"))
+    checkmate::assert_flag(verbose)
 
     if ("result" %in% spec_type) {
         jws_compute(jws)
@@ -158,6 +160,7 @@ extract_td <- function(spec) {
     return(regs_td)
 }
 
+#' @importFrom checkmate assert_flag
 #' @importFrom rjd3workspace read_workspace
 #' @family regression tools
 #' @rdname regression_tools
@@ -167,6 +170,7 @@ retrieve_td <- function(
     spec_type = NULL,
     verbose = TRUE
 ) {
+    checkmate::assert_flag(verbose)
     checkmate::assert_character(spec_type, len = 1L)
     spec_type <- tolower(spec_type)
     stopifnot(spec_type %in% c("reference", "estimation", "result"))
