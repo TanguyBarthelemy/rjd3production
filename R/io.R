@@ -63,6 +63,8 @@ prepare_path <- function(path = NULL, object = "outliers") {
     return(path)
 }
 
+#' @importFrom checkmate assert_data_frame
+#' @importFrom checkmate assert_date
 #' @importFrom checkmate assert_flag
 #' @importFrom yaml write_yaml
 #' @family regression tools
@@ -70,6 +72,9 @@ prepare_path <- function(path = NULL, object = "outliers") {
 #' @export
 export_outliers <- function(outliers, path = NULL, verbose = TRUE) {
     checkmate::assert_flag(verbose)
+    checkmate::assert_data_frame(outliers, types = rep("character", 4L))
+    stopifnot(outliers$type %in% c("AO", "LS", "TC", "SO"))
+    checkmate::assert_date(as.Date(outliers$date))
 
     path <- prepare_path(path, "outliers")
     if (verbose) {
@@ -102,12 +107,14 @@ import_outliers <- function(path, verbose = TRUE) {
 }
 
 #' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_data_frame
 #' @importFrom yaml write_yaml
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
 export_td <- function(td, path = NULL, verbose = TRUE) {
     checkmate::assert_flag(verbose)
+    checkmate::assert_data_frame(td, types = rep("character", 2L))
 
     path <- prepare_path(path, "td")
     if (verbose) {
