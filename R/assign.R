@@ -132,8 +132,8 @@ assign_outliers <- function(jws, outliers, spec_type = NULL, verbose = TRUE) {
 #' @importFrom checkmate assert_flag
 #' @importFrom checkmate assert_data_frame
 #' @importFrom rjd3workspace jws_sap sap_sai_count jsap_sai sai_name read_sai
-#' @importFrom rjd3workspace set_specification set_reference_specification set_name
-#' @importFrom rjd3workspace get_context
+#' @importFrom rjd3workspace set_specification set_reference_specification
+#' @importFrom rjd3workspace get_context set_name
 #' @importFrom rjd3toolkit set_tradingdays
 #' @family regression tools
 #' @rdname regression_tools
