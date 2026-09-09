@@ -7,6 +7,7 @@ keep_format <- function(x) {
     } else {
         output <- rlang::expr_text(x)
     }
+    return(output)
 }
 
 rev_add_outlier <- function(x) {

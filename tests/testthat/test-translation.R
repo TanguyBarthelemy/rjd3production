@@ -1,5 +1,5 @@
 set.seed(2026L)
-tol <- 10**-12
+tol <- 10L**-12L
 
 test_that("rev_set_x11 works", {
     testthat::skip_if_not(
