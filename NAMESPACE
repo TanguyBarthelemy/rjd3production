@@ -35,6 +35,7 @@ importFrom(TBox,write_data)
 importFrom(checkmate,
   assert_character,
   assert_class,
+  assert_count,
   assert_data_frame,
   assert_date,
   assert_flag,
