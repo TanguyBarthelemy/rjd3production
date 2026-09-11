@@ -196,11 +196,11 @@ get_named_variables <- function(context = NULL) {
     if (is.null(context)) {
         message("Without context, the output is NULL.")
         return(invisible(NULL))
-    } else {
-        checkmate::assert_list(context)
-        checkmate::assert_named(context)
-        checkmate::assert_set_equal(names(context), c("calendars", "variables"))
     }
+
+    checkmate::assert_list(context)
+    checkmate::assert_named(context)
+    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
 
     all_vars <- context$variables
     named_vars <- lapply(seq_along(all_vars), function(k) {
