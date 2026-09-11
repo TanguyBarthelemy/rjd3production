@@ -35,15 +35,27 @@
 #' cal
 #'
 #' # 2. Generate regressors
-#' regs <- create_insee_regressors(start = c(2000, 1), frequency = 12, length = 240)
+#' regs <- create_insee_regressors(
+#'     start = c(2000, 1),
+#'     frequency = 12,
+#'     length = 240
+#' )
 #' head(regs)
 #'
 #' # 3. Organize into standard sets
-#' sets <- create_insee_regressors_sets(start = c(2000, 1), frequency = 12, length = 240)
+#' sets <- create_insee_regressors_sets(
+#'     start = c(2000, 1),
+#'     frequency = 12,
+#'     length = 240
+#' )
 #' names(sets)
 #'
 #' # 4. Build a complete context for rjd3toolkit
-#' context <- create_insee_context(start = c(2000, 1), frequency = 12, length = 240)
+#' context <- create_insee_context(
+#'     start = c(2000, 1),
+#'     frequency = 12,
+#'     length = 240
+#' )
 #' context
 #'
 #' @name insee_modelling

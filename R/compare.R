@@ -192,7 +192,8 @@ run_app <- function(data, ...) {
                 dygraphs::dygraphOutput("plot", height = "400px"),
                 shiny::br(),
                 shiny::h4("Tableau des donn\u00e9es affich\u00e9es"),
-                shiny::uiOutput("table_ui") # l’objet HTML qui contiendra le flextable
+                # l’objet HTML qui contiendra le flextable
+                shiny::uiOutput("table_ui")
             )
         )
     )

@@ -131,7 +131,6 @@ exclusions: list(\"renv\", \"packrat\")
         check_name = FALSE
     )
 
-    # system(paste("git -C", normalizePath(path), "init -b main"))
     usethis::git_default_branch_configure(name = "main")
     usethis::use_git(message = "Nouveau projet de d\U0E9saisonnalisation !")
 
