@@ -509,31 +509,6 @@ select_td <- function(
         X = seq_len(ncol(series)),
         FUN = function(k) {
             series_name <- colnames(series)[k]
-
-            # if (with_outliers) {
-            #     # On récupère les outliers
-            #     sai_ref <- sap_ref |> RJDemetra::get_object(which(series_name_ref == series_name))
-            #     sai_mod <- sai_ref |> RJDemetra::get_model(workspace = ws_ref)
-            #     regressors <- sai_mod$regarima$regression.coefficients |> rownames()
-            #     regressors <- regressors[substr(regressors, 1, 2) %in% c("AO", "TC", "LS", "SO")]
-            #
-            #     if (length(regressors) > 0) {
-            #         outliers_type <- regressors |> substr(start = 1, stop = 2)
-            #         outliers_date <- regressors |>
-            #             substr(start = 5, stop = nchar(regressors) - 1) |>
-            #             paste0("01-", ... = _) |>
-            #             as.Date(format = "%d-%m-%Y")
-            #
-            #         outliers_type <- outliers_type[outliers_date >= as.Date(span_start)]
-            #         outliers_date <- outliers_date[outliers_date >= as.Date(span_start)]
-            #
-            #         if (length(outliers_date) > 0) {
-            #             outliers <- list(type = outliers_type,
-            #                              date = outliers_date)
-            #         }
-            #     }
-            # }
-
             if (verbose) {
                 cat(
                     paste0(
