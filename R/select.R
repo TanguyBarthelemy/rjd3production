@@ -372,10 +372,11 @@ select_td_one_series <- function(
 
     if (is.null(context)) {
         context <- create_insee_context(s = series)
+    } else {
+        checkmate::assert_list(context)
+        checkmate::assert_named(context)
+        checkmate::assert_set_equal(names(context), c("calendars", "variables"))
     }
-    checkmate::assert_list(context)
-    checkmate::assert_named(context)
-    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
 
     if (is.null(specs_set)) {
         specs_set <- create_specs_set(context = context, ...)
@@ -490,10 +491,11 @@ select_td <- function(
 
     if (is.null(context)) {
         context <- create_insee_context(s = series)
+    } else {
+        checkmate::assert_list(context)
+        checkmate::assert_named(context)
+        checkmate::assert_set_equal(names(context), c("calendars", "variables"))
     }
-    checkmate::assert_list(context)
-    checkmate::assert_named(context)
-    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
 
     specs_set <- create_specs_set(context = context, ...)
 

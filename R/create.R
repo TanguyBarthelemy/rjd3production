@@ -89,6 +89,9 @@ create_french_calendar <- function() {
 }
 
 #' @importFrom rjd3toolkit calendar_td lp_variable
+#' @importFrom checkmate assert_integerish
+#' @importFrom checkmate assert_number
+#' @importFrom checkmate assert_count
 #' @rdname insee_modelling
 #' @export
 create_insee_regressors <- function(
@@ -98,6 +101,10 @@ create_insee_regressors <- function(
     s = NULL,
     cal = NULL
 ) {
+    checkmate::assert_integerish(start, min.len = 1L, max.len = 2L)
+    checkmate::assert_number(frequency, lower = 0)
+    checkmate::assert_count(length, positive = TRUE)
+
     if (is.null(cal)) {
         cal <- create_french_calendar()
     }
@@ -110,7 +117,7 @@ create_insee_regressors <- function(
         REG6 = c(1L, 2L, 3L, 4L, 5L, 6L, 0L)
     )
 
-    if (!missing(s) && !is.null(ncol(s)) && ncol(s) > 1L) {
+    if (!missing(s) && !is.null(s) && !is.null(ncol(s)) && ncol(s) > 1L) {
         s <- s[, 1L]
     }
 
@@ -159,6 +166,9 @@ create_insee_regressors <- function(
     return(regs_td)
 }
 
+#' @importFrom checkmate assert_integerish
+#' @importFrom checkmate assert_number
+#' @importFrom checkmate assert_count
 #' @rdname insee_modelling
 #' @export
 create_insee_regressors_sets <- function(
@@ -168,6 +178,10 @@ create_insee_regressors_sets <- function(
     s = NULL,
     cal = NULL
 ) {
+    checkmate::assert_integerish(start, min.len = 1L, max.len = 2L)
+    checkmate::assert_number(frequency, lower = 0)
+    checkmate::assert_count(length, positive = TRUE)
+
     regs_td <- create_insee_regressors(
         frequency = frequency,
         start = start,
@@ -234,6 +248,9 @@ create_insee_regressors_sets <- function(
     return(sets)
 }
 
+#' @importFrom checkmate assert_integerish
+#' @importFrom checkmate assert_number
+#' @importFrom checkmate assert_count
 #' @importFrom rjd3toolkit modelling_context
 #' @rdname insee_modelling
 #' @export
@@ -243,6 +260,10 @@ create_insee_context <- function(
     length = 492L,
     s = NULL
 ) {
+    checkmate::assert_integerish(start, min.len = 1L, max.len = 2L)
+    checkmate::assert_number(frequency, lower = 0)
+    checkmate::assert_count(length, positive = TRUE)
+
     cal_fr <- create_french_calendar()
     variables_fr <- create_insee_regressors_sets(
         start = start,
@@ -256,7 +277,6 @@ create_insee_context <- function(
     )
     return(context)
 }
-
 
 #' @title Creating a set of X13 specifications
 #'
@@ -280,6 +300,9 @@ create_insee_context <- function(
 #'
 #' @importFrom rjd3x13 x13_spec
 #' @importFrom rjd3toolkit set_estimate add_outlier set_tradingdays
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
 #' @export
 create_specs_set <- function(
     spec_0 = NULL,
@@ -289,7 +312,15 @@ create_specs_set <- function(
 ) {
     if (is.null(context)) {
         context <- create_insee_context()
+    } else {
+        checkmate::assert_list(context)
+        checkmate::assert_named(context)
+        checkmate::assert_set_equal(names(context), c("calendars", "variables"))
     }
+    if (!is.null(span_start)) {
+        checkmate::assert_date(as.Date(span_start))
+    }
+
     var_names <- get_named_variables(context)
     if (is.null(spec_0)) {
         spec_0 <- rjd3x13::x13_spec(name = "RSA3")

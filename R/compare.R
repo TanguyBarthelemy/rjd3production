@@ -150,7 +150,10 @@ compare <- function(..., series_names = NULL) {
 #'
 #' @export
 run_app <- function(data, ...) {
-    checkmate::assert_data_frame(data, types = c(rep("character", 3L), "Date", "double"))
+    checkmate::assert_data_frame(
+        data,
+        types = c(rep("character", 3L), "Date", "double")
+    )
     stopifnot(c("ws", "SAI", "series", "date", "value") %in% names(data))
 
     ui <- shiny::fluidPage(
