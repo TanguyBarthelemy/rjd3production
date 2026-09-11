@@ -102,7 +102,7 @@ create_insee_regressors <- function(
     cal = NULL
 ) {
     checkmate::assert_integerish(start, min.len = 1L, max.len = 2L)
-    checkmate::assert_number(frequency, lower = 0)
+    checkmate::assert_number(frequency, lower = 0L)
     checkmate::assert_count(length, positive = TRUE)
 
     if (is.null(cal)) {
@@ -179,7 +179,7 @@ create_insee_regressors_sets <- function(
     cal = NULL
 ) {
     checkmate::assert_integerish(start, min.len = 1L, max.len = 2L)
-    checkmate::assert_number(frequency, lower = 0)
+    checkmate::assert_number(frequency, lower = 0L)
     checkmate::assert_count(length, positive = TRUE)
 
     regs_td <- create_insee_regressors(
@@ -261,7 +261,7 @@ create_insee_context <- function(
     s = NULL
 ) {
     checkmate::assert_integerish(start, min.len = 1L, max.len = 2L)
-    checkmate::assert_number(frequency, lower = 0)
+    checkmate::assert_number(frequency, lower = 0L)
     checkmate::assert_count(length, positive = TRUE)
 
     cal_fr <- create_french_calendar()
