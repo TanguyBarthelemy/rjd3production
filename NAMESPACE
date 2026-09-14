@@ -44,6 +44,7 @@ importFrom(checkmate,
   assert_named,
   assert_number,
   assert_numeric,
+  assert_path_for_output,
   assert_set_equal,
   check_class,
   check_data_frame

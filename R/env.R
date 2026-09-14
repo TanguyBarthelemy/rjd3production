@@ -24,11 +24,12 @@
 #' @export
 #' @importFrom usethis create_project use_readme_rmd use_git use_description
 #' @importFrom lintr use_lintr
+#' @importFrom checkmate assert_path_for_output
+#' @importFrom checkmate assert_flag
 #'
 init_env <- function(path, open = FALSE) {
-    if (dir.exists(path)) {
-        stop("The project exist already.", call. = FALSE)
-    }
+    checkmate::assert_path_for_output(path)
+    checkmate::assert_flag(open)
 
     dir.create(path, recursive = TRUE)
     usethis::create_project(rstudio = TRUE, path = path, open = open)

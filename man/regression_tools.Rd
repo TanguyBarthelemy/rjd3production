@@ -126,7 +126,8 @@ of the workspace.
 
 Currently, regression information can be extracted (\code{retrieve_XXX()}) from
 the resultSpec, estimationSpec or referenceSpec, while the assignment step
-(\code{assign_XXX()}) is performed in both the referenceSpec and the estimationSpec.
+(\code{assign_XXX()}) is performed in both the referenceSpec and the
+estimationSpec.
 }
 
 \examples{

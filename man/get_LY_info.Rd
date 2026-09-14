@@ -2,7 +2,7 @@
 % Please edit documentation in R/select.R
 \name{get_LY_info}
 \alias{get_LY_info}
-\title{Diagnostics Extraction on Calendar Correction with different sets of regressors}
+\title{Diagnostics on Calendar Correction with different sets of regressors}
 \usage{
 get_LY_info(mod, verbose = TRUE)
 }
@@ -86,7 +86,11 @@ rjd3production:::get_LY_info(mod)
 
 # Compute diagnostics for one spec
 spec <- my_set[[8L]]
-rjd3production:::one_diagnostic(series = ABS[, 1], spec, context = my_context)
+rjd3production:::one_diagnostic(
+    series = ABS[, 1],
+    spec,
+    context = my_context
+)
 
 # Compute diagnostics for all specs
 rjd3production:::all_diagnostics(
@@ -104,7 +108,10 @@ diags <- rjd3production:::all_diagnostics(
 rjd3production:::verif_LY("REG6_LY", diags)
 
 # Select regressions for one series
-rjd3production:::select_td_one_series(series = ABS[, 1], context = my_context)
+rjd3production:::select_td_one_series(
+    series = ABS[, 1],
+    context = my_context
+)
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}
