@@ -61,7 +61,10 @@ get_series <- function(x, ...) {
 #' @method get_series JD3_TRAMOSEATS_RSLTS
 #' @export
 #' @importFrom stats time
+#' @importFrom checkmate assert_character
 get_series.JD3_TRAMOSEATS_RSLTS <- function(x, name, ...) {
+    checkmate::assert_character(name, len = 1L)
+
     output <- NULL
     all_series <- regroup_ts(list(
         stochastics = x$decomposition$stochastics,
@@ -89,7 +92,10 @@ get_series.JD3_TRAMOSEATS_RSLTS <- function(x, name, ...) {
 #' @method get_series JD3_X13_RSLTS
 #' @export
 #' @importFrom stats time
+#' @importFrom checkmate assert_character
 get_series.JD3_X13_RSLTS <- function(x, name, ...) {
+    checkmate::assert_character(name, len = 1L)
+
     output <- NULL
     all_series <- c(
         x$preadjust,
@@ -159,9 +165,12 @@ get_series.jobjRef <- function(x, ...) {
 #' }
 #'
 #' @importFrom rjd3workspace jws_sap sap_sai_names jsap_sai
+#' @importFrom checkmate assert_character
 #'
 #' @export
 get_jsai_by_name <- function(jws, series_name) {
+    checkmate::assert_character(series_name, len = 1L)
+
     jsap <- rjd3workspace::jws_sap(jws, idx = 1L)
     sai_names <- rjd3workspace::sap_sai_names(jsap)
     id <- which(sai_names == series_name)
