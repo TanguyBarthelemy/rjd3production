@@ -254,6 +254,7 @@ rev_set_easter <- function(x) {
 
 rev_set_basic <- function(x) {
     spec_args <- c(x$regarima$basic, x$regarima$basic$span)
+    spec_args$frequency <- NULL
     spec_args$span <- NULL
     names(spec_args)[
         names(spec_args) == "preliminaryCheck"
