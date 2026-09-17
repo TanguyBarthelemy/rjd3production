@@ -126,14 +126,16 @@ remove_non_significant_outliers_jws <- function(
         jsai <- rjd3workspace::jsap_sai(jsap, idx = id_sai)
         sai <- read_sai(jsai)
         series_name <- rjd3workspace::sai_name(jsai)
+        print(series_name)
 
         outliers_to_remove <- get_non_significant_outliers_jsai(
             jsai = jsai,
             threshold = threshold,
             verbose = verbose
         )
+        print(outliers_to_remove)
 
-        if (nrow(outliers_to_remove) > 1L) {
+        if (nrow(outliers_to_remove) > 0L) {
             if (reference) {
                 new_referenceSpec <- rjd3toolkit::remove_outlier(
                     x = sai$referenceSpec,
