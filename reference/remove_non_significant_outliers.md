@@ -15,8 +15,7 @@ to simplify the regression specification.
 remove_non_significant_outliers(
   ws_path,
   threshold = 0.3,
-  reference = FALSE,
-  estimation = FALSE,
+  spec_type = NULL,
   verbose = TRUE
 )
 ```
@@ -34,6 +33,11 @@ remove_non_significant_outliers(
   keeping an outlier. Outliers with `Pr(>|t|) > threshold` are removed.
   Default is `0.3`.
 
+- verbose:
+
+  Boolean indicating whether to print additional information. Default is
+  `TRUE`.
+
 - reference:
 
   Boolean indicating if the reference specification should be modified.
@@ -41,11 +45,6 @@ remove_non_significant_outliers(
 - estimation:
 
   Boolean indicating if the estimation specification should be modified.
-
-- verbose:
-
-  Boolean indicating whether to print additional information. Default is
-  `TRUE`.
 
 ## Value
 
@@ -84,12 +83,6 @@ save_workspace(jws, file = path_ws)
 
 # Remove non-significant outliers (p > 0.3) from a workspace
 remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE)
-#> 
-#> 🏷 WS  ws1f1e33a92f5d 
-#> 📌 SAI n° 1 
-#> [1] "X0.2.09.10.M"
-#> [1] series name   type   date  
-#> <0 rows> (or 0-length row.names)
-#> 💾 Saving WS file
+#> Error in remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE): unused argument (reference = TRUE)
 # }
 ```

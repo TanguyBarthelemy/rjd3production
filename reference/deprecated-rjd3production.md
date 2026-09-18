@@ -46,12 +46,6 @@ save_workspace(jws, file = path_ws)
 
 # Remove non-significant outliers (p > 0.3) from a workspace
 remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE)
-#> 
-#> 🏷 WS  ws1f1ec9dd877 
-#> 📌 SAI n° 1 
-#> [1] "X0.2.09.10.M"
-#> [1] series name   type   date  
-#> <0 rows> (or 0-length row.names)
-#> 💾 Saving WS file
+#> Error in remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE): unused argument (reference = TRUE)
 # }
 ```
