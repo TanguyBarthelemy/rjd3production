@@ -128,6 +128,9 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' @importFrom checkmate assert_list
 #' @importFrom checkmate assert_named
 #' @importFrom checkmate assert_set_equal
+#' @importFrom checkmate assert_character
+#' @importFrom checkmate check_class
+#' @importFrom checkmate check_data_frame
 #' @importFrom rjd3workspace jws_new add_sa_item jws_sap_new
 #' @importFrom rjd3x13 x13_spec
 #' @export
@@ -139,15 +142,26 @@ create_ws_from_data <- function(
     path = NULL,
     name_series = "my_series"
 ) {
+    checkmate::assert_character(sap_name, len = 1L)
+    checkmate::assert_character(name_series, len = 1L)
     if (!is.null(context)) {
         checkmate::assert_list(context)
         checkmate::assert_named(context)
         checkmate::assert_set_equal(names(context), c("calendars", "variables"))
     }
+    cond_series <- checkmate::test_class(x, "ts") ||
+        checkmate::test_data_frame(x)
+    if (!cond_series) {
+        stop(
+            "x must be (m)ts object or a data.frame of ts.",
+            call. = FALSE
+        )
+    }
 
     jws <- rjd3workspace::jws_new()
     rjd3workspace::set_context(jws, modelling_context = context)
     if (!is.null(path)) {
+        path <- normalizePath(path, mustWork = TRUE)
         add_raw_data_path(jws, path)
     }
     jsap <- rjd3workspace::jws_sap_new(jws, sap_name)
@@ -214,6 +228,8 @@ create_ws_from_data <- function(
 #' @importFrom rjd3providers txt_data
 #' @importFrom tools file_ext
 add_raw_data_path <- function(jws, path, ...) {
+    path <- normalizePath(path, mustWork = TRUE)
+
     jsap <- rjd3workspace::jws_sap(jws, 1L)
     nb_sai <- rjd3workspace::sap_sai_count(jsap)
 

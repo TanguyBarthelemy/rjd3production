@@ -474,8 +474,8 @@ select_td_one_series <- function(
 #'
 #' @importFrom stats is.ts is.mts
 #'
-#' @importFrom checkmate check_class
-#' @importFrom checkmate check_data_frame
+#' @importFrom checkmate test_class
+#' @importFrom checkmate test_data_frame
 #' @importFrom checkmate assert_flag
 #' @importFrom checkmate assert_list
 #' @importFrom checkmate assert_named
@@ -487,8 +487,8 @@ select_td <- function(
     thresholds = getOption("rjd3production.thresholds"),
     verbose = TRUE
 ) {
-    cond_series <- isTRUE(checkmate::check_class(series, "ts")) ||
-        isTRUE(checkmate::check_data_frame(series))
+    cond_series <- checkmate::test_class(series, "ts") ||
+        checkmate::test_data_frame(series)
     if (!cond_series) {
         stop(
             "Series must be (m)ts object or a data.frame of ts.",

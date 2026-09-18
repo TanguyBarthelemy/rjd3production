@@ -47,7 +47,9 @@ importFrom(checkmate,
   assert_path_for_output,
   assert_set_equal,
   check_class,
-  check_data_frame
+  check_data_frame,
+  test_class,
+  test_data_frame
 )
 importFrom(date4ts,ts2df)
 importFrom(dygraphs,
