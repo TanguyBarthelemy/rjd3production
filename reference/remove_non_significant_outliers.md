@@ -33,18 +33,15 @@ remove_non_significant_outliers(
   keeping an outlier. Outliers with `Pr(>|t|) > threshold` are removed.
   Default is `0.3`.
 
+- spec_type:
+
+  Character. Indicating the type of spec where the outliers whould be
+  extracted. Accepted values : "Reference" or "Estimation".
+
 - verbose:
 
   Boolean indicating whether to print additional information. Default is
   `TRUE`.
-
-- reference:
-
-  Boolean indicating if the reference specification should be modified.
-
-- estimation:
-
-  Boolean indicating if the estimation specification should be modified.
 
 ## Value
 
