@@ -1,6 +1,6 @@
 #' @title Deprecated functions
 #'
-#' @param ws_path,threshold,reference,estimation,verbose Parameters.
+#' @param ws_path,threshold,spec_type,verbose Parameters.
 #'
 #' @returns
 #' The same value as returned by the corresponding non-deprecated function.
@@ -36,16 +36,14 @@ NULL
 remove_non_significative_outliers <- function(
     ws_path,
     threshold = 0.3,
-    reference = FALSE,
-    estimation = FALSE,
+    spec_type = NULL,
     verbose = TRUE
 ) {
     .Deprecated("remove_non_significant_outliers")
     remove_non_significant_outliers(
         ws_path,
         threshold,
-        reference,
-        estimation,
+        spec_type,
         verbose
     )
 }

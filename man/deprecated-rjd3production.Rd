@@ -8,13 +8,12 @@
 remove_non_significative_outliers(
   ws_path,
   threshold = 0.3,
-  reference = FALSE,
-  estimation = FALSE,
+  spec_type = NULL,
   verbose = TRUE
 )
 }
 \arguments{
-\item{ws_path, threshold, reference, estimation, verbose}{Parameters.}
+\item{ws_path, threshold, spec_type, verbose}{Parameters.}
 }
 \value{
 The same value as returned by the corresponding non-deprecated function.

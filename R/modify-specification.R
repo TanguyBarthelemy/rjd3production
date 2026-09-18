@@ -70,7 +70,7 @@ remove_non_significant_outliers <- function(
     checkmate::assert_character(spec_type, null.ok = FALSE, min.len = 1L)
     spec_type <- tolower(spec_type)
     stopifnot(spec_type %in% c("reference", "estimation"))
-    checkmate::assert_number(threshold, lower = 0, upper = 1)
+    checkmate::assert_number(threshold, lower = 0L, upper = 1L)
 
     ws_name <- tools::file_path_sans_ext(basename(ws_path))
     if (verbose) {
@@ -105,7 +105,7 @@ remove_non_significant_outliers_jws <- function(
     checkmate::assert_character(spec_type, null.ok = FALSE, min.len = 1L)
     spec_type <- tolower(spec_type)
     stopifnot(spec_type %in% c("reference", "estimation"))
-    checkmate::assert_number(threshold, lower = 0, upper = 1)
+    checkmate::assert_number(threshold, lower = 0L, upper = 1L)
 
     rjd3workspace::jws_compute(jws)
     jsap <- rjd3workspace::jws_sap(jws, 1L)
@@ -167,7 +167,7 @@ get_non_significant_outliers_jsai <- function(
     threshold = 0.3,
     verbose = TRUE
 ) {
-    checkmate::assert_number(threshold, lower = 0, upper = 1)
+    checkmate::assert_number(threshold, lower = 0L, upper = 1L)
     checkmate::assert_flag(verbose)
 
     sai <- rjd3workspace::read_sai(jsai)
@@ -254,10 +254,11 @@ set_minimum_span <- function(
     span_type = NULL,
     without_outliers = TRUE
 ) {
-
     checkmate::assert_character(span_type, null.ok = FALSE, min.len = 1L)
     spec_type <- tolower(span_type)
-    stopifnot(spec_type %in% c("basic", "series", "estimate", "estimation", "model"))
+    stopifnot(
+        spec_type %in% c("basic", "series", "estimate", "estimation", "model")
+    )
 
     if (without_outliers) {
         outliers <- spec$regarima$regression$outliers
