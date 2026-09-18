@@ -24,7 +24,11 @@
 #' # Use `remove_non_significant_outliers` instead
 #'
 #' # Remove non-significant outliers (p > 0.3) from a workspace
-#' remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE)
+#' remove_non_significant_outliers(
+#'     path_ws,
+#'     threshold = 0.3,
+#'     spec_type = c("Reference", "Estimation")
+#' )
 #' }
 #'
 #' @name deprecated-rjd3production
