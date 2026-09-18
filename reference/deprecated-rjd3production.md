@@ -44,7 +44,17 @@ save_workspace(jws, file = path_ws)
 # Use `remove_non_significant_outliers` instead
 
 # Remove non-significant outliers (p > 0.3) from a workspace
-remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE)
-#> Error in remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE): unused argument (reference = TRUE)
+remove_non_significant_outliers(
+    path_ws,
+    threshold = 0.3,
+    spec_type = c("Reference", "Estimation")
+)
+#> 
+#> 🏷 WS  ws1e5219246806 
+#> 📌 SAI n° 1 
+#> [1] "X0.2.09.10.M"
+#> [1] series name   type   date  
+#> <0 rows> (or 0-length row.names)
+#> 💾 Saving WS file
 # }
 ```

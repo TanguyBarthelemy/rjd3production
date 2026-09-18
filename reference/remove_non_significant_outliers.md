@@ -79,7 +79,17 @@ path_ws <- tempfile(pattern = "ws", fileext = ".xml")
 save_workspace(jws, file = path_ws)
 
 # Remove non-significant outliers (p > 0.3) from a workspace
-remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE)
-#> Error in remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE): unused argument (reference = TRUE)
+remove_non_significant_outliers(
+    path_ws,
+    threshold = 0.3,
+    spec_type = c("Reference", "Estimation")
+)
+#> 
+#> 🏷 WS  ws1e522617185 
+#> 📌 SAI n° 1 
+#> [1] "X0.2.09.10.M"
+#> [1] series name   type   date  
+#> <0 rows> (or 0-length row.names)
+#> 💾 Saving WS file
 # }
 ```
