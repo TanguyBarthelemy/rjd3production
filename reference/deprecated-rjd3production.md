@@ -8,15 +8,14 @@ Deprecated functions
 remove_non_significative_outliers(
   ws_path,
   threshold = 0.3,
-  reference = FALSE,
-  estimation = FALSE,
+  spec_type = NULL,
   verbose = TRUE
 )
 ```
 
 ## Arguments
 
-- ws_path, threshold, reference, estimation, verbose:
+- ws_path, threshold, spec_type, verbose:
 
   Parameters.
 
