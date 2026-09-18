@@ -2,7 +2,10 @@ random_flag <- function() {
     random_choice(x = c(NA, TRUE, FALSE))
 }
 
+#' @importFrom checkmate assert_count
 random_name <- function(n = n) {
+    checkmate::assert_count(n)
+
     nom <- paste(
         sample(x = c(0L:9L, letters), size = n, replace = TRUE),
         collapse = ""
@@ -10,7 +13,10 @@ random_name <- function(n = n) {
     return(nom)
 }
 
+#' @importFrom checkmate assert_vector
 random_choice <- function(x) {
+    checkmate::assert_vector(x)
+
     sample(x = x, size = 1L)
 }
 
