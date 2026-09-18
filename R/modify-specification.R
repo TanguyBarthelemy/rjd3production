@@ -53,6 +53,8 @@
 #' }
 #'
 #' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_character
+#' @importFrom checkmate assert_number
 #' @importFrom rjd3workspace jws_open jws_compute jws_sap sap_sai_count jsap_sai
 #' @importFrom rjd3workspace read_sai sai_name set_specification
 #' @importFrom rjd3workspace set_reference_specification set_name save_workspace
@@ -62,20 +64,16 @@
 remove_non_significant_outliers <- function(
     ws_path,
     threshold = 0.3,
-    reference = FALSE,
-    estimation = FALSE,
+    spec_type = NULL,
     verbose = TRUE
 ) {
+    ws_path <- normalizePath(ws_path, mustWork = TRUE)
     checkmate::assert_flag(verbose)
+    checkmate::assert_character(spec_type, null.ok = FALSE, min.len = 1L)
+    spec_type <- tolower(spec_type)
+    stopifnot(spec_type %in% c("reference", "estimation"))
+    checkmate::assert_number(threshold, lower = 0, upper = 1)
 
-    if (!reference && !estimation) {
-        warning(
-            "No SA-Items will be modified if neither referenceSpec",
-            "nor estimationspec are selected.",
-            call. = FALSE
-        )
-        return(invisible(NULL))
-    }
     ws_name <- tools::file_path_sans_ext(basename(ws_path))
     if (verbose) {
         cat("\n\U1F3F7 WS ", ws_name, "\n")
@@ -83,8 +81,7 @@ remove_non_significant_outliers <- function(
     jws <- rjd3workspace::jws_open(file = ws_path) |>
         remove_non_significant_outliers_jws(
             threshold = threshold,
-            reference = reference,
-            estimation = estimation,
+            spec_type = spec_type,
             verbose = verbose
         )
     if (verbose) {
@@ -98,23 +95,20 @@ remove_non_significant_outliers <- function(
 }
 
 #' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_character
+#' @importFrom checkmate assert_number
 remove_non_significant_outliers_jws <- function(
     jws,
     threshold = 0.3,
-    reference = FALSE,
-    estimation = FALSE,
+    spec_type = NULL,
     verbose = TRUE
 ) {
     checkmate::assert_flag(verbose)
+    checkmate::assert_character(spec_type, null.ok = FALSE, min.len = 1L)
+    spec_type <- tolower(spec_type)
+    stopifnot(spec_type %in% c("reference", "estimation"))
+    checkmate::assert_number(threshold, lower = 0, upper = 1)
 
-    if (!reference && !estimation) {
-        warning(
-            "No SA-Items will be modified if neither referenceSpec",
-            "nor estimationspec are selected.",
-            call. = FALSE
-        )
-        return(invisible(NULL))
-    }
     rjd3workspace::jws_compute(jws)
     jsap <- rjd3workspace::jws_sap(jws, 1L)
     nb_sai <- rjd3workspace::sap_sai_count(jsap)
@@ -136,7 +130,7 @@ remove_non_significant_outliers_jws <- function(
         print(outliers_to_remove)
 
         if (nrow(outliers_to_remove) > 0L) {
-            if (reference) {
+            if ("reference" %in% spec_type) {
                 new_referenceSpec <- rjd3toolkit::remove_outlier(
                     x = sai$referenceSpec,
                     type = outliers_to_remove$type,
@@ -149,7 +143,7 @@ remove_non_significant_outliers_jws <- function(
                 )
             }
 
-            if (estimation) {
+            if ("estimation" %in% spec_type) {
                 new_estimationSpec <- rjd3toolkit::remove_outlier(
                     x = sai$estimationSpec,
                     type = outliers_to_remove$type,
@@ -168,12 +162,14 @@ remove_non_significant_outliers_jws <- function(
     return(jws)
 }
 
+#' @importFrom checkmate assert_number
 #' @importFrom checkmate assert_flag
 get_non_significant_outliers_jsai <- function(
     jsai,
     threshold = 0.3,
     verbose = TRUE
 ) {
+    checkmate::assert_number(threshold, lower = 0, upper = 1)
     checkmate::assert_flag(verbose)
 
     sai <- rjd3workspace::read_sai(jsai)
@@ -221,9 +217,10 @@ get_non_significant_outliers_jsai <- function(
 #' @param spec Specification (object of class `JD3_X13_SPEC` or
 #' `JD3_TRAMOSEATS_SPEC`
 #' @param d0 characters in the format "YYYY-MM-DD" to specify first date of the
-#' span
-#' @param model_span Boolean. Should the estimation (= model) span be modifed?
-#' @param series_span Boolean. Should the series (= basic) span be modifed?
+#'   span.
+#' @param span_type Character vector. Span that should be modified.
+#'   Accepted values are `"basic"` or `"series"` for the span of the series
+#'   and `"estimation"`, `"estimate"` or `"model"` for the estimation span.
 #' @param without_outliers Boolean. Should the outliers set before the starting
 #' date be removed?
 #' (Small crutch while waiting for the resolution of jdemetra/jdplus-main issue
@@ -235,6 +232,7 @@ get_non_significant_outliers_jsai <- function(
 #'
 #' @importFrom zoo as.Date
 #' @importFrom rjd3toolkit set_basic set_estimate
+#' @importFrom checkmate assert_character
 #'
 #' @returns the modify specification (an `JD3_X13_SPEC` or `JD3_TRAMOSEATS_SPEC`
 #'  object).
@@ -249,17 +247,21 @@ get_non_significant_outliers_jsai <- function(
 #' \donttest{
 #' # Two demo workspaces (RSA3 and RSA5)
 #' spec <- x13_spec("rsa3")
-#' set_minimum_span(spec, "2012-01-01")
+#' set_minimum_span(spec, "2012-01-01", span_type = c("series", "model"))
 #' }
 #'
 set_minimum_span <- function(
     spec,
     d0,
-    model_span = TRUE,
-    series_span = TRUE,
+    span_type = NULL,
     without_outliers = TRUE
 ) {
-    if ((model_span || series_span) && without_outliers) {
+
+    checkmate::assert_character(span_type, null.ok = FALSE, min.len = 1L)
+    spec_type <- tolower(span_type)
+    stopifnot(spec_type %in% c("basic", "series", "estimate", "estimation", "model"))
+
+    if (without_outliers) {
         outliers <- spec$regarima$regression$outliers
         outliers_date <- vapply(
             X = outliers,
@@ -274,7 +276,7 @@ set_minimum_span <- function(
         }
     }
 
-    if (series_span) {
+    if (any(c("basic", "series") %in% span_type)) {
         span <- d0
         current_span <- spec |>
             base::`[[`("regarima") |>
@@ -286,7 +288,7 @@ set_minimum_span <- function(
         }
         spec <- rjd3toolkit::set_basic(x = spec, type = "From", d0 = span)
     }
-    if (model_span) {
+    if (any(c("estimate", "estimation", "model") %in% span_type)) {
         span <- d0
         current_span <- spec |>
             base::`[[`("regarima") |>

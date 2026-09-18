@@ -4,24 +4,18 @@
 \alias{set_minimum_span}
 \title{Set span minimum to a value}
 \usage{
-set_minimum_span(
-  spec,
-  d0,
-  model_span = TRUE,
-  series_span = TRUE,
-  without_outliers = TRUE
-)
+set_minimum_span(spec, d0, span_type = NULL, without_outliers = TRUE)
 }
 \arguments{
 \item{spec}{Specification (object of class \code{JD3_X13_SPEC} or
 \code{JD3_TRAMOSEATS_SPEC}}
 
 \item{d0}{characters in the format "YYYY-MM-DD" to specify first date of the
-span}
+span.}
 
-\item{model_span}{Boolean. Should the estimation (= model) span be modifed?}
-
-\item{series_span}{Boolean. Should the series (= basic) span be modifed?}
+\item{span_type}{Character vector. Span that should be modified.
+Accepted values are \code{"basic"} or \code{"series"} for the span of the series
+and \code{"estimation"}, \code{"estimate"} or \code{"model"} for the estimation span.}
 
 \item{without_outliers}{Boolean. Should the outliers set before the starting
 date be removed?
@@ -49,7 +43,7 @@ library("rjd3workspace")
 \donttest{
 # Two demo workspaces (RSA3 and RSA5)
 spec <- x13_spec("rsa3")
-set_minimum_span(spec, "2012-01-01")
+set_minimum_span(spec, "2012-01-01", span_type = c("series", "model"))
 }
 \dontshow{\}) # examplesIf}
 }
