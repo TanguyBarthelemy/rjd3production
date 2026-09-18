@@ -19,14 +19,11 @@ remove_non_significant_outliers(
 an outlier. Outliers with \verb{Pr(>|t|) > threshold} are removed.
 Default is \code{0.3}.}
 
+\item{spec_type}{Character. Indicating the type of spec where the outliers
+whould be extracted. Accepted values : "Reference" or "Estimation".}
+
 \item{verbose}{Boolean indicating whether to print additional information.
 Default is \code{TRUE}.}
-
-\item{reference}{Boolean indicating if the reference specification should be
-modified.}
-
-\item{estimation}{Boolean indicating if the estimation specification should
-be modified.}
 }
 \value{
 The function invisibly returns \code{NULL}, but it \strong{modifies the workspace file
