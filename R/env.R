@@ -24,11 +24,12 @@
 #' @export
 #' @importFrom usethis create_project use_readme_rmd use_git use_description
 #' @importFrom lintr use_lintr
+#' @importFrom checkmate assert_path_for_output
+#' @importFrom checkmate assert_flag
 #'
 init_env <- function(path, open = FALSE) {
-    if (dir.exists(path)) {
-        stop("The project exist already.", call. = FALSE)
-    }
+    checkmate::assert_path_for_output(path)
+    checkmate::assert_flag(open)
 
     dir.create(path, recursive = TRUE)
     usethis::create_project(rstudio = TRUE, path = path, open = open)
@@ -108,14 +109,29 @@ exclusions: list(\"renv\", \"packrat\")
     usethis::proj_set(path)
     usethis::use_description(
         fields = list(
-            Imports = "rjd3toolkit, rjd3x13, rjd3providers, rjd3workspace, rjd3production, rjd3qr",
-            Suggests = "devtools, usethis, remotes, cyclocomp, lintr, rmarkdown",
+            Imports = paste(
+                "rjd3toolkit",
+                "rjd3x13",
+                "rjd3providers",
+                "rjd3workspace",
+                "rjd3production",
+                "rjd3qr",
+                sep = ", "
+            ),
+            Suggests = paste(
+                "devtools",
+                "usethis",
+                "remotes",
+                "cyclocomp",
+                "lintr",
+                "rmarkdown",
+                sep = ", "
+            ),
             Type = "Project"
         ),
         check_name = FALSE
     )
 
-    # system(paste("git -C", normalizePath(path), "init -b main"))
     usethis::git_default_branch_configure(name = "main")
     usethis::use_git(message = "Nouveau projet de d\U0E9saisonnalisation !")
 
