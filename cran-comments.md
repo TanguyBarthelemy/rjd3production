@@ -1,3 +1,16 @@
+## Submission of {rjd3production} v1.2.0 - 2026-09-30
+
+### R CMD check results
+
+* checked on windows, mac, ubuntu
+* checked with the Win-Builder of the CRAN
+
+0 errors | 0 warnings | 1 note
+
+### Changes
+
+* New submission, package was archived on CRAN
+
 
 ## Submission of {rjd3production} v1.1.1 - 2026-07-17
 
