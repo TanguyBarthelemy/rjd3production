@@ -23,7 +23,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 ```{r}
 #| label: setup-rjd3production
 library("rjd3production")
@@ -122,8 +121,18 @@ library("rjd3x13")
 
 jws <- jws_new(modelling_context = my_context)
 jsap <- jws_sap_new(jws, "Nouveau SAP")
-add_sa_item(jsap = jsap, name = "Première série", x = my_data[, 1L], spec = x13_spec())
-add_sa_item(jsap = jsap, name = "Seconde série", x = my_data[, 2L], spec = x13_spec())
+add_sa_item(
+    jsap = jsap,
+    name = "Première série",
+    x = my_data[, 1L],
+    spec = x13_spec()
+)
+add_sa_item(
+    jsap = jsap,
+    name = "Seconde série",
+    x = my_data[, 2L],
+    spec = x13_spec()
+)
 #... avec autant de commande que de séries
 ```
 
@@ -144,7 +153,7 @@ If we have any, we need to assign calendar regressors to each series:
 #| label: assign-td
 
 jws_compute(jws)
-assign_td(td = td, jws = jws)
+assign_td(td = td, jws = jws, spec_type = c("Estimation", "Reference"))
 ```
 
 Don’t forget to update the metadata for our workspace with the path to our raw data:

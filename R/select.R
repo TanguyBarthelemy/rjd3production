@@ -1,19 +1,43 @@
-#' @importFrom stats frequency time
+#' @importFrom stats time
+#' @importFrom stats frequency
+#' @importFrom utils head
+#' @importFrom utils tail
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_numeric
 is_compatible <- function(series, reg) {
+    checkmate::assert_class(series, "ts")
+    checkmate::assert_numeric(series)
+    checkmate::assert_class(reg, "ts")
+    checkmate::assert_numeric(reg)
+
+    d0_series <- round(as.double(utils::head(stats::time(series), n = 1L)), 3L)
+    d1_series <- round(as.double(utils::tail(stats::time(series), n = 1L)), 3L)
+    d0_reg <- round(as.double(utils::head(stats::time(reg), n = 1L)), 3L)
+    d1_reg <- round(as.double(utils::tail(stats::time(reg), n = 1L)), 3L)
+
     if (stats::frequency(series) != stats::frequency(reg)) {
-        warning("The series and the regressors doesn't have same frequency.")
+        warning(
+            "The series and the regressors doesn't have same frequency.",
+            call. = FALSE
+        )
         return(FALSE)
-    } else if (stats::time(series)[1L] < stats::time(reg)[1L]) {
-        warning("The regressors starts after the beginning of the series.")
+    } else if (d0_series < d0_reg) {
+        warning(
+            "The regressors starts after the beginning of the series.",
+            call. = FALSE
+        )
         return(FALSE)
-    } else if (rev(stats::time(series))[1L] > rev(stats::time(reg))[1L]) {
-        warning("The regressors ends before the end of the series.")
+    } else if (d1_series > d1_reg) {
+        warning(
+            "The regressors ends before the end of the series.",
+            call. = FALSE
+        )
         return(FALSE)
     }
     return(TRUE)
 }
 
-#' @title Diagnostics Extraction on Calendar Correction with different sets of regressors
+#' @title Diagnostics on Calendar Correction with different sets of regressors
 #'
 #' @description
 #' These functions allow to extract diagnostics from X13-Arima models with
@@ -51,6 +75,9 @@ is_compatible <- function(series, reg) {
 #'     `"YYYY-MM-DD"`).}
 #'     \item{...}{Other arguments accepted by [create_specs_set()].}
 #'   }
+#' @param thresholds The thresholds used to compare the different model and
+#'   set a grade to an adjustment based on the td residuals p-value and leap
+#'   year significancy.
 #' @inheritParams make_ws_crunchable
 #'
 #' @returns
@@ -71,11 +98,15 @@ is_compatible <- function(series, reg) {
 #'
 #' # Extract LY info
 #' mod <- rjd3x13::x13(ABS[, 1], spec = "RSA3")
-#' rjd3production:::get_LY_info(summary(mod))
+#' rjd3production:::get_LY_info(mod)
 #'
 #' # Compute diagnostics for one spec
 #' spec <- my_set[[8L]]
-#' rjd3production:::one_diagnostic(series = ABS[, 1], spec, context = my_context)
+#' rjd3production:::one_diagnostic(
+#'     series = ABS[, 1],
+#'     spec,
+#'     context = my_context
+#' )
 #'
 #' # Compute diagnostics for all specs
 #' rjd3production:::all_diagnostics(
@@ -93,11 +124,19 @@ is_compatible <- function(series, reg) {
 #' rjd3production:::verif_LY("REG6_LY", diags)
 #'
 #' # Select regressions for one series
-#' rjd3production:::select_td_one_series(series = ABS[, 1], context = my_context)
+#' rjd3production:::select_td_one_series(
+#'     series = ABS[, 1],
+#'     context = my_context
+#' )
 #'
-#'@dev
+#' @dev
 #'
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_flag
 get_LY_info <- function(mod, verbose = TRUE) {
+    checkmate::assert_class(mod, "JD3_X13_OUTPUT")
+    checkmate::assert_flag(verbose)
+
     ud_var <- mod$result_spec$regarima$regression$td$users
     if (
         length(ud_var) == 0L ||
@@ -115,7 +154,7 @@ get_LY_info <- function(mod, verbose = TRUE) {
         fixed = TRUE
     )
     if (length(idx) > 1L) {
-        stop("Plusieurs variables portent le nom LY.")
+        stop("Plusieurs variables portent le nom LY.", call. = FALSE)
     } else if (length(idx) == 0L && length(idx2) == 1L) {
         idx <- idx2
     }
@@ -125,8 +164,28 @@ get_LY_info <- function(mod, verbose = TRUE) {
     return(data.frame(LY_coeff = LY_coeff, LY_p_value = LY_p_value))
 }
 
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_numeric
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
 #' @importFrom rjd3x13 x13
-one_diagnostic <- function(series, spec, context, verbose = TRUE) {
+one_diagnostic <- function(
+    series,
+    spec,
+    context,
+    thresholds = getOption("rjd3production.thresholds"),
+    verbose = TRUE
+) {
+    checkmate::assert_class(series, "ts")
+    checkmate::assert_numeric(series)
+    checkmate::assert_class(spec, "JD3_X13_SPEC")
+    checkmate::assert_list(context)
+    checkmate::assert_named(context)
+    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
+    checkmate::assert_flag(verbose)
+
     if (length(spec$regarima$regression$td$users) > 0L) {
         condition <- spec$regarima$regression$td$users |>
             strsplit(split = ".", fixed = TRUE) |>
@@ -137,7 +196,10 @@ one_diagnostic <- function(series, spec, context, verbose = TRUE) {
                 series = series
             )
         if (!all(condition)) {
-            stop("One of the regressors doesn't have the good properties.")
+            stop(
+                "One of the regressors doesn't have the good properties.",
+                call. = FALSE
+            )
         }
     }
 
@@ -149,58 +211,104 @@ one_diagnostic <- function(series, spec, context, verbose = TRUE) {
     )
 
     # Si res_td < 0.05 -> il y a des tradings days residuals
-    res_td <- sapply(
+    res_td <- vapply(
         X = mod$user_defined,
         FUN = `[[`,
-        "pvalue"
+        "pvalue",
+        FUN.VALUE = double(1L)
     )
 
-    # Plus la note est élevé, moins bine c'est.
-    note <- sum((res_td < 0.05) * 2L:1L)
+    # Plus la note est élevé, moins bien c'est.
+    modalities <- cut(
+        x = res_td,
+        breaks = c(-Inf, thresholds$res_td),
+        labels = names(thresholds$res_td),
+        right = FALSE,
+        include.lowest = TRUE,
+        ordered_result = TRUE
+    ) |>
+        as.character()
+    res_weights <- thresholds$weights[c("res_td_sa_all", "res_td_i_all")]
+    note <- sum(thresholds$grade[modalities] * res_weights)
     aicc <- mod$result$preprocessing$estimation$likelihood$aicc
-    mode <- c("Additive", "Multiplicative")[
+    mode_decompo <- c("Additive", "Multiplicative")[
         mod$result$preprocessing$description$log + 1L
     ]
 
     LY_info <- get_LY_info(mod, verbose = verbose)
 
-    diag <- cbind(
-        data.frame(note = note, aicc = aicc, mode = mode),
+    diagnostic <- cbind(
+        data.frame(note = note, aicc = aicc, mode = mode_decompo),
         LY_info
     )
 
-    return(diag)
+    return(diagnostic)
 }
 
-all_diagnostics <- function(series, specs_set, context, verbose = TRUE) {
-    diags <- lapply(X = seq_along(specs_set), FUN = function(k) {
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_numeric
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
+all_diagnostics <- function(
+    series,
+    specs_set,
+    context,
+    thresholds = getOption("rjd3production.thresholds"),
+    verbose = TRUE
+) {
+    checkmate::assert_class(series, "ts")
+    checkmate::assert_numeric(series)
+    checkmate::assert_list(specs_set)
+    checkmate::assert_list(context)
+    checkmate::assert_named(context)
+    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
+    checkmate::assert_flag(verbose)
+
+    diagnostics <- lapply(X = seq_along(specs_set), FUN = function(k) {
         spec <- specs_set[[k]]
         if (verbose) {
             cat("Computing spec", names(specs_set)[k], "...")
         }
-        diag <- one_diagnostic(
+        diagnostic <- one_diagnostic(
             series = series,
             spec = spec,
             context = context,
+            thresholds = thresholds,
             verbose = verbose
         )
         if (verbose) {
             cat("Done !\n")
         }
-        return(diag)
+        return(diagnostic)
     })
 
-    diags <- do.call(what = rbind, args = diags)
-    diags <- cbind(
+    diagnostics <- do.call(what = rbind, args = diagnostics)
+    diagnostics <- cbind(
         regs = names(specs_set),
-        diags
+        diagnostics
     )
-    rownames(diags) <- diags$regs
+    rownames(diagnostics) <- diagnostics$regs
 
-    return(diags)
+    return(diagnostics)
 }
 
-verif_LY <- function(jeu, diags) {
+#' @importFrom checkmate assert_character
+#' @importFrom checkmate assert_data_frame
+#' @importFrom checkmate assert_set_equal
+verif_LY <- function(
+    jeu,
+    diags,
+    thresholds = getOption("rjd3production.thresholds")
+) {
+    checkmate::assert_character(jeu)
+    checkmate::assert_data_frame(diags)
+    checkmate::assert_set_equal(
+        names(diags),
+        c("regs", "note", "aicc", "mode", "LY_coeff", "LY_p_value")
+    )
+
     if (!grepl(pattern = "LY", x = jeu, ignore.case = TRUE)) {
         return(jeu)
     }
@@ -208,7 +316,7 @@ verif_LY <- function(jeu, diags) {
 
     LY_coeff <- diags[id_jeu, "LY_coeff"]
     LY_p_value <- diags[id_jeu, "LY_p_value"]
-    mode <- diags[id_jeu, "mode"]
+    mode_decompo <- diags[id_jeu, "mode"]
 
     if (jeu == "LY") {
         jeu_without_LY <- "No_TD"
@@ -229,7 +337,7 @@ verif_LY <- function(jeu, diags) {
         return(rownames(diags_jeu)[which.min(diags_jeu$note)])
     }
 
-    if (mode == "Multiplicatif") {
+    if (mode_decompo == "Multiplicatif") {
         LY_coeff <- 100.0 * LY_coeff
     }
     LY_coeff <- round(LY_coeff)
@@ -237,7 +345,7 @@ verif_LY <- function(jeu, diags) {
     # On considere le coeff LY incoherent si negatif ou superieur à 12
     coef_incoherent <- (LY_coeff <= 0.0) | (LY_coeff > 12.0)
     # Coeff non signif si pvalue > 10%
-    coef_non_signif <- LY_p_value > 0.1
+    coef_non_signif <- LY_p_value > as.double(thresholds$ly_signif["Signif"])
 
     jeu_final <- ifelse(
         test = coef_incoherent | coef_non_signif,
@@ -248,6 +356,12 @@ verif_LY <- function(jeu, diags) {
     return(jeu_final)
 }
 
+#' @importFrom checkmate assert_class
+#' @importFrom checkmate assert_numeric
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
 #' @importFrom stats time
 #' @importFrom utils tail
 select_td_one_series <- function(
@@ -256,21 +370,33 @@ select_td_one_series <- function(
     specs_set = NULL,
     context = NULL,
     ...,
+    thresholds = getOption("rjd3production.thresholds"),
     verbose = TRUE
 ) {
+    checkmate::assert_class(series, "ts")
+    checkmate::assert_numeric(series)
+    checkmate::assert_flag(verbose)
+
     if (is.null(context)) {
         context <- create_insee_context(s = series)
+    } else {
+        checkmate::assert_list(context)
+        checkmate::assert_named(context)
+        checkmate::assert_set_equal(names(context), c("calendars", "variables"))
     }
+
     if (is.null(specs_set)) {
         specs_set <- create_specs_set(context = context, ...)
     }
+    checkmate::assert_list(specs_set)
 
     if ("No_TD" %in% names(specs_set)) {
         diag_no_td <- one_diagnostic(
             series = series,
             spec = specs_set$No_TD,
             context = context,
-            verbose = TRUE
+            thresholds = thresholds,
+            verbose = verbose
         )
         # Note de 0 = note parfaite
         if (diag_no_td$note == 0L) {
@@ -282,6 +408,7 @@ select_td_one_series <- function(
         series,
         specs_set = specs_set,
         context = context,
+        thresholds = thresholds,
         verbose = verbose
     )
     diags_wo_na <- diags[!is.na(diags$note) & !is.na(diags$aicc), ]
@@ -290,13 +417,18 @@ select_td_one_series <- function(
         stop(
             "Erreur lors du calcul de l'aicc et des p-value.
              Aucun jeu de regresseur n'a pu \u00eatre s\u00e9lectionn\u00e9. ",
-            ifelse(nzchar(name), paste0("(S\u00e9rie ", name, ")"), "")
+            ifelse(nzchar(name), paste0("(S\u00e9rie ", name, ")"), ""),
+            call. = FALSE
         )
     }
 
     best_regs <- diags_wo_na[order(diags_wo_na$note, diags_wo_na$aicc), ]
 
-    return(verif_LY(jeu = best_regs[1L, "regs"], diags = diags))
+    return(verif_LY(
+        jeu = best_regs[1L, "regs"],
+        diags = diags,
+        thresholds = thresholds
+    ))
 }
 
 #' @title Select Calendar Regressors for One or Multiple Series
@@ -330,83 +462,87 @@ select_td_one_series <- function(
 #' select_td(ABS[, 1])
 #'
 #' # Multiple series
-#' select_td(ABS)
+#' select_td(ABS[, 5:7])
 #'
 #' # Restrict regressors sets
 #' my_context <- create_insee_context(s = ABS)
-#' my_context$variables <- my_context$variables[c("REG1", "REG1_LY", "REG6", "REG6_LY")]
-#' select_td(ABS, context = my_context)
+#' variables <- c("REG1", "REG1_LY", "REG6", "REG6_LY")
+#' my_context$variables <- my_context$variables[variables]
+#' select_td(ABS[, 5:7], context = my_context)
 #' }
 #' @export
 #'
 #' @importFrom stats is.ts is.mts
-select_td <- function(series, context = NULL, ..., verbose = TRUE) {
+#'
+#' @importFrom checkmate test_class
+#' @importFrom checkmate test_data_frame
+#' @importFrom checkmate assert_flag
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
+select_td <- function(
+    series,
+    context = NULL,
+    ...,
+    thresholds = getOption("rjd3production.thresholds"),
+    verbose = TRUE
+) {
+    cond_series <- checkmate::test_class(series, "ts") ||
+        checkmate::test_data_frame(series)
+    if (!cond_series) {
+        stop(
+            "Series must be (m)ts object or a data.frame of ts.",
+            call. = FALSE
+        )
+    }
+    checkmate::assert_flag(verbose)
+
     if (is.null(context)) {
         context <- create_insee_context(s = series)
+    } else {
+        checkmate::assert_list(context)
+        checkmate::assert_named(context)
+        checkmate::assert_set_equal(names(context), c("calendars", "variables"))
     }
+
     specs_set <- create_specs_set(context = context, ...)
 
-    # Ne marche pas avec ABS
-    # if (!stats::is.ts(series)) {
-    #     stop("Series must be (m)ts object.")
-    # }
     if (stats::is.ts(series) && !stats::is.mts(series)) {
         attr(series, "dim") <- c(length(series), 1L)
         attr(series, "class") <- c("mts", "ts", "matrix", "array")
         colnames(series) <- "my_series"
     }
 
-    output <- sapply(X = seq_len(ncol(series)), FUN = function(k) {
-        series_name <- colnames(series)[k]
-        outliers <- NULL
+    output <- vapply(
+        X = seq_len(ncol(series)),
+        FUN = function(k) {
+            series_name <- colnames(series)[k]
+            if (verbose) {
+                cat(
+                    paste0(
+                        "\nS\u00e9rie ",
+                        series_name,
+                        " en cours... ",
+                        k,
+                        "/",
+                        ncol(series)
+                    ),
+                    "\n"
+                )
+            }
 
-        # if (with_outliers) {
-        #     # On récupère les outliers
-        #     sai_ref <- sap_ref |> RJDemetra::get_object(which(series_name_ref == series_name))
-        #     sai_mod <- sai_ref |> RJDemetra::get_model(workspace = ws_ref)
-        #     regressors <- sai_mod$regarima$regression.coefficients |> rownames()
-        #     regressors <- regressors[substr(regressors, 1, 2) %in% c("AO", "TC", "LS", "SO")]
-        #
-        #     if (length(regressors) > 0) {
-        #         outliers_type <- regressors |> substr(start = 1, stop = 2)
-        #         outliers_date <- regressors |>
-        #             substr(start = 5, stop = nchar(regressors) - 1) |>
-        #             paste0("01-", ... = _) |>
-        #             as.Date(format = "%d-%m-%Y")
-        #
-        #         outliers_type <- outliers_type[outliers_date >= as.Date(span_start)]
-        #         outliers_date <- outliers_date[outliers_date >= as.Date(span_start)]
-        #
-        #         if (length(outliers_date) > 0) {
-        #             outliers <- list(type = outliers_type,
-        #                              date = outliers_date)
-        #         }
-        #     }
-        # }
-
-        if (verbose) {
-            cat(
-                paste0(
-                    "\nS\u00e9rie ",
-                    series_name,
-                    " en cours... ",
-                    k,
-                    "/",
-                    ncol(series)
-                ),
-                "\n"
-            )
-        }
-
-        return(select_td_one_series(
-            series = series[, k],
-            name = series_name,
-            specs_set = specs_set,
-            context = context,
-            ...,
-            verbose = verbose
-        ))
-    })
+            return(select_td_one_series(
+                series = series[, k],
+                name = series_name,
+                specs_set = specs_set,
+                context = context,
+                ...,
+                thresholds = thresholds,
+                verbose = verbose
+            ))
+        },
+        FUN.VALUE = character(1L)
+    )
 
     output <- cbind(series = colnames(series), regs = output)
     return(as.data.frame(output))

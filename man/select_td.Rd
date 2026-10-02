@@ -4,7 +4,13 @@
 \alias{select_td}
 \title{Select Calendar Regressors for One or Multiple Series}
 \usage{
-select_td(series, context = NULL, ..., verbose = TRUE)
+select_td(
+  series,
+  context = NULL,
+  ...,
+  thresholds = getOption("rjd3production.thresholds"),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{series}{[\link[stats]{ts} or mts or matrix or \link[base]{data.frame}]
@@ -24,7 +30,12 @@ of types, e.g., "AO", "LS", "TC") and \code{date} (vector of dates).}
 \item{...}{Other arguments accepted by \code{\link[=create_specs_set]{create_specs_set()}}.}
 }}
 
-\item{verbose}{Boolean. Print additional informations. Default is \code{TRUE}.}
+\item{thresholds}{The thresholds used to compare the different model and
+set a grade to an adjustment based on the td residuals p-value and leap
+year significancy.}
+
+\item{verbose}{Boolean indicating whether to print additional information.
+Default is \code{TRUE}.}
 }
 \value{
 A data.frame with two columns:
@@ -50,12 +61,13 @@ library("rjd3toolkit")
 select_td(ABS[, 1])
 
 # Multiple series
-select_td(ABS)
+select_td(ABS[, 5:7])
 
 # Restrict regressors sets
 my_context <- create_insee_context(s = ABS)
-my_context$variables <- my_context$variables[c("REG1", "REG1_LY", "REG6", "REG6_LY")]
-select_td(ABS, context = my_context)
+variables <- c("REG1", "REG1_LY", "REG6", "REG6_LY")
+my_context$variables <- my_context$variables[variables]
+select_td(ABS[, 5:7], context = my_context)
 }
 \dontshow{\}) # examplesIf}
 }

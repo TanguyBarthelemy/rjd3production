@@ -61,10 +61,10 @@ get_series <- function(x, ...) {
 #' @method get_series JD3_TRAMOSEATS_RSLTS
 #' @export
 #' @importFrom stats time
+#' @importFrom checkmate assert_character
 get_series.JD3_TRAMOSEATS_RSLTS <- function(x, name, ...) {
-    if (is.null(x)) {
-        stop("Please compute your workspace")
-    }
+    checkmate::assert_character(name, len = 1L)
+
     output <- NULL
     all_series <- regroup_ts(list(
         stochastics = x$decomposition$stochastics,
@@ -92,13 +92,21 @@ get_series.JD3_TRAMOSEATS_RSLTS <- function(x, name, ...) {
 #' @method get_series JD3_X13_RSLTS
 #' @export
 #' @importFrom stats time
+#' @importFrom checkmate assert_character
 get_series.JD3_X13_RSLTS <- function(x, name, ...) {
-    if (is.null(x)) {
-        stop("Please compute your workspace")
-    }
+    checkmate::assert_character(name, len = 1L)
+
     output <- NULL
-    all_series <- c(x$preadjust, x$decomposition, x$final)
-    for (s in names(all_series)) {
+    all_series <- c(
+        x$preadjust,
+        x$decomposition,
+        x$final
+    )
+    series_name <- setdiff(
+        names(all_series),
+        c("final_seasonal", "final_henderson")
+    )
+    for (s in series_name) {
         series <- all_series[[s]]
         if (!is.null(series)) {
             output <- rbind(
@@ -119,8 +127,12 @@ get_series.JD3_X13_RSLTS <- function(x, name, ...) {
 #' @method get_series jobjRef
 #' @export
 get_series.jobjRef <- function(x, ...) {
+    results <- (rjd3workspace::read_sai(x))$results
+    if (is.null(results)) {
+        stop("Please compute your workspace.", call. = FALSE)
+    }
     output <- get_series(
-        x = (rjd3workspace::read_sai(x))$results,
+        x = results,
         name = rjd3workspace::sai_name(x)
     )
     return(output)
@@ -153,17 +165,20 @@ get_series.jobjRef <- function(x, ...) {
 #' }
 #'
 #' @importFrom rjd3workspace jws_sap sap_sai_names jsap_sai
+#' @importFrom checkmate assert_character
 #'
 #' @export
 get_jsai_by_name <- function(jws, series_name) {
+    checkmate::assert_character(series_name, len = 1L)
+
     jsap <- rjd3workspace::jws_sap(jws, idx = 1L)
     sai_names <- rjd3workspace::sap_sai_names(jsap)
     id <- which(sai_names == series_name)
     if (length(id) == 0L) {
-        stop("No SAI are named after ", series_name)
+        stop("No SAI are named after ", series_name, call. = FALSE)
     }
     if (length(id) > 1L) {
-        stop("More than one SAI is named after ", series_name)
+        stop("More than one SAI is named after ", series_name, call. = FALSE)
     }
     return(rjd3workspace::jsap_sai(jsap, idx = id))
 }
@@ -183,11 +198,19 @@ get_jsai_by_name <- function(jws, series_name) {
 #'
 #' @export
 #'
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
 get_named_variables <- function(context = NULL) {
     if (is.null(context)) {
         message("Without context, the output is NULL.")
         return(invisible(NULL))
     }
+
+    checkmate::assert_list(context)
+    checkmate::assert_named(context)
+    checkmate::assert_set_equal(names(context), c("calendars", "variables"))
+
     all_vars <- context$variables
     named_vars <- lapply(seq_along(all_vars), function(k) {
         paste0(names(all_vars)[k], ".", names(all_vars[[k]]))

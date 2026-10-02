@@ -1,29 +1,27 @@
+#' @importFrom checkmate assert_flag
 #' @importFrom rjd3workspace read_workspace
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
 retrieve_outliers <- function(
     jws,
-    reference = TRUE,
-    estimation = FALSE,
-    result = FALSE,
+    spec_type = NULL,
     verbose = TRUE
 ) {
-    if (reference + result + estimation != 1L) {
-        stop("You have to choose one specification.")
-    }
+    checkmate::assert_character(spec_type)
+    spec_type <- tolower(spec_type)
+    stopifnot(spec_type %in% c("reference", "estimation", "result"))
+    checkmate::assert_flag(verbose)
 
-    ws <- rjd3workspace::read_workspace(jws, compute = TRUE)
-    # Waiting for #108
-    # if (result) {
-    #     ws <- rjd3workspace::read_workspace(jws, compute = TRUE)
-    # } else {
-    #     ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
-    # }
+    if ("result" %in% spec_type) {
+        jws_compute(jws)
+    }
+    ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
 
     sap <- ws[["processing"]][[1L]]
     ps_outliers <- data.frame(
         series = character(),
+        name = character(),
         type = character(),
         date = character(),
         stringsAsFactors = FALSE
@@ -45,31 +43,46 @@ retrieve_outliers <- function(
         }
 
         sai <- sap[[id_sai]]
+        outliers <- list()
 
-        if (reference) {
-            regression_section <- sai[["referenceSpec"]][["regarima"]][[
-                "regression"
-            ]]
-        } else if (estimation) {
-            regression_section <- sai[["estimationSpec"]][["regarima"]][[
-                "regression"
-            ]]
-        } else if (result) {
-            regression_section <- sai[["resultSpec"]][["regarima"]][[
-                "regression"
-            ]]
+        if ("reference" %in% spec_type) {
+            outliers <- c(
+                outliers,
+                sai[["referenceSpec"]][["regarima"]][["regression"]][[
+                    "outliers"
+                ]]
+            )
+        }
+        if ("estimation" %in% spec_type) {
+            outliers <- c(
+                outliers,
+                sai[["estimationSpec"]][["regarima"]][["regression"]][[
+                    "outliers"
+                ]]
+            )
+        }
+        if ("result" %in% spec_type) {
+            outliers <- c(
+                outliers,
+                sai[["resultSpec"]][["regarima"]][["regression"]][["outliers"]]
+            )
         }
 
-        outliers <- unique(regression_section[["outliers"]])
-
-        if (!is.null(outliers)) {
-            type <- vapply(
+        if (length(outliers) > 0L) {
+            outliers <- unique(outliers)
+            outliers_name <- vapply(
+                X = outliers,
+                FUN = base::`[[`,
+                FUN.VALUE = character(1L),
+                "name"
+            )
+            outliers_type <- vapply(
                 X = outliers,
                 FUN = base::`[[`,
                 FUN.VALUE = character(1L),
                 "code"
             )
-            date <- vapply(
+            outliers_date <- vapply(
                 X = outliers,
                 FUN = base::`[[`,
                 FUN.VALUE = double(1L),
@@ -82,8 +95,9 @@ retrieve_outliers <- function(
                 ps_outliers,
                 data.frame(
                     series = series_name,
-                    type = type,
-                    date = date
+                    name = outliers_name,
+                    type = outliers_type,
+                    date = outliers_date
                 )
             )
         }
@@ -107,6 +121,7 @@ extract_td <- function(spec) {
         return("No_TD")
     }
 
+    regs_td <- NULL
     if (any(grepl(pattern = "REG1", x = regressors_ud, ignore.case = TRUE))) {
         regs_td <- "REG1"
     } else if (
@@ -136,33 +151,34 @@ extract_td <- function(spec) {
                 grepl(pattern = "LY", x = regressors_ud, ignore.case = TRUE)
         )
     ) {
-        regs_td <- paste0(regs_td, "_LY")
+        if (is.null(regs_td)) {
+            return("LY")
+        } else {
+            return(paste0(regs_td, "_LY"))
+        }
     }
     return(regs_td)
 }
 
+#' @importFrom checkmate assert_flag
 #' @importFrom rjd3workspace read_workspace
 #' @family regression tools
 #' @rdname regression_tools
 #' @export
 retrieve_td <- function(
     jws,
-    reference = TRUE,
-    estimation = FALSE,
-    result = FALSE,
+    spec_type = NULL,
     verbose = TRUE
 ) {
-    if (reference + result + estimation != 1L) {
-        stop("You have to choose one specification.")
-    }
+    checkmate::assert_flag(verbose)
+    checkmate::assert_character(spec_type, len = 1L)
+    spec_type <- tolower(spec_type)
+    stopifnot(spec_type %in% c("reference", "estimation", "result"))
 
-    ws <- rjd3workspace::read_workspace(jws, compute = TRUE)
-    # Waiting for #108
-    # if (result) {
-    #     ws <- rjd3workspace::read_workspace(jws, compute = TRUE)
-    # } else {
-    #     ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
-    # }
+    if (spec_type == "result") {
+        jws_compute(jws)
+    }
+    ws <- rjd3workspace::read_workspace(jws, compute = FALSE)
 
     sap <- ws[["processing"]][[1L]]
     td <- data.frame(
@@ -186,15 +202,7 @@ retrieve_td <- function(
         }
 
         sai <- sap[[id_sai]]
-
-        if (reference) {
-            spec <- sai[["referenceSpec"]]
-        } else if (estimation) {
-            spec <- sai[["estimationSpec"]]
-        } else if (result) {
-            spec <- sai[["resultSpec"]]
-        }
-
+        spec <- sai[[paste0(spec_type, "Spec")]]
         td[id_sai, "regs"] <- extract_td(spec)
     }
 

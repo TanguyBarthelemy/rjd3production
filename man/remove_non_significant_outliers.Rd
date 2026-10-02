@@ -7,8 +7,7 @@
 remove_non_significant_outliers(
   ws_path,
   threshold = 0.3,
-  reference = FALSE,
-  estimation = FALSE,
+  spec_type = NULL,
   verbose = TRUE
 )
 }
@@ -20,13 +19,11 @@ remove_non_significant_outliers(
 an outlier. Outliers with \verb{Pr(>|t|) > threshold} are removed.
 Default is \code{0.3}.}
 
-\item{reference}{Boolean indicating if the reference specification should be
-modified.}
+\item{spec_type}{Character. Indicating the type of spec where the outliers
+whould be extracted. Accepted values : "Reference" or "Estimation".}
 
-\item{estimation}{Boolean indicating if the estimation specification should
-be modified.}
-
-\item{verbose}{Boolean. Print additional informations. Default is \code{TRUE}.}
+\item{verbose}{Boolean indicating whether to print additional information.
+Default is \code{TRUE}.}
 }
 \value{
 The function invisibly returns \code{NULL}, but it \strong{modifies the workspace file
@@ -38,8 +35,8 @@ regression outliers whose p-values are above a given threshold.
 Both the estimation specification and the reference specification are
 updated accordingly, and the workspace file is saved in place.
 
-Typical use case: after estimation with user pre-specified outliers, outliers with
-weak statistical significance (e.g. \code{p > 0.3}) are dropped to
+Typical use case: after estimation with user pre-specified outliers, outliers
+with weak statistical significance (e.g. \code{p > 0.3}) are dropped to
 simplify the regression specification.
 }
 \details{
@@ -68,7 +65,11 @@ path_ws <- tempfile(pattern = "ws", fileext = ".xml")
 save_workspace(jws, file = path_ws)
 
 # Remove non-significant outliers (p > 0.3) from a workspace
-remove_non_significant_outliers(path_ws, threshold = 0.3, reference = TRUE)
+remove_non_significant_outliers(
+    path_ws,
+    threshold = 0.3,
+    spec_type = c("Reference", "Estimation")
+)
 }
 \dontshow{\}) # examplesIf}
 }

@@ -1,3 +1,19 @@
+#' @importFrom checkmate assert_count
+#' @importFrom checkmate assert_character
+basename_n <- function(x, n) {
+    checkmate::assert_count(n, positive = TRUE)
+    checkmate::assert_character(x, min.len = 1L)
+    stopifnot(file.exists(x))
+
+    if (n == 1L) {
+        return(basename(x))
+    }
+    if (identical(dirname(x), x)) {
+        stop("You are at root...", call. = FALSE)
+    }
+    return(file.path(basename_n(dirname(x), n - 1L), basename(x)))
+}
+
 #' @title Compare series across workspaces
 #'
 #' @description
@@ -39,16 +55,30 @@
 #'
 #' @importFrom rjd3workspace jws_open jws_sap sap_sai_names jws_compute
 #' @importFrom tools file_path_sans_ext
+#' @importFrom checkmate assert_character
 #' @export
-compare <- function(..., series_names) {
+compare <- function(..., series_names = NULL) {
+    checkmate::assert_character(series_names, null.ok = TRUE)
+
     ws_paths <- list(...) |>
-        lapply(normalizePath)
+        lapply(normalizePath, mustWork = TRUE) |>
+        do.call(what = c)
 
     if (length(ws_paths) == 0L) {
-        stop("There are no paths provided")
+        stop("There are no paths provided", call. = FALSE)
     }
 
-    if (missing(series_names)) {
+    ws_names <- basename_n(ws_paths, n = 1L)
+    k <- 1L
+    val_dup <- unique(ws_names[duplicated(ws_names)])
+    while (length(val_dup) > 0L) {
+        k <- k + 1L
+        idx <- ws_names %in% val_dup
+        ws_names[idx] <- basename_n(ws_paths, n = k)
+        val_dup <- unique(ws_names[duplicated(ws_names)])
+    }
+
+    if (is.null(series_names)) {
         series_names <- ws_paths[[1L]] |>
             rjd3workspace::jws_open() |>
             rjd3workspace::jws_sap(idx = 1L) |>
@@ -56,9 +86,10 @@ compare <- function(..., series_names) {
     }
 
     output <- NULL
-    for (ws_path in ws_paths) {
+    for (id_ws in seq_along(ws_paths)) {
+        ws_path <- ws_paths[id_ws]
+        ws_name <- tools::file_path_sans_ext(ws_names[id_ws])
         jws <- rjd3workspace::jws_open(ws_path)
-        ws_name <- ws_path |> basename() |> tools::file_path_sans_ext()
         rjd3workspace::jws_compute(jws)
         for (series_name in series_names) {
             series <- get_jsai_by_name(jws = jws, series_name = series_name) |>
@@ -115,9 +146,14 @@ compare <- function(..., series_names) {
 #' @importFrom tidyr pivot_wider
 #' @importFrom flextable flextable autofit htmltools_value
 #' @importFrom utils write.csv
+#' @importFrom checkmate assert_data_frame
 #'
 #' @export
 run_app <- function(data, ...) {
+    checkmate::assert_data_frame(
+        data,
+        types = c(rep("character", 3L), "Date", "double")
+    )
     stopifnot(c("ws", "SAI", "series", "date", "value") %in% names(data))
 
     ui <- shiny::fluidPage(
@@ -156,7 +192,8 @@ run_app <- function(data, ...) {
                 dygraphs::dygraphOutput("plot", height = "400px"),
                 shiny::br(),
                 shiny::h4("Tableau des donn\u00e9es affich\u00e9es"),
-                shiny::uiOutput("table_ui") # l’objet HTML qui contiendra le flextable
+                # l’objet HTML qui contiendra le flextable
+                shiny::uiOutput("table_ui")
             )
         )
     )

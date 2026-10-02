@@ -1,5 +1,5 @@
 ---
-title: "Selection des régresseurs de calendriers"
+title: "Sélection des régresseurs de calendriers"
 vignette: >
   %\VignetteIndexEntry{Selection des régresseurs de calendriers}
   %\VignetteEngine{quarto::html}
@@ -69,7 +69,7 @@ Enfin, pour affecter des régresseurs de calendrier à un workspace, vous pouvez
 
 library("rjd3workspace")
 my_ws <- jws_open("my_workspace")
-assign_td(td_table, my_ws)
+assign_td(td_table, my_ws, spec_type = c("Estimation", "Reference"))
 ```
 
 ### Sélection avancée

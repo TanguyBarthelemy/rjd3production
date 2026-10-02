@@ -5,7 +5,8 @@
 #'
 #' @param jws A Java Workspace object, as returned by
 #' [rjd3workspace::jws_open()] or [rjd3workspace::jws_new()].
-#' @param verbose Boolean. Print additional informations. Default is `TRUE`.
+#' @param verbose Boolean indicating whether to print additional information.
+#'   Default is `TRUE`.
 #'
 #' @details
 #' New metadata are added from temporary files created on the heap. Thus, this
@@ -26,6 +27,7 @@
 #' @importFrom rjd3workspace get_ts
 #' @importFrom rjd3workspace set_ts
 #' @importFrom rjd3providers txt_series
+#' @importFrom checkmate assert_flag
 #'
 #' @export
 #'
@@ -45,6 +47,13 @@
 #' jws <- make_ws_crunchable(jws)
 #'
 make_ws_crunchable <- function(jws, verbose = TRUE) {
+    checkmate::assert_flag(verbose)
+
+    data_dir <- file.path(
+        tempdir(),
+        paste0("ws-data-dir-", sample.int(10000L, 1L))
+    )
+    dir.create(data_dir)
     nb_sap <- rjd3workspace::ws_sap_count(jws)
     for (id_sap in seq_len(nb_sap)) {
         if (verbose) {
@@ -67,7 +76,10 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
             )
             data_sai <- date4ts::ts2df(rjd3workspace::get_ts(jsai)$data)
             colnames(data_sai) <- c("date", name)
-            data_path <- tempfile(fileext = ".csv")
+            data_path <- file.path(
+                data_dir,
+                paste0("data-", id_sap, "-", id_sai, ".csv")
+            )
             TBox::write_data(data = data_sai, path = data_path)
             ts_obj <- rjd3providers::txt_series(
                 data_path,
@@ -93,6 +105,12 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' where each column represents a series to be seasonally adjusted.
 #' Column names are used as SA-Item names.
 #' @param spec A JDemetra+ specification. Defaults to `rjd3x13::x13_spec()`.
+#' @param context A modelling context for a Workspace. Defaults to NULL.
+#' @param sap_name Name of the SA-Processing created. Defaults to "SAP1"
+#' @param path Path leading to an input data file with metadata. If not NULL,
+#'   the ts metadata are completed with the input file.
+#' @param name_series Name of the series. Only used with univariate time series
+#'   (with no colnames).
 #'
 #' @details
 #' All series share the same specification (`spec`).
@@ -107,16 +125,57 @@ make_ws_crunchable <- function(jws, verbose = TRUE) {
 #' # Create workspace
 #' ws <- create_ws_from_data(ABS)
 #'
+#' @importFrom checkmate assert_list
+#' @importFrom checkmate assert_named
+#' @importFrom checkmate assert_set_equal
+#' @importFrom checkmate assert_character
+#' @importFrom checkmate check_class
+#' @importFrom checkmate check_data_frame
 #' @importFrom rjd3workspace jws_new add_sa_item jws_sap_new
 #' @importFrom rjd3x13 x13_spec
 #' @export
-create_ws_from_data <- function(x, spec = rjd3x13::x13_spec()) {
+create_ws_from_data <- function(
+    x,
+    spec = rjd3x13::x13_spec(),
+    context = NULL,
+    sap_name = "SAP1",
+    path = NULL,
+    name_series = "my_series"
+) {
+    checkmate::assert_character(sap_name, len = 1L)
+    checkmate::assert_character(name_series, len = 1L)
+    if (!is.null(context)) {
+        checkmate::assert_list(context)
+        checkmate::assert_named(context)
+        checkmate::assert_set_equal(names(context), c("calendars", "variables"))
+    }
+    cond_series <- checkmate::test_class(x, "ts") ||
+        checkmate::test_data_frame(x)
+    if (!cond_series) {
+        stop(
+            "x must be (m)ts object or a data.frame of ts.",
+            call. = FALSE
+        )
+    }
+
     jws <- rjd3workspace::jws_new()
-    jsap <- rjd3workspace::jws_sap_new(jws, "SAP1")
+    rjd3workspace::set_context(jws, modelling_context = context)
+    if (!is.null(path)) {
+        path <- normalizePath(path, mustWork = TRUE)
+        add_raw_data_path(jws, path)
+    }
+    jsap <- rjd3workspace::jws_sap_new(jws, sap_name)
+
+    if (stats::is.ts(x) && !stats::is.mts(x)) {
+        attr(x, "dim") <- c(length(x), 1L)
+        attr(x, "class") <- c("mts", "ts", "matrix", "array")
+        colnames(x) <- name_series
+    }
+
     for (k in seq_len(ncol(x))) {
         series <- x[, k]
         rjd3workspace::add_sa_item(
-            jsap,
+            jsap = jsap,
             name = colnames(x)[k],
             x = series,
             spec = spec
@@ -156,7 +215,9 @@ create_ws_from_data <- function(x, spec = rjd3x13::x13_spec()) {
 #' library("rjd3toolkit")
 #'
 #' my_data <- ABS
+#' colnames(my_data) <- substr(colnames(my_data), start = 2L, stop = 12L)
 #' path_ABS <- system.file("extdata", "ABS.csv", package = "rjd3providers")
+#'
 #' \donttest{
 #' jws <- create_ws_from_data(my_data)
 #' add_raw_data_path(jws, path_ABS, delimiter = "COMMA")
@@ -167,6 +228,8 @@ create_ws_from_data <- function(x, spec = rjd3x13::x13_spec()) {
 #' @importFrom rjd3providers txt_data
 #' @importFrom tools file_ext
 add_raw_data_path <- function(jws, path, ...) {
+    path <- normalizePath(path, mustWork = TRUE)
+
     jsap <- rjd3workspace::jws_sap(jws, 1L)
     nb_sai <- rjd3workspace::sap_sai_count(jsap)
 

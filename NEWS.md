@@ -7,6 +7,28 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-02
+
+### Added
+
+* Set a new option `rjd3production.thresholds` with the new thresholds to fit the td regressors in `select_td()`. [#7](https://github.com/InseeFr/rjd3production/issues/7)
+
+### Changed
+
+* `create_ws_from_data()` has new arguments to personnalize the workspace: context, sap_name and path
+* `create_insee_regressors()` gives new names for calendar regressors : "REG2_week" instead of "REG2_group1" etc.
+* `init_env()` creates a project with DESCRIPTION file with `Type: Project` and {rjd3qr} as dependency  [#83](https://github.com/InseeFr/rjd3production/issues/83)
+* `retrieve_XXX()` and `assign_XXX()` functions now takes a `spec_type` argument to specify nthe specification used to retrieve information or assign information [#59](https://github.com/InseeFr/rjd3production/issues/59) and [#31](https://github.com/InseeFr/rjd3production/issues/31)
+* `set_minimum_span()` uses now `span_type` instead of `series_span` and `model_span` to specify which span should be modified.
+* Updated JARS from jdplus-main to 3.9.0
+
+### Fixed
+
+* `import_td()`, `export_td()` and `import_outliers()`: fixed typo in error message
+* `retrieve_td()` works now with LY as only td regressor [#91](https://github.com/InseeFr/rjd3production/issues/91)
+* `init_env()` can create multiple project in the same R session and with relative paths [#81](https://github.com/InseeFr/rjd3production/issues/81)
+* `compare` returns information to distinguish 2 ws with the same name [#98](https://github.com/InseeFr/rjd3production/issues/98)
+
 ## [1.1.1] - 2026-07-20
 
 ### Changed
@@ -61,7 +83,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * New function to choose calendar regressors adapted to series
 * New function to create calendar regressors, french calendar, specification with regressors
 
-[Unreleased]: https://github.com/InseeFr/rjd3production/compare/1.1.1...HEAD
-[1.1.1]: https://github.com/InseeFr/rjd3production/compare/v1.1.0...1.1.1
+[Unreleased]: https://github.com/InseeFr/rjd3production/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/InseeFr/rjd3production/compare/v1.1.1...v1.2.0
+[1.1.1]: https://github.com/InseeFr/rjd3production/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/InseeFr/rjd3production/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/InseeFr/rjd3production/releases/tag/v1.0.0

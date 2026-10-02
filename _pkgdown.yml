@@ -19,3 +19,95 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 '
+navbar:
+  structure:
+    left:
+    - home
+    - reference
+    - articles
+    - tutorials
+    - news
+    - jdemetra
+    right: github
+  components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+      aria-label: Home
+    reference:
+      text: Package functions
+      href: reference/index.html
+    articles:
+      text: Vignette
+      menu:
+      - text: Setup a production chain with {rjd3production}
+        href: articles/process-en.html
+      - text: Mise en place d'une chaîne de production avec {rjd3production}
+        href: articles/process-fr.html
+      - text: Selection of calendar td regressors
+        href: articles/td-selection-en.html
+      - text: Sélection des régresseurs de calendriers
+        href: articles/td-selection-fr.html
+    news:
+      text: News
+      href: news/index.html
+    jdemetra:
+      text: JDemetra+
+      menu:
+      - text: To download JDemetra+
+        href: https://github.com/jdemetra/jdemetra-app/releases
+      - text: To download the JDemetra+ cruncher
+        href: https://github.com/jdemetra/jwsacruncher/releases
+      - text: Set up with a portable version of Java
+        href: https://github.com/InseeFr/rjd3qr/wiki/Installation-&-configuration#installation-de-jdemetra-fr
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/InseeFr/rjd3production
+      aria-label: GitHub
+
+reference:
+- title: Initialisation
+  desc: Functions to create object with default Insee information
+  contents:
+  - '`init_env`'
+- title: Creation
+  desc: Functions to create object with default Insee information
+  contents:
+  - '`create_french_calendar`'
+  - '`create_insee_regressors`'
+  - '`create_insee_regressors_sets`'
+  - '`create_insee_context`'
+  - '`create_specs_set`'
+  - '`create_ws_from_data`'
+- title: Comparison
+  desc: Compare different WS
+  contents:
+  - '`compare`'
+  - '`run_app`'
+- title: Retrieve information
+  desc: Get information from a whole WS and identify by name
+  contents:
+  - '`get_jsai_by_name`'
+  - '`get_named_variables`'
+  - '`get_series`'
+- title: Modify WS
+  desc: Modification of a WS with applying a property to each SAP and SAI
+  contents:
+  - '`add_raw_data_path`'
+  - '`remove_non_significant_outliers`'
+  - '`set_minimum_span`'
+  - '`make_ws_crunchable`'
+- title: Rev-engineer
+  desc: Get code from a specification and generate random specifications
+  contents:
+  - '`rev_spec`'
+  - '`random_spec`'
+- title: Global workflow
+  desc: Function to retrieve regressions information, apply, export and import it
+  contents:
+  - '`regression_tools`'
+  - '`select_td`'
+- title: Deprecated
+  desc: Deprecated functions
+  contents:
+  - '`deprecated-rjd3production`'

@@ -16,7 +16,7 @@
 #' @examples
 #' project_path <- tempfile(pattern = "my-project")
 #'
-#' \dontrun{
+#' if (interactive()) {
 #' # Create a new project
 #' init_env(path = project_path)
 #' }
@@ -24,37 +24,54 @@
 #' @export
 #' @importFrom usethis create_project use_readme_rmd use_git use_description
 #' @importFrom lintr use_lintr
+#' @importFrom checkmate assert_path_for_output
+#' @importFrom checkmate assert_flag
 #'
 init_env <- function(path, open = FALSE) {
-    if (dir.exists(path)) {
-        stop("The project exist already.")
-    }
-
-    old_path <- getwd()
-    on.exit(expr = {
-        setwd(old_path)
-    })
+    checkmate::assert_path_for_output(path)
+    checkmate::assert_flag(open)
 
     dir.create(path, recursive = TRUE)
     usethis::create_project(rstudio = TRUE, path = path, open = open)
 
     file.create(file.path(path, "README.Rmd"))
+
+    txt_structure <- paste(
+        "\n-",
+        c(
+            "un dossier `data/`",
+            "un dossier `Workspaces/`",
+            "un dossier `output/`",
+            "un dossier `specs/`",
+            "un dossier `BQ/`",
+            "un fichier DESCRIPTION",
+            "un fichier `.lintr`",
+            "un fichier README.md"
+        ),
+        ":",
+        c(
+            "nos donn\U0E9es brutes",
+            "nos workspaces",
+            "les s\U0E9ries, tableaux et graphiques en sortie",
+            paste(
+                "les sp\U0E9cifications propres au workspace",
+                "(r\U0E9gresseurs de calendrier, outliers, span...)"
+            ),
+            "les bilans qualit\U0E9 et fichiers de d\U0E9cisions",
+            "g\U0E9rer les d\U0E9pendances de notre projet",
+            "faire l'analyse statique du code (bonnes pratiques de formattage)",
+            "expliquer le but et la structure de notre projet"
+        ),
+        collapse = ""
+    )
+
     writeLines(
         text = paste0(
             "# ",
             basename(path),
-            "\n\nCha\UEEne de production de d\U0E9saisonnalisation. \n\n Structure du projet :",
-            paste(
-                "un dossier `data/` : nos donn\U0E9es brutes",
-                "un dossier `Workspaces/` : nos workspaces",
-                "un dossier `output/` : les s\U0E9ries, tableaux et graphiques en sortie",
-                "un dossier `specs/` : les sp\U0E9cifications propres au workspace (r\U0E9gresseurs de calendrier, outliers...)",
-                "un dossier `BQ/` : les bilans qualit\U0E9 et fichiers de d\U0E9cisions",
-                "un fichier DESCRIPTION pour g\U0E9rer les d\U0E9pendances de notre projet",
-                "un fichier `.lintr` pour faire l'analyse statique du code (bonnes pratiques de formattage)",
-                "un fichier README.md pour expliquer notre projet",
-                sep = "\n- "
-            )
+            "\n\nCha\UEEne de production de d\U0E9saisonnalisation. ",
+            "\n\n Structure du projet :",
+            txt_structure
         ),
         con = file.path(path, "README.Rmd")
     )
@@ -84,21 +101,39 @@ exclusions: list(\"renv\", \"packrat\")
     dir.create(file.path(path, "output"))
     dir.create(file.path(path, "specs"))
     dir.create(file.path(path, "BQ"))
+    dir.create(file.path(path, "BQ", "ARCHIVES"))
 
     file.create(file.path(path, ".Renviron"))
     file.create(file.path(path, ".Rprofile"))
 
-    setwd(path)
+    usethis::proj_set(path)
     usethis::use_description(
         fields = list(
-            Imports = "rjd3toolkit, rjd3x13, rjd3providers, rjd3workspace, rjd3production",
-            Suggests = "devtools, usethis, remotes, cyclocomp, lintr, rmarkdown"
+            Imports = paste(
+                "rjd3toolkit",
+                "rjd3x13",
+                "rjd3providers",
+                "rjd3workspace",
+                "rjd3production",
+                "rjd3qr",
+                sep = ", "
+            ),
+            Suggests = paste(
+                "devtools",
+                "usethis",
+                "remotes",
+                "cyclocomp",
+                "lintr",
+                "rmarkdown",
+                sep = ", "
+            ),
+            Type = "Project"
         ),
         check_name = FALSE
     )
 
-    system(paste("git -C", normalizePath(path), "init -b main"))
-    # usethis::use_git(message = "Nouveau projet de d\U0E9saisonnalisation !")
+    usethis::git_default_branch_configure(name = "main")
+    usethis::use_git(message = "Nouveau projet de d\U0E9saisonnalisation !")
 
     return(invisible(path))
 }

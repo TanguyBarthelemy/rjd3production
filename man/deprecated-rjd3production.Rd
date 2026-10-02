@@ -8,13 +8,12 @@
 remove_non_significative_outliers(
   ws_path,
   threshold = 0.3,
-  reference = FALSE,
-  estimation = FALSE,
+  spec_type = NULL,
   verbose = TRUE
 )
 }
 \arguments{
-\item{ws_path, threshold, reference, estimation, verbose}{Parameters.}
+\item{ws_path, threshold, spec_type, verbose}{Parameters.}
 }
 \value{
 The same value as returned by the corresponding non-deprecated function.
@@ -23,4 +22,30 @@ series or collection.
 }
 \description{
 Deprecated functions
+}
+\examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
+
+library("rjd3workspace")
+library("rjd3x13")
+library("rjd3toolkit")
+
+\donttest{
+new_spec <- x13_spec() |>
+    add_outlier(type = "LS", date = "1990-01-01")
+jws <- create_ws_from_data(x = ABS[, 1, drop = FALSE], spec = new_spec)
+path_ws <- tempfile(pattern = "ws", fileext = ".xml")
+save_workspace(jws, file = path_ws)
+
+# `remove_non_significative_outliers` is deprecated.
+# Use `remove_non_significant_outliers` instead
+
+# Remove non-significant outliers (p > 0.3) from a workspace
+remove_non_significant_outliers(
+    path_ws,
+    threshold = 0.3,
+    spec_type = c("Reference", "Estimation")
+)
+}
+\dontshow{\}) # examplesIf}
 }

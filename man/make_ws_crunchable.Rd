@@ -10,7 +10,8 @@ make_ws_crunchable(jws, verbose = TRUE)
 \item{jws}{A Java Workspace object, as returned by
 \code{\link[rjd3workspace:jws_open]{rjd3workspace::jws_open()}} or \code{\link[rjd3workspace:jws_new]{rjd3workspace::jws_new()}}.}
 
-\item{verbose}{Boolean. Print additional informations. Default is \code{TRUE}.}
+\item{verbose}{Boolean indicating whether to print additional information.
+Default is \code{TRUE}.}
 }
 \value{
 A java workspace (as jws) but with new ts metadata

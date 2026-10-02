@@ -2,14 +2,15 @@
 % Please edit documentation in R/select.R
 \name{get_LY_info}
 \alias{get_LY_info}
-\title{Diagnostics Extraction on Calendar Correction with different sets of regressors}
+\title{Diagnostics on Calendar Correction with different sets of regressors}
 \usage{
 get_LY_info(mod, verbose = TRUE)
 }
 \arguments{
 \item{mod}{\link{list} An X13 model.}
 
-\item{verbose}{Boolean. Print additional informations. Default is \code{TRUE}.}
+\item{verbose}{Boolean indicating whether to print additional information.
+Default is \code{TRUE}.}
 
 \item{series}{[\link[stats]{ts} or numeric] Time series to analyse.}
 
@@ -36,6 +37,10 @@ of types, e.g., "AO", "LS", "TC") and \code{date} (vector of dates).}
 \code{"YYYY-MM-DD"}).}
 \item{...}{Other arguments accepted by \code{\link[=create_specs_set]{create_specs_set()}}.}
 }}
+
+\item{thresholds}{The thresholds used to compare the different model and
+set a grade to an adjustment based on the td residuals p-value and leap
+year significancy.}
 }
 \value{
 \itemize{
@@ -77,11 +82,15 @@ my_set <- create_specs_set(context = my_context)
 
 # Extract LY info
 mod <- rjd3x13::x13(ABS[, 1], spec = "RSA3")
-rjd3production:::get_LY_info(summary(mod))
+rjd3production:::get_LY_info(mod)
 
 # Compute diagnostics for one spec
 spec <- my_set[[8L]]
-rjd3production:::one_diagnostic(series = ABS[, 1], spec, context = my_context)
+rjd3production:::one_diagnostic(
+    series = ABS[, 1],
+    spec,
+    context = my_context
+)
 
 # Compute diagnostics for all specs
 rjd3production:::all_diagnostics(
@@ -99,7 +108,9 @@ diags <- rjd3production:::all_diagnostics(
 rjd3production:::verif_LY("REG6_LY", diags)
 
 # Select regressions for one series
-rjd3production:::select_td_one_series(series = ABS[, 1], context = my_context)
+rjd3production:::select_td_one_series(
+    series = ABS[, 1],
+    context = my_context
+)
 \dontshow{\}) # examplesIf}
 }
-\keyword{internal}
