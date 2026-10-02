@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-02
+
 ### Added
 
 * Set a new option `rjd3production.thresholds` with the new thresholds to fit the td regressors in `select_td()`. [#7](https://github.com/InseeFr/rjd3production/issues/7)
@@ -26,7 +28,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * `retrieve_td()` works now with LY as only td regressor [#91](https://github.com/InseeFr/rjd3production/issues/91)
 * `init_env()` can create multiple project in the same R session and with relative paths [#81](https://github.com/InseeFr/rjd3production/issues/81)
 * `compare` returns information to distinguish 2 ws with the same name [#98](https://github.com/InseeFr/rjd3production/issues/98)
-
 
 ## [1.1.1] - 2026-07-20
 
@@ -82,7 +83,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * New function to choose calendar regressors adapted to series
 * New function to create calendar regressors, french calendar, specification with regressors
 
-[Unreleased]: https://github.com/InseeFr/rjd3production/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/InseeFr/rjd3production/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/InseeFr/rjd3production/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/InseeFr/rjd3production/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/InseeFr/rjd3production/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/InseeFr/rjd3production/releases/tag/v1.0.0
