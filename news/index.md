@@ -1,0 +1,136 @@
+# Changelog
+
+## rjd3production 1.2.0.9000
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a
+Changelog](https://keepachangelog.com/en/1.1.0/), and this project
+adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+### [Unreleased](https://github.com/InseeFr/rjd3production/compare/v1.2.0...HEAD)
+
+### [1.2.0](https://github.com/InseeFr/rjd3production/compare/v1.1.1...v1.2.0) - 2026-10-02
+
+#### Added
+
+- Set a new option `rjd3production.thresholds` with the new thresholds
+  to fit the td regressors in
+  [`select_td()`](https://inseefr.github.io/rjd3production/reference/select_td.md).
+  [\#7](https://github.com/InseeFr/rjd3production/issues/7)
+
+#### Changed
+
+- [`create_ws_from_data()`](https://inseefr.github.io/rjd3production/reference/create_ws_from_data.md)
+  has new arguments to personnalize the workspace: context, sap_name and
+  path
+- [`create_insee_regressors()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
+  gives new names for calendar regressors : “REG2_week” instead of
+  “REG2_group1” etc.
+- [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
+  creates a project with DESCRIPTION file with `Type: Project` and
+  {rjd3qr} as dependency
+  [\#83](https://github.com/InseeFr/rjd3production/issues/83)
+- `retrieve_XXX()` and `assign_XXX()` functions now takes a `spec_type`
+  argument to specify nthe specification used to retrieve information or
+  assign information
+  [\#59](https://github.com/InseeFr/rjd3production/issues/59) and
+  [\#31](https://github.com/InseeFr/rjd3production/issues/31)
+- [`set_minimum_span()`](https://inseefr.github.io/rjd3production/reference/set_minimum_span.md)
+  uses now `span_type` instead of `series_span` and `model_span` to
+  specify which span should be modified.
+- Updated JARS from jdplus-main to 3.9.0
+
+#### Fixed
+
+- [`import_td()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md),
+  [`export_td()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)
+  and
+  [`import_outliers()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md):
+  fixed typo in error message
+- [`retrieve_td()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)
+  works now with LY as only td regressor
+  [\#91](https://github.com/InseeFr/rjd3production/issues/91)
+- [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
+  can create multiple project in the same R session and with relative
+  paths [\#81](https://github.com/InseeFr/rjd3production/issues/81)
+- `compare` returns information to distinguish 2 ws with the same name
+  [\#98](https://github.com/InseeFr/rjd3production/issues/98)
+
+### [1.1.1](https://github.com/InseeFr/rjd3production/compare/v1.1.0...v1.1.1) - 2026-07-20
+
+#### Changed
+
+- The domain spec has been renamed in reference spec.
+- The `domain` argument from
+  [`remove_non_significant_outliers()`](https://inseefr.github.io/rjd3production/reference/remove_non_significant_outliers.md),
+  [`retrieve_outliers()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md),
+  [`retrieve_td()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)
+  have been renamed in `reference`.
+- The point spec has been renamed in result spec.
+- The `point` argument from
+  [`retrieve_outliers()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md),
+  [`retrieve_td()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)
+  have been renamed in `result`.
+
+#### Fixed
+
+- The function [`setwd()`](https://rdrr.io/r/base/getwd.html) has been
+  moved in
+  [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
+  to fix a bug when setting working directory
+
+#### Deprecated
+
+- The function
+  [`remove_non_significative_outliers()`](https://inseefr.github.io/rjd3production/reference/deprecated-rjd3production.md)
+  is now deprecated in favour of
+  [`remove_non_significant_outliers()`](https://inseefr.github.io/rjd3production/reference/remove_non_significant_outliers.md).
+  [\#78](https://github.com/InseeFr/rjd3production/issues/78)
+
+### [1.1.0](https://github.com/InseeFr/rjd3production/compare/v1.0.0...v1.1.0) - 2026-04-22
+
+#### Added
+
+- New argument `verbose` to display some information while computing
+- New function to create a ws from datasets and a default specification
+- New function to make a ws crunchable
+- Shiny app to compare WS with button to export table
+- New functions to reverse-engineer a specification
+- New functions to create random specifications
+- New WS example and code to generate it
+- [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
+  fill the .lintr, DESCRIPTION and README files
+- [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
+  add Git structure
+
+#### Changed
+
+- Rename `affect_XXX` functions in `assign_XXX` functions
+- Rename `cjo` to `td` in functions name (`assign_cjo`, `export_cjo`,
+  `retrieve_cjo`, `import_cjo`, ) and argument (`cjo` -\> `td`)
+- The `assign_XXX` and `retrieve_XXX` functions are using `jws` instead
+  of the `ws_path`.
+- `select_regs` takes a new argument `context` to define the different
+  regressors sets to use.
+- `export_XXX` and `import_XXX` functions don’t support anymore
+  `ws_name` argument.
+- `export_XXX` functions are using `td` or `outliers` to replace `x`.
+- `get_LY_info` works now with a X13 model and not a summary_x13 model
+- The column of the data.frame generated by
+  [`select_td()`](https://inseefr.github.io/rjd3production/reference/select_td.md)
+  are `series` and `regs`.
+
+#### Fixed
+
+- Bug in select regressors solved (when no TD is significative)
+- If s has multiple columns, the first one will be taken into account in
+  [`create_insee_regressors()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
+
+### [1.0.0](https://github.com/InseeFr/rjd3production/releases/tag/v1.0.0) - 2025-08-29
+
+#### Added
+
+- New function to choose calendar regressors adapted to series
+- New function to create calendar regressors, french calendar,
+  specification with regressors
