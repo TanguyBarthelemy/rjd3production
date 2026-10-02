@@ -1,6 +1,6 @@
 Package: rjd3production
 Title: Prepare for Production of Seasonal Adjustment with 'JDemetra+'
-Version: 1.2.0
+Version: 1.2.0.9000
 Authors@R: c(
     person("Tanguy", "Barthelemy", , "timeserieswithjdemetraandr@gmail.com", role = c("aut", "cre", "art", "cph")),
     person("Eulalie", "Delaune", , "eulalie.delaune-virrion@insee.fr", role = "aut")
@@ -54,3 +54,9 @@ Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE, roclets = c("collate", "rd", "namespace",
     "devtag::dev_roclet"))
+Remotes:  
+    github::rjdverse/rjd3jars,
+    github::rjdverse/rjd3providers,
+    github::rjdverse/rjd3toolkit,
+    github::rjdverse/rjd3workspace,
+    github::rjdverse/rjd3x13
