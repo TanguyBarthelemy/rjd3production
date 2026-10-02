@@ -76,6 +76,11 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install --cask xquartz
 
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
       - name: Debug R library
         shell: Rscript {0}
         run: |
@@ -90,11 +95,6 @@ jobs:
 
           cat("\nInstalled packages:\n")
           print(installed.packages()["rjd3production", ])
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
 
       - uses: r-lib/actions/check-r-package@v2
         with:
