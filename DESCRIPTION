@@ -44,8 +44,7 @@ Suggests:
     spelling,
     testthat (>= 3.0.0),
     waldo
-VignetteBuilder: 
-    quarto
+VignetteBuilder: quarto, knitr
 Config/Needs/build: moodymudskipper/devtag
 Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
@@ -53,7 +52,7 @@ Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE, roclets = c("collate", "rd", "namespace",
     "devtag::dev_roclet"))
-Remotes:  
+Remotes: 
     github::rjdverse/rjd3jars,
     github::rjdverse/rjd3providers,
     github::rjdverse/rjd3toolkit,
