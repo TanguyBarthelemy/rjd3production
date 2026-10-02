@@ -45,7 +45,6 @@ Suggests:
     testthat (>= 3.0.0),
     waldo
 VignetteBuilder: 
-    knitr,
     quarto
 Config/Needs/build: moodymudskipper/devtag
 Config/roxygen2/version: 8.1.0
