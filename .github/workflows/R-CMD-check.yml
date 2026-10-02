@@ -81,21 +81,6 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - name: Debug R library
-        shell: Rscript {0}
-        run: |
-          cat("R version:\n")
-          print(R.version.string)
-
-          cat("\n.libPaths():\n")
-          print(.libPaths())
-
-          cat("\nrjd3production:\n")
-          print(find.package("rjd3production", quiet = TRUE))
-
-          cat("\nInstalled packages:\n")
-          print(installed.packages()["rjd3production", ])
-
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
