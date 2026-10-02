@@ -1,0 +1,35 @@
+---
+title: "td2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{td2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, label: setup, eval: true, echo: false}
+
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    echo = TRUE,
+    eval = rjd3jars::check_java_version(silent = TRUE),
+    comment = "#>"
+)
+```
+
+```{r}
+#| echo: true
+#| warning: false
+#| label: setup-rjd3production
+
+.libPaths()
+Sys.getenv("R_LIBS")
+Sys.getenv("R_LIBS_USER")
+R.home()
+
+library("rjd3production")
+```
+
+### Regressor selection
+
+To select a set of regressors, use the `select_td()` function:

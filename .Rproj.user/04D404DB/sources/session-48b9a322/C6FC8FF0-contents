@@ -1,0 +1,15 @@
+library("goodpractice")
+u <- "https://github.com/TanguyBarthelemy/testinit"
+
+path <- gert::git_clone(url = u, file.path(tempdir(), basename(u)), branch = "add-and-sub")
+b <- goodpractice::gp(path = path, checks = "roxygen2_duplicate_params")
+print(b)
+
+unlink(x = path, recursive = TRUE)
+path <- gert::git_clone(url = u, file.path(tempdir(), basename(u)), branch = "add-and-sub-and-mult")
+b <- goodpractice::gp(path = path, checks = "roxygen2_duplicate_params")
+print(b)
+
+packageVersion("goodpractice")
+R.Version()$version.string
+sessionInfo()

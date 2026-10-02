@@ -1,0 +1,24 @@
+{
+    "id": "624C9C7D",
+    "path": "~/work/rjd3production/.github/workflows/R-CMD-check.yml",
+    "project_path": ".github/workflows/R-CMD-check.yml",
+    "type": "yaml",
+    "hash": "1564504796",
+    "contents": "",
+    "dirty": false,
+    "created": 1790925453487.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1790932927,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1790932927549,
+    "read_only": false,
+    "read_only_alternatives": []
+}

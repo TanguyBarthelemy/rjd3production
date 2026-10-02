@@ -1,0 +1,19 @@
+---
+title: "process-en"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{process-en}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rjd3production)
+```

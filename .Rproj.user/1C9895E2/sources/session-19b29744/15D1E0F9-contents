@@ -1,0 +1,37 @@
+---
+title: "td2-qmd"
+vignette: >
+  %\VignetteIndexEntry{td2-qmd}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"
+---
+
+
+<!-- ```{r} -->
+<!-- #| label: setup -->
+<!-- #| eval: true -->
+<!-- #| echo: false -->
+
+<!-- knitr::opts_chunk$set( -->
+<!--     collapse = TRUE, -->
+<!--     echo = TRUE, -->
+<!--     eval = rjd3jars::check_java_version(silent = TRUE), -->
+<!--     comment = "#>" -->
+<!-- ) -->
+<!-- ``` -->
+
+```{r}
+#| echo: true
+#| warning: false
+#| label: setup-rjd3production
+
+library("rjd3production")
+```
+
+### Regressor selection
+
+To select a set of regressors, use the `select_td()` function:
