@@ -24,10 +24,13 @@ knitr::opts_chunk$set(
 #| warning: false
 #| label: setup-rjd3production
 
-.libPaths()
-Sys.getenv("R_LIBS")
-Sys.getenv("R_LIBS_USER")
-R.home()
+print(.libPaths())
+print(Sys.getenv("R_LIBS"))
+print(Sys.getenv("R_LIBS_USER"))
+print(R.home())
+
+cat("\nrjd3production:\n")
+print(find.package("rjd3production", quiet = TRUE))
 
 library("rjd3production")
 ```
