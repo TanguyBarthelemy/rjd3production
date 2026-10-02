@@ -22,6 +22,11 @@ knitr::opts_chunk$set(
 #| warning: false
 #| label: setup-rjd3production
 
+.libPaths()
+Sys.getenv("R_LIBS")
+Sys.getenv("R_LIBS_USER")
+R.home()
+
 library("rjd3production")
 ```
 
