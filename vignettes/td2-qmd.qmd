@@ -29,7 +29,7 @@ knitr:
 #| warning: false
 #| label: setup-rjd3production
 
-library("rjd3production")
+library("glue")
 ```
 
 ### Regressor selection
