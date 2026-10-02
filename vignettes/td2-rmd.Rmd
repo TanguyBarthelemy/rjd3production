@@ -1,8 +1,8 @@
 ---
-title: "td2"
+title: "td2-rmd"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{td2}
+  %\VignetteIndexEntry{td2-rmd}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

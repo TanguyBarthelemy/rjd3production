@@ -1,7 +1,7 @@
 ---
-title: "Selection of calendar td regressors"
+title: "td2-qmd"
 vignette: >
-  %\VignetteIndexEntry{Selection of calendar td regressors}
+  %\VignetteIndexEntry{td2-qmd}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
