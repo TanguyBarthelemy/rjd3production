@@ -10,12 +10,13 @@ status](https://www.r-pkg.org/badges/version/rjd3production)](https://CRAN.R-pro
 
 [![R-CMD-check](https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yml)
 [![lint](https://github.com/InseeFr/rjd3production/actions/workflows/lint.yml/badge.svg)](https://github.com/InseeFr/rjd3production/actions/workflows/lint.yml)
-
 [![GH Pages
 built](https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yml/badge.svg)](https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yml)
+[![Codecov test
+coverage](https://codecov.io/gh/InseeFr/rjd3production/graph/badge.svg)](https://app.codecov.io/gh/InseeFr/rjd3production)
 <!-- badges: end -->
 
-<div align="center">
+<div data-align="center">
 
 ## [🇫🇷 README en français](#présentation) \| [🇬🇧 README in english](#overview)
 
@@ -28,8 +29,8 @@ place des chaînes de production.
 
 Il permet notamment de :
 
-- Créer des calendriers français et régresseurs de calendrier
-  compatibles JDemetra+
+- Créer un calendrier français et des régresseurs de calendrier
+  compatibles avec JDemetra+
 
 - Identifier des SAI par leur nom
 
@@ -89,18 +90,12 @@ flowchart LR
 
 L’exécution des packages rjd3 nécessite **Java 21 ou plus**. La manière
 de mettre en place une telle configuration dans R est expliquée
-[ici](https://jdemetra-new-documentation.netlify.app/#Rconfig).
+[ici](https://doc.jdemetra.org/#Rconfig).
 
 ### Latest release
 
 Pour obtenir la version stable actuelle (à partir de la dernière
 version) :
-
-Depuis le CRAN :
-
-``` r
-install.packages("rjd3production")
-```
 
 - Depuis GitHub :
 
@@ -135,21 +130,21 @@ remotes::install_github("InseeFr/rjd3production")
 <!-- library("rjd3production") -->
 
 <!-- ``` -->
-## 🇬🇧 README in english
+
 ### Overview
 
-**{rjd3production}** helps producers of seasonal data to set up
-production lines.
+**{rjd3production}** help setting up a production process of seasonally
+adjusted (SA) data.
 
-In particular, it enables you to:
+In particular, it allows to:
 
-- Create JDemetra+-compatible French calendars and calendar regressors
+- Create JDemetra+-compatible (French) calendars and calendar regressors
 
-- Identify SAIs by name
+- Identify SA-items by name
 
 - Select calendar sets for one or more series
 
-- Manipulate Workspace calendar regressors and outliers according to the
+- Wrangle calendar regressors and outliers in a workspace with the
   following dynamics:
 
   - The `import_XXX()` and `export_XXX()` functions convert data.frames
@@ -196,13 +191,14 @@ flowchart LR
 
 ### Installation
 
+**{rjd3production}** relies on the
+[**{rJava}**](https://CRAN.R-project.org/package=rJava) package
+
+Running rjd3 packages requires **Java 21 or higher**. Instructions on
+how to set up this configuration in R are available
+[here](https://doc.jdemetra.org/#Rconfig).
+
 To get the current stable version (from the latest release):
-
-From CRAN:
-
-``` r
-install.packages("rjd3production")
-```
 
 - From GitHub:
 
