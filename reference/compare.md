@@ -54,18 +54,18 @@ path_rsa3 <- tempfile(pattern = "ws-rsa3", fileext = ".xml")
 path_rsa5 <- tempfile(pattern = "ws-rsa5", fileext = ".xml")
 
 save_workspace(jws_rsa3, file = path_rsa3)
-#> The workspace will be written to /tmp/RtmpCtooGl/ws-rsa31f044e54e53a.xml.
+#> The workspace will be written to /tmp/RtmpUJhjXe/ws-rsa3200cc0e60b.xml.
 save_workspace(jws_rsa5, file = path_rsa5)
-#> The workspace will be written to /tmp/RtmpCtooGl/ws-rsa51f0462626826.xml.
+#> The workspace will be written to /tmp/RtmpUJhjXe/ws-rsa5200c6882b639.xml.
 
 df <- compare(path_rsa3, path_rsa5, series_names = "X0.2.09.10.M")
 head(df)
-#>                    ws          SAI series       date value
-#> 1 ws-rsa31f044e54e53a X0.2.09.10.M     a1 1982-04-01 460.1
-#> 2 ws-rsa31f044e54e53a X0.2.09.10.M     a1 1982-05-01 502.6
-#> 3 ws-rsa31f044e54e53a X0.2.09.10.M     a1 1982-06-01 443.8
-#> 4 ws-rsa31f044e54e53a X0.2.09.10.M     a1 1982-07-01 459.1
-#> 5 ws-rsa31f044e54e53a X0.2.09.10.M     a1 1982-08-01 438.4
-#> 6 ws-rsa31f044e54e53a X0.2.09.10.M     a1 1982-09-01 465.1
+#>                  ws          SAI series       date value
+#> 1 ws-rsa3200cc0e60b X0.2.09.10.M     a1 1982-04-01 460.1
+#> 2 ws-rsa3200cc0e60b X0.2.09.10.M     a1 1982-05-01 502.6
+#> 3 ws-rsa3200cc0e60b X0.2.09.10.M     a1 1982-06-01 443.8
+#> 4 ws-rsa3200cc0e60b X0.2.09.10.M     a1 1982-07-01 459.1
+#> 5 ws-rsa3200cc0e60b X0.2.09.10.M     a1 1982-08-01 438.4
+#> 6 ws-rsa3200cc0e60b X0.2.09.10.M     a1 1982-09-01 465.1
 # }
 ```

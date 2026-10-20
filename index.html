@@ -70,9 +70,8 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 </h1></div>
 <!-- badges: start -->
 
-<p><a href="https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yml" class="external-link"><img src="https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/InseeFr/rjd3production/actions/workflows/lint.yml" class="external-link"><img src="https://github.com/InseeFr/rjd3production/actions/workflows/lint.yml/badge.svg" alt="lint"></a></p>
-<p><a href="https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yml" class="external-link"><img src="https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yml/badge.svg" alt="GH Pages built"></a> <!-- badges: end --></p>
-<div class="section level2" align="center">
+<p><a href="https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yml" class="external-link"><img src="https://github.com/InseeFr/rjd3production/actions/workflows/R-CMD-check.yml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/InseeFr/rjd3production/actions/workflows/lint.yml" class="external-link"><img src="https://github.com/InseeFr/rjd3production/actions/workflows/lint.yml/badge.svg" alt="lint"></a> <a href="https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yml" class="external-link"><img src="https://github.com/InseeFr/rjd3production/actions/workflows/pkgdown.yml/badge.svg" alt="GH Pages built"></a> <a href="https://app.codecov.io/gh/InseeFr/rjd3production" class="external-link"><img src="https://codecov.io/gh/InseeFr/rjd3production/graph/badge.svg" alt="Codecov test coverage"></a> <!-- badges: end --></p>
+<div class="section level2" data-align="center">
 <h2 id="fr-readme-en-français--uk-readme-in-english">
 <a href="#pr%C3%A9sentation">🇫🇷 README en français</a> | <a href="#overview">🇬🇧 README in english</a>
 <a class="anchor" aria-label="anchor" href="#fr-readme-en-fran%C3%A7ais--uk-readme-in-english"></a>
@@ -84,7 +83,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <p><strong>{rjd3production}</strong> aide les producteurs de données CVS-CJO à mettre en place des chaînes de production.</p>
 <p>Il permet notamment de :</p>
 <ul>
-<li><p>Créer des calendriers français et régresseurs de calendrier compatibles JDemetra+</p></li>
+<li><p>Créer un calendrier français et des régresseurs de calendrier compatibles avec JDemetra+</p></li>
 <li><p>Identifier des SAI par leur nom</p></li>
 <li><p>Selectionner les jeux de calendrier pour une ou plusieurs séries</p></li>
 <li>
@@ -133,31 +132,28 @@ flowchart LR
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p><strong>{rjd3production}</strong> s’appuie sur le package <a href="https://CRAN.R-project.org/package=rJava" class="external-link"><strong>{rJava}</strong></a></p>
-<p>L’exécution des packages rjd3 nécessite <strong>Java 21 ou plus</strong>. La manière de mettre en place une telle configuration dans R est expliquée <a href="https://jdemetra-new-documentation.netlify.app/#Rconfig" class="external-link">ici</a>.</p>
+<p>L’exécution des packages rjd3 nécessite <strong>Java 21 ou plus</strong>. La manière de mettre en place une telle configuration dans R est expliquée <a href="https://doc.jdemetra.org/#Rconfig" class="external-link">ici</a>.</p>
 <div class="section level3">
 <h3 id="latest-release">Latest release<a class="anchor" aria-label="anchor" href="#latest-release"></a>
 </h3>
 <p>Pour obtenir la version stable actuelle (à partir de la dernière version) :</p>
-<p>Depuis le CRAN :</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjd3production"</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>Depuis GitHub :</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"InseeFr/rjd3production@*release"</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>De <a href="https://TanguyBarthelemy.r-universe.dev/rjd3production" class="external-link">r-universe</a> :</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjd3production"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://TanguyBarthelemy.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="version-de-développement">Version de développement<a class="anchor" aria-label="anchor" href="#version-de-d%C3%A9veloppement"></a>
 </h3>
 <p>Vous pouvez installer la version de développement de <strong>{rjd3production}</strong> depuis [GitHub] (<a href="https://github.com/" class="external-link uri">https://github.com/</a>) avec :</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"InseeFr/rjd3production"</span><span class="op">)</span></span></code></pre></div>
 <!-- ### Usage -->
@@ -166,21 +162,17 @@ flowchart LR
 <!-- library("rjd3production") -->
 <!-- ``` -->
 </div>
-</div>
-<div class="section level2">
-<h2 id="uk-readme-in-english">🇬🇧 README in english<a class="anchor" aria-label="anchor" href="#uk-readme-in-english"></a>
-</h2>
 <div class="section level3">
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
-<p><strong>{rjd3production}</strong> helps producers of seasonal data to set up production lines.</p>
-<p>In particular, it enables you to:</p>
+<p><strong>{rjd3production}</strong> help setting up a production process of seasonally adjusted (SA) data.</p>
+<p>In particular, it allows to:</p>
 <ul>
-<li><p>Create JDemetra+-compatible French calendars and calendar regressors</p></li>
-<li><p>Identify SAIs by name</p></li>
+<li><p>Create JDemetra+-compatible (French) calendars and calendar regressors</p></li>
+<li><p>Identify SA-items by name</p></li>
 <li><p>Select calendar sets for one or more series</p></li>
 <li>
-<p>Manipulate Workspace calendar regressors and outliers according to the following dynamics:</p>
+<p>Wrangle calendar regressors and outliers in a workspace with the following dynamics:</p>
 <ul>
 <li>The <code>import_XXX()</code> and <code>export_XXX()</code> functions convert data.frames containing calendar outliers and regressors into files, and vice versa.</li>
 <li>The <code>retrieve_XXX()</code> and <code>assign_XXX()</code> functions extract (resp. assign) calendar outliers and regressors from a workspace.</li>
@@ -224,27 +216,26 @@ flowchart LR
 <div class="section level3">
 <h3 id="installation-1">Installation<a class="anchor" aria-label="anchor" href="#installation-1"></a>
 </h3>
+<p><strong>{rjd3production}</strong> relies on the <a href="https://CRAN.R-project.org/package=rJava" class="external-link"><strong>{rJava}</strong></a> package</p>
+<p>Running rjd3 packages requires <strong>Java 21 or higher</strong>. Instructions on how to set up this configuration in R are available <a href="https://doc.jdemetra.org/#Rconfig" class="external-link">here</a>.</p>
 <p>To get the current stable version (from the latest release):</p>
-<p>From CRAN:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjd3production"</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>From GitHub:</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"InseeFr/rjd3production@*release"</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>From <a href="https://TanguyBarthelemy.r-universe.dev/rjd3production" class="external-link">r-universe</a>:</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjd3production"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://TanguyBarthelemy.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="development-version">Development version<a class="anchor" aria-label="anchor" href="#development-version"></a>
 </h3>
 <p>You can install the development version of <strong>{rjd3production}</strong> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"InseeFr/rjd3production"</span><span class="op">)</span></span></code></pre></div>
 <!-- ### Usage -->
