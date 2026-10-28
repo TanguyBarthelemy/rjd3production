@@ -150,8 +150,10 @@ select_td_one_series(
 ## Examples
 
 ``` r
+
 library("rjd3toolkit")
 
+# \donttest{
 # Create a modelling context
 my_context <- create_insee_context(s = ABS)
 
@@ -245,4 +247,5 @@ rjd3production:::select_td_one_series(
 #> Computing spec REG5_LY ...Done !
 #> Computing spec REG6_LY ...Done !
 #> [1] "REG6"
+# }
 ```
