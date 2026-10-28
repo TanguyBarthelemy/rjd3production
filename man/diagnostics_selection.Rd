@@ -108,7 +108,7 @@ single series.
 
 library("rjd3toolkit")
 
-\donttest {
+\donttest{
 # Create a modelling context
 my_context <- create_insee_context(s = ABS)
 
