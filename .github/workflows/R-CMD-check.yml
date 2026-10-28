@@ -76,6 +76,16 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install --cask xquartz
 
+      - name: Check C++ configuration
+        shell: Rscript {0}
+        run: |
+          cat("CXX =", system2(file.path(R.home("bin"), "R"),
+                              c("CMD", "config", "CXX"),
+                              stdout = TRUE), "\n")
+          cat("CXX17 =", system2(file.path(R.home("bin"), "R"),
+                                c("CMD", "config", "CXX17"),
+                                stdout = TRUE), "\n")
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
