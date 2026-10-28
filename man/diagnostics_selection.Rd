@@ -105,8 +105,10 @@ single series.
 }
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
+
 library("rjd3toolkit")
 
+\donttest {
 # Create a modelling context
 my_context <- create_insee_context(s = ABS)
 
@@ -145,6 +147,7 @@ rjd3production:::select_td_one_series(
     series = ABS[, 1],
     context = my_context
 )
+}
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

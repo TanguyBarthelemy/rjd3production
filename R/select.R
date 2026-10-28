@@ -88,8 +88,10 @@ is_compatible <- function(series, reg) {
 #' - `select_td_one_series()` : Name of the selected regression set.
 #'
 #' @examplesIf rjd3jars::check_java_version(silent = TRUE)
+#'
 #' library("rjd3toolkit")
 #'
+#' \donttest {
 #' # Create a modelling context
 #' my_context <- create_insee_context(s = ABS)
 #'
@@ -128,6 +130,7 @@ is_compatible <- function(series, reg) {
 #'     series = ABS[, 1],
 #'     context = my_context
 #' )
+#' }
 #'
 #' @name diagnostics_selection
 #' @keywords internal
