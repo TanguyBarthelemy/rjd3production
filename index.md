@@ -21,7 +21,8 @@ Il permet notamment de :
 
 - Identifier des SAI par leur nom
 
-- Selectionner les jeux de calendrier pour une ou plusieurs séries
+- Selectionner le jeux de regresseurs de calendrier optimal pour une ou
+  plusieurs séries
 
 - Manipuler les régresseurs de calendrier et les outliers d’un Workspace
   selon la dynamique suivante:
@@ -113,7 +114,7 @@ remotes::install_github("InseeFr/rjd3production")
 
 ### Overview
 
-**{rjd3production}** help setting up a production process of seasonally
+**{rjd3production}** helps setting up a production process of seasonally
 adjusted (SA) data.
 
 In particular, it allows to:
@@ -122,7 +123,7 @@ In particular, it allows to:
 
 - Identify SA-items by name
 
-- Select calendar sets for one or more series
+- Select optimal calendar regressors for one or more series
 
 - Wrangle calendar regressors and outliers in a workspace with the
   following dynamics:
