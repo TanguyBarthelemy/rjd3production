@@ -286,7 +286,11 @@ set_minimum_span <- function(
             base::`[[`("basic") |>
             base::`[[`("span") |>
             base::`[[`("d0")
-        if (!is.null(current_span) && base::as.Date(span, origin = "1970-01-01") < base::as.Date(current_span, origin = "1970-01-01")) {
+        if (
+            !is.null(current_span) &&
+                base::as.Date(span, origin = "1970-01-01") <
+                    base::as.Date(current_span, origin = "1970-01-01")
+        ) {
             span <- current_span
         }
         spec <- rjd3toolkit::set_basic(x = spec, type = "From", d0 = span)
@@ -298,7 +302,11 @@ set_minimum_span <- function(
             base::`[[`("estimate") |>
             base::`[[`("span") |>
             base::`[[`("d0")
-        if (!is.null(current_span) && base::as.Date(span, origin = "1970-01-01") < base::as.Date(current_span, origin = "1970-01-01")) {
+        if (
+            !is.null(current_span) &&
+                base::as.Date(span, origin = "1970-01-01") <
+                    base::as.Date(current_span, origin = "1970-01-01")
+        ) {
             span <- current_span
         }
         spec <- rjd3toolkit::set_estimate(x = spec, type = "From", d0 = span)
