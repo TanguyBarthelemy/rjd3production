@@ -76,17 +76,15 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install --cask xquartz
 
-      - name: Check C++ configuration
-        shell: Rscript {0}
+      - name: Configure C++17
+        if: runner.os == 'Linux'
+        shell: bash
         run: |
-          cat("CXX =", system2(file.path(R.home("bin"), "R"),
-                              c("CMD", "config", "CXX"),
-                              stdout = TRUE), "\n")
-          cat("CXX17 =", system2(file.path(R.home("bin"), "R"),
-                                c("CMD", "config", "CXX17"),
-                                stdout = TRUE), "\n")
+          echo 'CXX = g++ -std=gnu++17' > "$RUNNER_TEMP/Makevars"
 
       - uses: r-lib/actions/setup-r-dependencies@v2
+        env:
+          R_MAKEVARS_USER: ${{ runner.temp }}/Makevars
         with:
           extra-packages: any::rcmdcheck
           needs: check
