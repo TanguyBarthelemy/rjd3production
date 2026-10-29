@@ -91,7 +91,7 @@ is_compatible <- function(series, reg) {
 #'
 #' library("rjd3toolkit")
 #'
-#' \donttest {
+#' \donttest{
 #' # Create a modelling context
 #' my_context <- create_insee_context(s = ABS)
 #'
