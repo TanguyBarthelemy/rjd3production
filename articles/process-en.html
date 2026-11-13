@@ -37,21 +37,21 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fa-home fa-lg"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Package functions</a></li>
 <li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignette" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignette</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-vignette">
-<li><a class="dropdown-item" href="../articles/process-en.html">Setup a production chain with {rjd3production}</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes">
+<li><a class="dropdown-item" href="../articles/process-en.html">Setup a production process with {rjd3production}</a></li>
     <li><a class="dropdown-item" href="../articles/process-fr.html">Mise en place d'une chaîne de production avec {rjd3production}</a></li>
-    <li><a class="dropdown-item" href="../articles/td-selection-en.html">Selection of calendar td regressors</a></li>
-    <li><a class="dropdown-item" href="../articles/td-selection-fr.html">Sélection des régresseurs de calendriers</a></li>
+    <li><a class="dropdown-item" href="../articles/td-selection-en.html">Selection of calendar regressors</a></li>
+    <li><a class="dropdown-item" href="../articles/td-selection-fr.html">Sélection des régresseurs de calendrier</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-jdemetra-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">JDemetra+</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-jdemetra-">
-<li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdemetra-app/releases">To download JDemetra+</a></li>
-    <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jwsacruncher/releases">To download the JDemetra+ cruncher</a></li>
-    <li><a class="external-link dropdown-item" href="https://github.com/InseeFr/rjd3qr/wiki/Installation-&amp;-configuration#installation-de-jdemetra-fr">Set up with a portable version of Java</a></li>
+<li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download JDemetra+</a></li>
+    <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download the Cruncher</a></li>
+    <li><a class="external-link dropdown-item" href="https://doc.jdemetra.org/#Rconfig">Set up portable Java version</a></li>
   </ul>
 </li>
       </ul>
@@ -243,7 +243,8 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -252,8 +253,69 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -267,6 +329,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
         interactiveBorder: 10,
         theme: 'light-border',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -323,7 +386,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Tanguy Barthelemy, Eulalie Delaune.</p>
+  <p>Developed by Tanguy Barthelemy, Eulalie Delaune, Anna Smyk.</p>
 </div>
 
 <div class="pkgdown-footer-right">

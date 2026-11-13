@@ -21,18 +21,18 @@ mermaid.initialize({ startOnLoad: true }); }); </script></head><body>
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fa-home fa-lg"></span></a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Package functions</a></li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignette" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignette</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-vignette"><li><a class="dropdown-item" href="../articles/process-en.html">Setup a production chain with {rjd3production}</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes"><li><a class="dropdown-item" href="../articles/process-en.html">Setup a production process with {rjd3production}</a></li>
     <li><a class="dropdown-item" href="../articles/process-fr.html">Mise en place d'une chaîne de production avec {rjd3production}</a></li>
-    <li><a class="dropdown-item" href="../articles/td-selection-en.html">Selection of calendar td regressors</a></li>
-    <li><a class="dropdown-item" href="../articles/td-selection-fr.html">Sélection des régresseurs de calendriers</a></li>
+    <li><a class="dropdown-item" href="../articles/td-selection-en.html">Selection of calendar regressors</a></li>
+    <li><a class="dropdown-item" href="../articles/td-selection-fr.html">Sélection des régresseurs de calendrier</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-jdemetra-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">JDemetra+</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-jdemetra-"><li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdemetra-app/releases">To download JDemetra+</a></li>
-    <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jwsacruncher/releases">To download the JDemetra+ cruncher</a></li>
-    <li><a class="external-link dropdown-item" href="https://github.com/InseeFr/rjd3qr/wiki/Installation-&amp;-configuration#installation-de-jdemetra-fr">Set up with a portable version of Java</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-jdemetra-"><li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download JDemetra+</a></li>
+    <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download the Cruncher</a></li>
+    <li><a class="external-link dropdown-item" href="https://doc.jdemetra.org/#Rconfig">Set up portable Java version</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/InseeFr/rjd3production" aria-label="GitHub"><span class="fa fa-github fa-lg"></span></a></li>
       </ul></div>
@@ -90,7 +90,7 @@ series or collection.</p>
 <span class="r-in"><span><span class="va">jws</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_ws_from_data.html">create_ws_from_data</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ABS</span><span class="op">[</span>, <span class="fl">1</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>, spec <span class="op">=</span> <span class="va">new_spec</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">path_ws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"ws"</span>, fileext <span class="op">=</span> <span class="st">".xml"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rjdverse.github.io/rjd3workspace/reference/save_workspace.html" class="external-link">save_workspace</a></span><span class="op">(</span><span class="va">jws</span>, file <span class="op">=</span> <span class="va">path_ws</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The workspace will be written to /tmp/RtmpSl1YIy/ws1f074fd78b12.xml.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The workspace will be written to /tmp/RtmpRV1FpT/ws211e12118238.xml.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># `remove_non_significative_outliers` is deprecated.</span></span></span>
 <span class="r-in"><span><span class="co"># Use `remove_non_significant_outliers` instead</span></span></span>
@@ -102,13 +102,13 @@ series or collection.</p>
 <span class="r-in"><span>    spec_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Reference"</span>, <span class="st">"Estimation"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 🏷 WS  ws1f074fd78b12 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 🏷 WS  ws211e12118238 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 📌 SAI n° 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "X0.2.09.10.M"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         series            name type       date</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 X0.2.09.10.M LS (1990-01-01)   LS 1990-01-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 💾 Saving WS file</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The workspace will be written to /tmp/RtmpSl1YIy/ws1f074fd78b12.xml.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The workspace will be written to /tmp/RtmpRV1FpT/ws211e12118238.xml.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> A workspace already exists and will be overwritten.</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
@@ -118,7 +118,7 @@ series or collection.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Tanguy Barthelemy, Eulalie Delaune.</p>
+  <p>Developed by Tanguy Barthelemy, Eulalie Delaune, Anna Smyk.</p>
 </div>
 
 <div class="pkgdown-footer-right">

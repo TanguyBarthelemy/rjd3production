@@ -2,14 +2,14 @@
 
 ## Initialisation
 
-Functions to create object with default Insee information
+Functions to create objects with default Insee information
 
 - [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
   : Initialize a seasonal adjustment project environment
 
 ## Creation
 
-Functions to create object with default Insee information
+Functions to create objects with default Insee information
 
 - [`create_french_calendar()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
   [`create_insee_regressors()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
@@ -23,7 +23,7 @@ Functions to create object with default Insee information
 
 ## Comparison
 
-Compare different WS
+Compare different Worksapces
 
 - [`compare()`](https://inseefr.github.io/rjd3production/reference/compare.md)
   : Compare series across workspaces
@@ -32,7 +32,7 @@ Compare different WS
 
 ## Retrieve information
 
-Get information from a whole WS and identify by name
+Retrieve information from an entire Workspace and identify by name
 
 - [`get_jsai_by_name()`](https://inseefr.github.io/rjd3production/reference/get_jsai_by_name.md)
   : Retrieve a SA-Item by its name
@@ -41,9 +41,10 @@ Get information from a whole WS and identify by name
 - [`get_series()`](https://inseefr.github.io/rjd3production/reference/get_series.md)
   : Extract all series from a SA-Item
 
-## Modify WS
+## Modify a Workspace
 
-Modification of a WS with applying a property to each SAP and SAI
+Modification of a Workspace by applying a property to each SA-Processing
+(SAP) and SA-Items (SAI)
 
 - [`add_raw_data_path()`](https://inseefr.github.io/rjd3production/reference/add_raw_data_path.md)
   : Add raw data from a file to a JWS workspace
@@ -54,9 +55,9 @@ Modification of a WS with applying a property to each SAP and SAI
 - [`make_ws_crunchable()`](https://inseefr.github.io/rjd3production/reference/make_ws_crunchable.md)
   : Make a workspace crunchable
 
-## Rev-engineer
+## Reverse-engineer
 
-Get code from a specification and generate random specifications
+Turn a specification into R code and generate random specifications
 
 - [`rev_spec()`](https://inseefr.github.io/rjd3production/reference/translate-spec.md)
   : Reverse Engineering of rjd3 Specifications
@@ -65,8 +66,7 @@ Get code from a specification and generate random specifications
 
 ## Global workflow
 
-Function to retrieve regressions information, apply, export and import
-it
+Function to retrieve regression information, apply, export and import it
 
 - [`assign_outliers()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)
   [`assign_td()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)
