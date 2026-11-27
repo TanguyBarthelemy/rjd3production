@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Setup a production chain with JDemetra+ • rjd3production</title>
+<title>Setup a production process of Seasonally Adjusted series, with JDemetra+ • rjd3production</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="process-en_files/libs/quarto-html/popper.min.js"></script><script src="process-en_files/libs/quarto-html/tippy.umd.min.js"></script><link href="process-en_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="process-en_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Setup a production chain with JDemetra+">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Setup a production process of Seasonally Adjusted series, with JDemetra+">
 <script type="module"> import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
 document.addEventListener("DOMContentLoaded", function () {
 document.querySelectorAll("pre.mermaid").forEach(pre => { if (pre.querySelector("code")) { const code = pre.querySelector("code"); pre.innerHTML = code.innerHTML; } });
@@ -35,7 +35,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fa-home fa-lg"></span></a></li>
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Package functions</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Functions</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes">
@@ -47,11 +47,13 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-jdemetra-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">JDemetra+</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-jdemetra-">
-<li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download JDemetra+</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-around-jdemetra-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Around JDemetra+</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-around-jdemetra-">
+<li><a class="external-link dropdown-item" href="https://www.jdemetra.org">JDemetra+ web portal and Documentation</a></li>
+    <li><a class="external-link dropdown-item" href="https://prod.jdemetra.org">Production of Seasonally Adjusted series: JDemetra+ and R Cookbook</a></li>
+    <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download JDemetra+ Graphical User Interface</a></li>
     <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download the Cruncher</a></li>
-    <li><a class="external-link dropdown-item" href="https://doc.jdemetra.org/#Rconfig">Set up portable Java version</a></li>
+    <li><a class="external-link dropdown-item" href="https://doc.jdemetra.org/#Rconfig">Set up a portable version of Java</a></li>
   </ul>
 </li>
       </ul>
@@ -66,7 +68,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Setup a production chain with JDemetra+</h1>
+      <h1>Setup a production process of Seasonally Adjusted series, with JDemetra+</h1>
 
 
 
@@ -85,16 +87,16 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/InseeFr/rjd3production" class="external-link">"rjd3production"</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>The {rjd3production} package is useful for setting up a production pipeline for seasonally adjusted time series.</p>
-<p>Before creating our production pipeline, we need to set up our working environment – our project. The <code><a href="../reference/init_env.html">init_env()</a></code> function creates the following structure:</p>
+<p>Before creating a production pipeline, you must set up a working environment as an R project. The <code><a href="../reference/init_env.html">init_env()</a></code> function creates the following default structure:</p>
 <ul>
-<li>a <code>data/</code> folder: our raw data</li>
-<li>a <code>Workspaces/</code> folder: our workspaces</li>
+<li>a <code>data/</code> folder: raw data</li>
+<li>a <code>Workspaces/</code> folder: workspaces</li>
 <li>an <code>output/</code> folder: the output time series, tables and graphs</li>
 <li>a <code>specs/</code> folder: workspace-specific specifications (calendar regressors, outliers, etc.)</li>
 <li>a <code>BQ/</code> folder: quality reports and decision files</li>
-<li>a DESCRIPTION file to manage our project’s dependencies</li>
+<li>a DESCRIPTION file to manage the project’s dependencies</li>
 <li>a <code>.lintr</code> file for static code analysis (formatting best practices)</li>
-<li>a README.md file to explain our project</li>
+<li>a README.md file to describe the process</li>
 <li>a Git project structure</li>
 </ul>
 <div class="cell">
@@ -102,7 +104,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <code class="sourceCode R"><span><span class="va">path_project</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"my_sa_project"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/init_env.html">init_env</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path_project</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>In this tutorial, we will create a production pipeline using the ABS dataset from the {rjd3toolkit} package. The dataset is also available as the file <code>ABS.csv</code> at /home/runner/work/_temp/Library/rjd3providers/extdata/ABS.csv in the {rjd3providers} package.</p>
+<p>In this vignette, we will create a production pipeline using the ABS dataset from the {rjd3toolkit} package. The dataset is also available as the file <code>ABS.csv</code> at /home/runner/work/_temp/Library/rjd3providers/extdata/ABS.csv in the {rjd3providers} package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3toolkit" class="external-link">"rjd3toolkit"</a></span><span class="op">)</span></span>
@@ -110,10 +112,10 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <span><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="va">ABS</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">3L</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2L</span>, stop <span class="op">=</span> <span class="fl">12L</span><span class="op">)</span></span></code></pre></div>
 </div>
-<section class="level2"><h2 id="selection-of-calendar-regressors">Selection of calendar regressors<a class="anchor" aria-label="anchor" href="#selection-of-calendar-regressors"></a>
+<section class="level2"><h2 id="selection-of-calendar-regressors">Selection of Calendar Regressors<a class="anchor" aria-label="anchor" href="#selection-of-calendar-regressors"></a>
 </h2>
-<p>If our time series are sensitive to calendar effects, we can correct for these effects using calendar regressors.</p>
-<p>To do this, refer to the <code>td-selection</code> vignette for guidance on how to handle these effects and how to generate the <code>td</code> table containing our selected custom calendar regressors.</p>
+<p>If the time series are sensitive to calendar effects, these effects can be corrected using calendar regressors.</p>
+<p>To do this, refer to the <code>td-selection</code> vignette, which explains how to select the optimal set of regressors for each time series and how to generate the <code>td</code> table describing the correspondence between the time series and the selected set of calendar regressors.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select_td.html">select_td</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span></span>
@@ -162,24 +164,25 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 </div>
 </section><section class="level2"><h2 id="creating-a-workspace">Creating a workspace<a class="anchor" aria-label="anchor" href="#creating-a-workspace"></a>
 </h2>
-<p>We will use the {rjd3workspace} package for functions relating to the creation and manipulation of workspaces.</p>
+<p>We will use the {rjd3workspace} package for functions related to the creation and manipulation of workspaces.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3workspace" class="external-link">"rjd3workspace"</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>To create a new workspace, you can either create it manually from scratch or from a dataset. If you are using external variables, calendar regressors or a custom calendar, don’t forget to place all of these within a modelling context.</p>
-<p>At INSEE, we use the <code><a href="../reference/insee_modelling.html">create_insee_context()</a></code> function to create our contexts:</p>
+<p>To create a new workspace, you can either create an empty one and populate it, or create it directly from a dataset.</p>
+<p>If you use external variables, regressors, or a custom calendar, be sure to place all of these within a `modeling context.</p>
+<p>At INSEE, we use the <code><a href="../reference/insee_modelling.html">create_insee_context()</a></code> function to create our <code>contexts</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_context</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/insee_modelling.html">create_insee_context</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">my_data</span><span class="op">[</span>, <span class="fl">1L</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>We will use the {rjd3x13} package to create the X13 specs.</p>
+<p>We will use the {rjd3x13} package to create the X13 specifications.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3x13" class="external-link">"rjd3x13"</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <ul>
-<li>Create a workspace from scratch</li>
+<li>Option 1: Create a workspace from scratch</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
@@ -200,14 +203,14 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <span><span class="co">#... avec autant de commande que de séries</span></span></code></pre></div>
 </div>
 <ul>
-<li>Create a workspace from a dataset</li>
+<li>Option 2: Create a workspace from a dataset</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jws</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_ws_from_data.html">create_ws_from_data</a></span><span class="op">(</span><span class="va">my_data</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rjdverse.github.io/rjd3workspace/reference/set_context.html" class="external-link">set_context</a></span><span class="op">(</span><span class="va">jws</span>, <span class="fu"><a href="../reference/insee_modelling.html">create_insee_context</a></span><span class="op">(</span>s <span class="op">=</span> <span class="va">my_data</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>If we have any, we need to assign calendar regressors to each series:</p>
+<p>If you want to use calendar regressors, you must assign the previously selected set to each series:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rjdverse.github.io/rjd3workspace/reference/jws_compute.html" class="external-link">jws_compute</a></span><span class="op">(</span><span class="va">jws</span><span class="op">)</span></span>
@@ -216,24 +219,25 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <span><span class="co">#&gt; Série 0.2.08.10.M, 2/3</span></span>
 <span><span class="co">#&gt; Série 0.2.07.10.M, 3/3</span></span></code></pre></div>
 </div>
-<p>Don’t forget to update the metadata for our workspace with the path to our raw data:</p>
+<p>Above, the regressors are specified in the reference specification (Reference Spec) and in the estimation specification (Estimation Spec). These concepts are explained <a href="https://prod.jdemetra.org/p1-overview#sec-concept-specification" class="external-link">here</a> and <a href="https://prod.jdemetra.org/p4-appendices#comp-specs" class="external-link">here</a>.</p>
+<p>Don’t forget to update the workspace metadata with the path to the raw data:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/add_raw_data_path.html">add_raw_data_path</a></span><span class="op">(</span><span class="va">jws</span>, <span class="va">path_ABS</span>, delimiter <span class="op">=</span> <span class="st">"COMMA"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>At last, we can save our workspace!</p>
+<p>Finally, we can save our workspace!</p>
+<p>It will stop being just a Java Virtual Object and become a set of (XML) files.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">path_ws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">path_project</span>, <span class="st">"Workspaces"</span>, <span class="st">"workspace_travail"</span>, <span class="st">"my_ws.xml"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rjdverse.github.io/rjd3workspace/reference/save_workspace.html" class="external-link">save_workspace</a></span><span class="op">(</span><span class="va">jws</span>, <span class="va">path_ws</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
-</section><section class="level2"><h2 id="call-from-the-cruncher">Call from the cruncher<a class="anchor" aria-label="anchor" href="#call-from-the-cruncher"></a>
+</section><section class="level2"><h2 id="using-cruncher-for-estimation-and-output-generation">Using Cruncher for Estimation and Output Generation<a class="anchor" aria-label="anchor" href="#using-cruncher-for-estimation-and-output-generation"></a>
 </h2>
-<p>In an R production pipeline, the cruncher plays a vital role as it enables:</p>
+<p>When using a workspace structure (benefit: having data that can be read by the graphical interface), JDemetra+ <a href="https://doc.jdemetra.org/t-production-tools-cruncher-qr" class="external-link">Cruncher</a> allows you to automate two important operations:</p>
 <ol type="1">
-<li>Updating the raw data from the data file</li>
-<li>Updating the seasonal adjustment model (according to a refresh policy)</li>
-<li>Production of outputs</li>
+<li><p>Updating the raw data from the data file</p></li>
+<li><p>Updating the seasonally adjusted data by taking into account new raw data points and/or revisions to the recent past. You can choose a refresh policy to update the seasonal adjustment model with varying degrees of constraint. For more details, see the <a href="https://doc.jdemetra.org/a-rev-policies" class="external-link">documentation</a>.</p></li>
 </ol></section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);

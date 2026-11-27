@@ -2,28 +2,29 @@
 
 ## Initialisation
 
-Functions to create objects with default Insee information
+Functions to initialise a R project structure structure suitable for SA
+production
 
 - [`init_env()`](https://inseefr.github.io/rjd3production/reference/init_env.md)
   : Initialize a seasonal adjustment project environment
 
 ## Creation
 
-Functions to create objects with default Insee information
+Functions to create objects (with default Insee information)
 
+- [`create_ws_from_data()`](https://inseefr.github.io/rjd3production/reference/create_ws_from_data.md)
+  : Create a Workspace from Data
+- [`create_specs_set()`](https://inseefr.github.io/rjd3production/reference/create_specs_set.md)
+  : Creating a set of X13 specifications
 - [`create_french_calendar()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
   [`create_insee_regressors()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
   [`create_insee_regressors_sets()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
   [`create_insee_context()`](https://inseefr.github.io/rjd3production/reference/insee_modelling.md)
   : French modelling context, calendar and trading days regressors.
-- [`create_specs_set()`](https://inseefr.github.io/rjd3production/reference/create_specs_set.md)
-  : Creating a set of X13 specifications
-- [`create_ws_from_data()`](https://inseefr.github.io/rjd3production/reference/create_ws_from_data.md)
-  : Create a Workspace from Data
 
 ## Comparison
 
-Compare different Worksapces
+Compare different Workspaces
 
 - [`compare()`](https://inseefr.github.io/rjd3production/reference/compare.md)
   : Compare series across workspaces
@@ -32,7 +33,7 @@ Compare different Worksapces
 
 ## Retrieve information
 
-Retrieve information from an entire Workspace and identify by name
+Retrieve information from an entire Workspace and identify it by name
 
 - [`get_jsai_by_name()`](https://inseefr.github.io/rjd3production/reference/get_jsai_by_name.md)
   : Retrieve a SA-Item by its name
@@ -44,7 +45,7 @@ Retrieve information from an entire Workspace and identify by name
 ## Modify a Workspace
 
 Modification of a Workspace by applying a property to each SA-Processing
-(SAP) and SA-Items (SAI)
+(SAP) and SA-Item (SAI)
 
 - [`add_raw_data_path()`](https://inseefr.github.io/rjd3production/reference/add_raw_data_path.md)
   : Add raw data from a file to a JWS workspace
@@ -64,9 +65,9 @@ Turn a specification into R code and generate random specifications
 - [`random_spec()`](https://inseefr.github.io/rjd3production/reference/random-spec.md)
   : Random JDemetra+ Specifications Generator
 
-## Global workflow
+## Parametrize regression variables in the preadjustment phase
 
-Function to retrieve regression information, apply, export and import it
+Functions to retrieve and assign regression variables
 
 - [`assign_outliers()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)
   [`assign_td()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)

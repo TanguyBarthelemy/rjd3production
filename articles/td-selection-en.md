@@ -1,4 +1,4 @@
-# Selection of calendar td regressors
+# Calendar regressors selection
 
 ``` r
 
@@ -7,7 +7,8 @@ library("rjd3production")
 
 ### Regressor selection
 
-To select a set of regressors, use the
+To select an optimal set of calendar regressors from a set of possible
+sets, use the
 [`select_td()`](https://inseefr.github.io/rjd3production/reference/select_td.md)
 function:
 
@@ -71,25 +72,26 @@ print(td_table)
 
 ### Import/Export
 
-Once the regressors have been selected, you can export the table in
-`.yaml` format and reimport it later:
+Once the regressors have been selected, you can export the corresponding
+table in `.yaml` format and reimport it later:
 
 ``` r
 
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at /tmp/RtmpCAG9LW/td-table210c4a32f4f3.yaml
+#> The td table will be written at /tmp/Rtmp7d8U3R/td-table22412fa6ef80.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/RtmpCAG9LW/td-table210c4a32f4f3.yaml
+#> The td table will be read at  /tmp/Rtmp7d8U3R/td-table22412fa6ef80.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
 
-### Assignment
+### Assigning regressors to a series
 
-Finally, to assign calendar regressors to a workspace, you can use the
+Pour affecter le jeu de régresseurs de calendrier qui convient à chacune
+des séries du workspace, vous pouvez utiliser la fonction
 [`assign_td()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)
-function:
+:
 
 ``` r
 
@@ -100,11 +102,10 @@ assign_td(td_table, my_ws, spec_type = c("Estimation", "Reference"))
 
 ### Advanced selection
 
-By default, the regressors proposed are those used by INSEE (and in the
-SSP). To use custom regressor sets, simply create a modelling
+By default, the regressors proposed are those used by INSEE. To use
+custom regressor sets, simply create a modelling
 context\](https://rjdverse.github.io/rjd3toolkit/reference/modelling_context.html)
-containing as many variables as you want regressor sets and one
-regressor set per variable.
+containing as many variables as regressor sets.
 
 For example, for the INSEE regressor sets, here is the structure of the
 corresponding modelling context:
@@ -131,16 +132,20 @@ str(create_insee_context(), max.level = 2L)
 #>   ..$ REG6_LY:List of 7
 ```
 
-Let’s imagine that I only want to test three types of sets:
+If you want to test only the following three sets of regressors:
 
-- a first regressor set (`TD2_TB`) containing two regressors: Thursday,
-  week (and weekend in contrast)
-- a second set (`TD3_TB`) containing three regressors: Thursday, week
-  (and weekend in contrast) and leap-year regressor
-- a third set (`TD6_TB`) that differentiates between all days of the
-  week
+- a first set of regressors (`TD2_TB`) containing two regressors:
+  Thursday and the rest of the week (with the weekend as contrast)
 
-We then create our sets of regressors and create the modelling context:
+- a second set (`TD3_TB`) containing three regressors: Thursday, the
+  rest of the week (with the weekend as contrast), and the leap-year
+  regressor
+
+- a third set (`TD6_TB`) that distinguishes all days of the week, for a
+  total of 6 regressors (with Sunday as contrast)
+
+The commands below allow you to create these three sets and then the
+modelling context:
 
 ``` r
 
@@ -173,7 +178,8 @@ my_regressors_sets <- list(
 my_context <- modelling_context(variables = my_regressors_sets)
 ```
 
-We can now use our context to select the calendar regressors:
+We can now use the modeling context created above to select the optimal
+set of calendar regressors for each time series:
 
 ``` r
 

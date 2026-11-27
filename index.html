@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Automate production of seasonally Adjusted data with JDemetra+ • rjd3production</title>
+<title>Automate production of Seasonally Adjusted data with JDemetra+ and R • rjd3production</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Automate production of seasonally Adjusted data with JDemetra+">
-<meta name="description" content="A comprehensive tool for setting up production processes of seasonally adjusted data, using JDemetra+ (version 3) and rjdverse packages. This includes setting up a new working environment, creating and selecting calendar regressors, managing specifications (trading-days regressors and outliers) at a workspace level, making a workspace usable by the cruncher and the Graphical user Interface, removing insignificant outliers, and comparing workspaces.">
-<meta property="og:description" content="A comprehensive tool for setting up production processes of seasonally adjusted data, using JDemetra+ (version 3) and rjdverse packages. This includes setting up a new working environment, creating and selecting calendar regressors, managing specifications (trading-days regressors and outliers) at a workspace level, making a workspace usable by the cruncher and the Graphical user Interface, removing insignificant outliers, and comparing workspaces.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Automate production of Seasonally Adjusted data with JDemetra+ and R">
+<meta name="description" content="A comprehensive tool for setting up production processes of seasonally adjusted data, using JDemetra+ (version 3) and rjdverse packages. This includes setting up a new working environment, creating and selecting calendar regressors, customizing specifications (including calendar regressors and outliers) at a workspace level, making a workspace readable by the cruncher and the Graphical user Interface, removing non significant outliers, and comparing workspaces.">
+<meta property="og:description" content="A comprehensive tool for setting up production processes of seasonally adjusted data, using JDemetra+ (version 3) and rjdverse packages. This includes setting up a new working environment, creating and selecting calendar regressors, customizing specifications (including calendar regressors and outliers) at a workspace level, making a workspace readable by the cruncher and the Graphical user Interface, removing non significant outliers, and comparing workspaces.">
 <script type="module"> import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
 document.addEventListener("DOMContentLoaded", function () {
 document.querySelectorAll("pre.mermaid").forEach(pre => { if (pre.querySelector("code")) { const code = pre.querySelector("code"); pre.innerHTML = code.innerHTML; } });
@@ -35,7 +35,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="active nav-item"><a class="nav-link" href="index.html" aria-label="Home"><span class="fa fa-home fa-lg"></span></a></li>
-<li class="nav-item"><a class="nav-link" href="reference/index.html">Package functions</a></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Functions</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes">
@@ -47,11 +47,13 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">News</a></li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-jdemetra-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">JDemetra+</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-jdemetra-">
-<li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download JDemetra+</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-around-jdemetra-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Around JDemetra+</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-around-jdemetra-">
+<li><a class="external-link dropdown-item" href="https://www.jdemetra.org">JDemetra+ web portal and Documentation</a></li>
+    <li><a class="external-link dropdown-item" href="https://prod.jdemetra.org">Production of Seasonally Adjusted series: JDemetra+ and R Cookbook</a></li>
+    <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download JDemetra+ Graphical User Interface</a></li>
     <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download the Cruncher</a></li>
-    <li><a class="external-link dropdown-item" href="https://doc.jdemetra.org/#Rconfig">Set up portable Java version</a></li>
+    <li><a class="external-link dropdown-item" href="https://doc.jdemetra.org/#Rconfig">Set up a portable version of Java</a></li>
   </ul>
 </li>
       </ul>
@@ -79,7 +81,9 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <div class="section level3">
 <h3 id="présentation">Présentation<a class="anchor" aria-label="anchor" href="#pr%C3%A9sentation"></a>
 </h3>
-<p><strong>{rjd3production}</strong> aide les producteurs de données CVS-CJO à mettre en place des chaînes de production en utilisant <a href="https://jdemetra.org/" class="external-link">JDemetra+</a>. Les utilisateurs de l’interface graphique peuvent automatiser un grand nombre d’opérations intensives en “clics”.</p>
+<p><strong>{rjd3production}</strong> aide les producteurs de données CVS-CJO à mettre en place des chaînes de production en utilisant <a href="https://jdemetra.org/" class="external-link">JDemetra+</a>.</p>
+<p>Pour plus d’information sur les processus de production de données désaisonnalisées consulter <a href="https://prod.jdemetra.org/" class="external-link uri">https://prod.jdemetra.org/</a></p>
+<p>Les utilisateurs de l’interface graphique peuvent automatiser un grand nombre d’opérations intensives en “clics”.</p>
 <p>Il permet notamment de :</p>
 <ul>
 <li><p>Identifier des SA-Items par leur nom</p></li>
@@ -148,10 +152,10 @@ flowchart LR
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"InseeFr/rjd3production@*release"</span><span class="op">)</span></span></code></pre></div>
 <ul>
-<li>De <a href="https://TanguyBarthelemy.r-universe.dev/rjd3production" class="external-link">r-universe</a> :</li>
+<li>De <a href="https://InseeFr.r-universe.dev/rjd3production" class="external-link">r-universe</a> :</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjd3production"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://TanguyBarthelemy.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjd3production"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://InseeFr.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="version-de-développement">Version de développement<a class="anchor" aria-label="anchor" href="#version-de-d%C3%A9veloppement"></a>
@@ -169,7 +173,9 @@ flowchart LR
 <div class="section level3">
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
-<p><strong>{rjd3production}</strong> helps setting up a production process of seasonally adjusted (SA) data with <a href="https://jdemetra.org/" class="external-link">JDemetra+</a>. User of the Graphical User Interface can automate many operations which would otherwise be click-intensive.</p>
+<p><strong>{rjd3production}</strong> helps setting up a production process of seasonally adjusted (SA) data with <a href="https://jdemetra.org/" class="external-link">JDemetra+</a>.</p>
+<p>Form more information on this type of statistical production check out <a href="https://prod.jdemetra.org/" class="external-link uri">https://prod.jdemetra.org/</a>.</p>
+<p>Users of the Graphical User Interface can automate many operations which would otherwise be click-intensive.</p>
 <p>In particular, it allows to:</p>
 <ul>
 <li><p>Identify SA-items by name</p></li>
@@ -235,10 +241,10 @@ flowchart LR
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"InseeFr/rjd3production@*release"</span><span class="op">)</span></span></code></pre></div>
 <ul>
-<li>From <a href="https://TanguyBarthelemy.r-universe.dev/rjd3production" class="external-link">r-universe</a>:</li>
+<li>From <a href="https://InseeFr.r-universe.dev/rjd3production" class="external-link">r-universe</a>:</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjd3production"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://TanguyBarthelemy.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjd3production"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://InseeFr.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="development-version">Development version<a class="anchor" aria-label="anchor" href="#development-version"></a>

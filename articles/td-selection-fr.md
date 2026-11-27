@@ -1,4 +1,4 @@
-# Sélection des régresseurs de calendriers
+# Sélection des régresseurs de calendrier
 
 ``` r
 
@@ -7,8 +7,8 @@ library("rjd3production")
 
 ### Sélection des régresseurs
 
-Pour sélectionner un jeu de régresseurs de calendrier, on utilise la
-fonction
+Pour sélectionner un jeu de régresseurs de calendrier optimal parmi un
+ensemble de jeux possibles, on utilise la fonction
 [`select_td()`](https://inseefr.github.io/rjd3production/reference/select_td.md)
 :
 
@@ -79,17 +79,17 @@ au format `.yaml` et le réimporter ultérieurement :
 
 path_td <- tempfile(pattern = "td-table", fileext = ".yaml")
 export_td(td_table, path_td)
-#> The td table will be written at /tmp/RtmpPoP0VD/td-table21415c3e8ce9.yaml
+#> The td table will be written at /tmp/Rtmpynyacy/td-table227d573751b5.yaml
 td_table2 <- import_td(path = path_td)
-#> The td table will be read at  /tmp/RtmpPoP0VD/td-table21415c3e8ce9.yaml
+#> The td table will be read at  /tmp/Rtmpynyacy/td-table227d573751b5.yaml
 waldo::compare(td_table, td_table2)
 #> ✔ No differences
 ```
 
-### Assignation
+### Assignation d’un jeu de régresseurs à une série
 
-Enfin, pour affecter des régresseurs de calendrier à un workspace, vous
-pouvez utiliser la fonction
+Pour affecter le jeu de régresseurs de calendrier qui convient à chacune
+des séries du workspace, vous pouvez utiliser la fonction
 [`assign_td()`](https://inseefr.github.io/rjd3production/reference/regression_tools.md)
 :
 
@@ -106,8 +106,7 @@ Par défaut, les régresseurs proposés sont ceux utilisés par l’INSEE (et
 dans le SSP). Pour utiliser des ensembles de régresseurs personnalisés,
 il suffit de créer un [modelling
 context](https://rjdverse.github.io/rjd3toolkit/reference/modelling_context.html)
-contenant autant de variables qu’il y a de jeux de régresseurs et un jeu
-de régresseurs par variable.
+contenant autant de variables qu’il y a de jeux de régresseurs.
 
 Par exemple, pour les jeux de régresseurs de l’INSEE, voici la structure
 du modelling context correspondant :
@@ -134,17 +133,21 @@ str(create_insee_context(), max.level = 2L)
 #>   ..$ REG6_LY:List of 7
 ```
 
-Imaginons que je souhaite tester uniquement trois types d’ensembles :
+Si l’on souhaite tester uniquement les trois jeux de régresseurs
+suivants :
 
-- un premier ensemble de régresseurs (`TD2_TB`) contenant deux
-  régresseurs : le jeudi, la semaine (et le week-end en contraste)
-- un deuxième ensemble (`TD3_TB`) contenant trois régresseurs : jeudi,
-  semaine (et week-end en contraste) et le régresseur leap-year
-- un troisième ensemble (`TD6_TB`) qui distingue tous les jours de la
-  semaine
+- un premier jeu de régresseurs (`TD2_TB`) contenant deux régresseurs :
+  le jeudi et le reste de la semaine (le week-end en contraste)
 
-Nous créons ensuite nos jeux de régresseurs et définissons le modelling
-context :
+- un deuxième jeu (`TD3_TB`) contenant trois régresseurs : jeudi, le
+  reste de la semaine (le week-end en contraste) et le régresseur
+  leap-year
+
+- un troisième jeu (`TD6_TB`) qui distingue tous les jours de la
+  semaine, 6 regresseurs (le dimanche en contraste)
+
+Les commandes ci-dessous permettent de créer ces 3 jeux puis le
+modelling context :
 
 ``` r
 
@@ -169,16 +172,17 @@ TD6_TB <- calendar_td(
     groups = c(1L, 2L, 3L, 4L, 5L, 6L, 0L)
 )
 
-my_regressors_sets <- list(
+my_regressor_sets <- list(
     TD2_TB = TD2_TB,
     TD3_TB = TD3_TB,
     TD6_TB = TD6_TB
 )
-my_context <- modelling_context(variables = my_regressors_sets)
+my_context <- modelling_context(variables = my_regressor_sets)
 ```
 
-Nous pouvons désormais utiliser notre contexte pour sélectionner les
-régresseurs de calendrier pour chaque séries :
+Nous pouvons désormais utiliser le modelling context créé ci-dessus pour
+sélectionner le jeu de régresseurs de calendrier optimal pour chaque
+série :
 
 ``` r
 

@@ -27,18 +27,18 @@ get_named_variables(context_FR)
 #> [1] "REG1.week"
 #> 
 #> $REG2
-#> [1] "REG2.week"     "REG2.saturday"
+#> [1] "REG2.week"     "REG2.Saturday"
 #> 
 #> $REG3
-#> [1] "REG3.monday"            "REG3.tuesday_to_friday" "REG3.saturday"         
+#> [1] "REG3.Monday"            "REG3.Tuesday_to_Friday" "REG3.Saturday"         
 #> 
 #> $REG5
-#> [1] "REG5.monday"    "REG5.tuesday"   "REG5.wednesday" "REG5.thursday" 
-#> [5] "REG5.friday"   
+#> [1] "REG5.Monday"    "REG5.Tuesday"   "REG5.Wednesday" "REG5.Thursday" 
+#> [5] "REG5.Friday"   
 #> 
 #> $REG6
-#> [1] "REG6.monday"    "REG6.tuesday"   "REG6.wednesday" "REG6.thursday" 
-#> [5] "REG6.friday"    "REG6.saturday" 
+#> [1] "REG6.Monday"    "REG6.Tuesday"   "REG6.Wednesday" "REG6.Thursday" 
+#> [5] "REG6.Friday"    "REG6.Saturday" 
 #> 
 #> $LY
 #> [1] "LY.LY"
@@ -47,19 +47,19 @@ get_named_variables(context_FR)
 #> [1] "REG1_LY.LY"        "REG1_LY.REG1_week"
 #> 
 #> $REG2_LY
-#> [1] "REG2_LY.LY"       "REG2_LY.week"     "REG2_LY.saturday"
+#> [1] "REG2_LY.LY"       "REG2_LY.week"     "REG2_LY.Saturday"
 #> 
 #> $REG3_LY
-#> [1] "REG3_LY.LY"                "REG3_LY.monday"           
-#> [3] "REG3_LY.tuesday_to_friday" "REG3_LY.saturday"         
+#> [1] "REG3_LY.LY"                "REG3_LY.Monday"           
+#> [3] "REG3_LY.Tuesday_to_Friday" "REG3_LY.Saturday"         
 #> 
 #> $REG5_LY
-#> [1] "REG5_LY.LY"        "REG5_LY.monday"    "REG5_LY.tuesday"  
-#> [4] "REG5_LY.wednesday" "REG5_LY.thursday"  "REG5_LY.friday"   
+#> [1] "REG5_LY.LY"        "REG5_LY.Monday"    "REG5_LY.Tuesday"  
+#> [4] "REG5_LY.Wednesday" "REG5_LY.Thursday"  "REG5_LY.Friday"   
 #> 
 #> $REG6_LY
-#> [1] "REG6_LY.LY"        "REG6_LY.monday"    "REG6_LY.tuesday"  
-#> [4] "REG6_LY.wednesday" "REG6_LY.thursday"  "REG6_LY.friday"   
-#> [7] "REG6_LY.saturday" 
+#> [1] "REG6_LY.LY"        "REG6_LY.Monday"    "REG6_LY.Tuesday"  
+#> [4] "REG6_LY.Wednesday" "REG6_LY.Thursday"  "REG6_LY.Friday"   
+#> [7] "REG6_LY.Saturday" 
 #> 
 ```

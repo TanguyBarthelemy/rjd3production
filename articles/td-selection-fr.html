@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Sélection des régresseurs de calendriers • rjd3production</title>
+<title>Sélection des régresseurs de calendrier • rjd3production</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="td-selection-fr_files/libs/quarto-html/popper.min.js"></script><script src="td-selection-fr_files/libs/quarto-html/tippy.umd.min.js"></script><link href="td-selection-fr_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="td-selection-fr_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Sélection des régresseurs de calendriers">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Sélection des régresseurs de calendrier">
 <script type="module"> import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
 document.addEventListener("DOMContentLoaded", function () {
 document.querySelectorAll("pre.mermaid").forEach(pre => { if (pre.querySelector("code")) { const code = pre.querySelector("code"); pre.innerHTML = code.innerHTML; } });
@@ -35,7 +35,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fa-home fa-lg"></span></a></li>
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Package functions</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Functions</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes">
@@ -47,11 +47,13 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-jdemetra-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">JDemetra+</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-jdemetra-">
-<li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download JDemetra+</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-around-jdemetra-" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Around JDemetra+</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-around-jdemetra-">
+<li><a class="external-link dropdown-item" href="https://www.jdemetra.org">JDemetra+ web portal and Documentation</a></li>
+    <li><a class="external-link dropdown-item" href="https://prod.jdemetra.org">Production of Seasonally Adjusted series: JDemetra+ and R Cookbook</a></li>
+    <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download JDemetra+ Graphical User Interface</a></li>
     <li><a class="external-link dropdown-item" href="https://github.com/jdemetra/jdplus-main/releases">Download the Cruncher</a></li>
-    <li><a class="external-link dropdown-item" href="https://doc.jdemetra.org/#Rconfig">Set up portable Java version</a></li>
+    <li><a class="external-link dropdown-item" href="https://doc.jdemetra.org/#Rconfig">Set up a portable version of Java</a></li>
   </ul>
 </li>
       </ul>
@@ -66,7 +68,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Sélection des régresseurs de calendriers</h1>
+      <h1>Sélection des régresseurs de calendrier</h1>
 
 
 
@@ -86,7 +88,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 </div>
 <section class="level3"><h3 id="sélection-des-régresseurs">Sélection des régresseurs<a class="anchor" aria-label="anchor" href="#s%C3%A9lection-des-r%C3%A9gresseurs"></a>
 </h3>
-<p>Pour sélectionner un jeu de régresseurs de calendrier, on utilise la fonction <code><a href="../reference/select_td.html">select_td()</a></code> :</p>
+<p>Pour sélectionner un jeu de régresseurs de calendrier optimal parmi un ensemble de jeux possibles, on utilise la fonction <code><a href="../reference/select_td.html">select_td()</a></code> :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3toolkit" class="external-link">"rjd3toolkit"</a></span><span class="op">)</span></span>
@@ -151,15 +153,15 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">path_td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"td-table"</span>, fileext <span class="op">=</span> <span class="st">".yaml"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/regression_tools.html">export_td</a></span><span class="op">(</span><span class="va">td_table</span>, <span class="va">path_td</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The td table will be written at /tmp/RtmpPoP0VD/td-table21415c3e8ce9.yaml</span></span>
+<span><span class="co">#&gt; The td table will be written at /tmp/Rtmpynyacy/td-table227d573751b5.yaml</span></span>
 <span><span class="va">td_table2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/regression_tools.html">import_td</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">path_td</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The td table will be read at  /tmp/RtmpPoP0VD/td-table21415c3e8ce9.yaml</span></span>
+<span><span class="co">#&gt; The td table will be read at  /tmp/Rtmpynyacy/td-table227d573751b5.yaml</span></span>
 <span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">compare</a></span><span class="op">(</span><span class="va">td_table</span>, <span class="va">td_table2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ✔ No differences</span></span></code></pre></div>
 </div>
-</section><section class="level3"><h3 id="assignation">Assignation<a class="anchor" aria-label="anchor" href="#assignation"></a>
+</section><section class="level3"><h3 id="assignation-dun-jeu-de-régresseurs-à-une-série">Assignation d’un jeu de régresseurs à une série<a class="anchor" aria-label="anchor" href="#assignation-dun-jeu-de-r%C3%A9gresseurs-%C3%A0-une-s%C3%A9rie"></a>
 </h3>
-<p>Enfin, pour affecter des régresseurs de calendrier à un workspace, vous pouvez utiliser la fonction <code><a href="../reference/regression_tools.html">assign_td()</a></code> :</p>
+<p>Pour affecter le jeu de régresseurs de calendrier qui convient à chacune des séries du workspace, vous pouvez utiliser la fonction <code><a href="../reference/regression_tools.html">assign_td()</a></code> :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rjdverse/rjd3workspace" class="external-link">"rjd3workspace"</a></span><span class="op">)</span></span>
@@ -168,7 +170,7 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 </div>
 </section><section class="level3"><h3 id="sélection-avancée">Sélection avancée<a class="anchor" aria-label="anchor" href="#s%C3%A9lection-avanc%C3%A9e"></a>
 </h3>
-<p>Par défaut, les régresseurs proposés sont ceux utilisés par l’INSEE (et dans le SSP). Pour utiliser des ensembles de régresseurs personnalisés, il suffit de créer un <a href="https://rjdverse.github.io/rjd3toolkit/reference/modelling_context.html" class="external-link">modelling context</a> contenant autant de variables qu’il y a de jeux de régresseurs et un jeu de régresseurs par variable.</p>
+<p>Par défaut, les régresseurs proposés sont ceux utilisés par l’INSEE (et dans le SSP). Pour utiliser des ensembles de régresseurs personnalisés, il suffit de créer un <a href="https://rjdverse.github.io/rjd3toolkit/reference/modelling_context.html" class="external-link">modelling context</a> contenant autant de variables qu’il y a de jeux de régresseurs.</p>
 <p>Par exemple, pour les jeux de régresseurs de l’INSEE, voici la structure du modelling context correspondant :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
@@ -191,13 +193,13 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <span><span class="co">#&gt;   ..$ REG5_LY:List of 6</span></span>
 <span><span class="co">#&gt;   ..$ REG6_LY:List of 7</span></span></code></pre></div>
 </div>
-<p>Imaginons que je souhaite tester uniquement trois types d’ensembles :</p>
+<p>Si l’on souhaite tester uniquement les trois jeux de régresseurs suivants :</p>
 <ul>
-<li>un premier ensemble de régresseurs (<code>TD2_TB</code>) contenant deux régresseurs : le jeudi, la semaine (et le week-end en contraste)</li>
-<li>un deuxième ensemble (<code>TD3_TB</code>) contenant trois régresseurs : jeudi, semaine (et week-end en contraste) et le régresseur leap-year</li>
-<li>un troisième ensemble (<code>TD6_TB</code>) qui distingue tous les jours de la semaine</li>
+<li><p>un premier jeu de régresseurs (<code>TD2_TB</code>) contenant deux régresseurs : le jeudi et le reste de la semaine (le week-end en contraste)</p></li>
+<li><p>un deuxième jeu (<code>TD3_TB</code>) contenant trois régresseurs : jeudi, le reste de la semaine (le week-end en contraste) et le régresseur leap-year</p></li>
+<li><p>un troisième jeu (<code>TD6_TB</code>) qui distingue tous les jours de la semaine, 6 regresseurs (le dimanche en contraste)</p></li>
 </ul>
-<p>Nous créons ensuite nos jeux de régresseurs et définissons le modelling context :</p>
+<p>Les commandes ci-dessous permettent de créer ces 3 jeux puis le modelling context :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">series_example</span> <span class="op">&lt;-</span> <span class="va">ABS</span><span class="op">[</span>, <span class="fl">1L</span><span class="op">]</span></span>
@@ -221,14 +223,14 @@ mermaid.initialize({ startOnLoad: true }); }); </script>
 <span>    groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">2L</span>, <span class="fl">3L</span>, <span class="fl">4L</span>, <span class="fl">5L</span>, <span class="fl">6L</span>, <span class="fl">0L</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">my_regressors_sets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span><span class="va">my_regressor_sets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    TD2_TB <span class="op">=</span> <span class="va">TD2_TB</span>,</span>
 <span>    TD3_TB <span class="op">=</span> <span class="va">TD3_TB</span>,</span>
 <span>    TD6_TB <span class="op">=</span> <span class="va">TD6_TB</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">my_context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/modelling_context.html" class="external-link">modelling_context</a></span><span class="op">(</span>variables <span class="op">=</span> <span class="va">my_regressors_sets</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">my_context</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rjdverse.github.io/rjd3toolkit/reference/modelling_context.html" class="external-link">modelling_context</a></span><span class="op">(</span>variables <span class="op">=</span> <span class="va">my_regressor_sets</span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>Nous pouvons désormais utiliser notre contexte pour sélectionner les régresseurs de calendrier pour chaque séries :</p>
+<p>Nous pouvons désormais utiliser le modelling context créé ci-dessus pour sélectionner le jeu de régresseurs de calendrier optimal pour chaque série :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_td_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select_td.html">select_td</a></span><span class="op">(</span><span class="va">ABS</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">3L</span><span class="op">)</span><span class="op">]</span>, context <span class="op">=</span> <span class="va">my_context</span><span class="op">)</span></span>

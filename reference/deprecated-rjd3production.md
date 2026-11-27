@@ -39,7 +39,7 @@ new_spec <- x13_spec() |>
 jws <- create_ws_from_data(x = ABS[, 1, drop = FALSE], spec = new_spec)
 path_ws <- tempfile(pattern = "ws", fileext = ".xml")
 save_workspace(jws, file = path_ws)
-#> The workspace will be written to /tmp/RtmpIrtNLt/ws1d8672a693f3.xml.
+#> The workspace will be written to /tmp/RtmpsR3yWr/ws1eb86b60bcd4.xml.
 
 # `remove_non_significative_outliers` is deprecated.
 # Use `remove_non_significant_outliers` instead
@@ -51,13 +51,13 @@ remove_non_significant_outliers(
     spec_type = c("Reference", "Estimation")
 )
 #> 
-#> 🏷 WS  ws1d8672a693f3 
+#> 🏷 WS  ws1eb86b60bcd4 
 #> 📌 SAI n° 1 
 #> [1] "X0.2.09.10.M"
 #>         series            name type       date
 #> 1 X0.2.09.10.M LS (1990-01-01)   LS 1990-01-01
 #> 💾 Saving WS file
-#> The workspace will be written to /tmp/RtmpIrtNLt/ws1d8672a693f3.xml.
+#> The workspace will be written to /tmp/RtmpsR3yWr/ws1eb86b60bcd4.xml.
 #> A workspace already exists and will be overwritten.
 # }
 ```

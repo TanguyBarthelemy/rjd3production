@@ -17,7 +17,8 @@ init_env(path, open = FALSE)
 
 - path:
 
-  A character string. Path where the project will be created.
+  A character string. Path to the repository inside which the project
+  will be created.
 
 - open:
 
@@ -27,6 +28,16 @@ init_env(path, open = FALSE)
 ## Value
 
 The project path invisibly.
+
+## Details
+
+The final repository pointed at by `path` has to not yet exist as it
+will be created.
+
+## References
+
+More information on SA production process structure
+<https://prod.jdemetra.org/>
 
 ## Examples
 

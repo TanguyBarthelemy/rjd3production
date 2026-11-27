@@ -1,7 +1,7 @@
 # Creating a set of X13 specifications
 
 Builds a set of X13 specifications from a start date, a modelling
-context (explanatory variables) and outliers (optional).
+context (prregression variables) and outliers (optional).
 
 ## Usage
 
@@ -22,7 +22,7 @@ create_specs_set(
 
 - context:
 
-  [list](https://rdrr.io/r/base/list.html) Modeling context created by
+  [list](https://rdrr.io/r/base/list.html) Modelling context created by
   [`rjd3toolkit::modelling_context()`](https://rjdverse.github.io/rjd3toolkit/reference/modelling_context.html).
 
 - outliers:
